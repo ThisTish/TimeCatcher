@@ -9,12 +9,14 @@ const Nav = async () => {
 		<header className="bg-slate-400 py-4">
 			<ul className="flex justify-between">
 				<li>
-					<h1>TimeCatcher</h1>
+					<Link href='/'>
+						<h1>TimeCatcher</h1>
+					</Link>
 				</li>
 				{!session ? (
 					<li>
 						<button>
-							<Link href='/api/auth/signin'>SignIn</Link>
+							<Link href='/auth/login'>SignIn</Link>
 						</button>
 					</li>
 				) :
