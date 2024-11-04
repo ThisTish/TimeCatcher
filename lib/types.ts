@@ -18,15 +18,18 @@ export const registerFormSchema = z.object({
 	password: z.string().min(8, {
 		message: "Let's make the password more than 8 characters, please"
 	}).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, {
-		message: 'Password must contain at least one uppercase letter, one lowercase letter, and one number'
+		message: 'Use at lease one of each, Uppercase, LowerCase, and Number. Special characters are not welcome.'
 	}),
 	confirm: z.string().min(8, {
 		message: "Let's make the password more than 8 characters, please"
-	})
+	}),
+	code: z.optional(z.string())
 })
 .refine((data) => data.password === data.confirm, {
 	message: 'One password is not like the other, try again'
 })
+
+// todo trying to make it so you can login with username or email, while still keeping their requirements. 
 
 // to login a user
 export const loginFormSchema = z.object({
@@ -44,9 +47,12 @@ export const loginFormSchema = z.object({
 	password: z.string().min(8, {
 		message: "Let's make the password more than 8 characters, please"
 	}).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, {
-		message: 'Password must contain at least one uppercase letter, one lowercase letter, and one number'
-	})
+		message: 'Use at lease one of each, Uppercase, LowerCase, and Number. Special characters are not welcome.'
+	}),
+	code: z.optional(z.string())
+
 }).refine((data) => data.username || data.email, {
-	message: 'You gotta login with an email or a username, please.'
+	message: 'You gotta login with an email or a username, please.',
+	path: ['username', 'email']
 })
 
