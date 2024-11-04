@@ -3,12 +3,12 @@
 import { loginFormSchema } from "@/lib/types"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
+import * as z from 'zod'
 import { useAction } from "next-safe-action/hooks"
-import { signIn } from "@/server/auth"
+import { login } from '@/server/actions/login'
 import Link from "next/link"
 import { cn } from "@/lib/utils"
-import { useToast } from "@/hooks/use-toast"
+// import { useToast } from "@/hooks/use-toast"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -27,7 +27,7 @@ import AuthCard from "./AuthCard"
 
 const LoginForm = () => {
 
-	const loginForm = useForm<z.infer<typeof loginFormSchema>>({
+	const loginForm = useForm({
 		resolver: zodResolver(loginFormSchema),
 		defaultValues: {
 			username: '',
@@ -36,24 +36,25 @@ const LoginForm = () => {
 		}
 	})
 
-	const { toast } = useToast()
-	const { execute, status } = useAction(signIn, {
-		onSuccess: () => {
+	// const { toast } = useToast()
+	const { execute, status, hasErrored } = useAction(login)
+	
+		// onSuccess: () => {
 			
-			console.log('success')
-		},
-		onError: (error) => {
-			toast({
-				title: "Error occurred",
-				description: `The error is ${error}`,
-				duration: 5000,
-				type: 'background',
-				color: 'red',
+		// 	console.log('success')
+		// },
+		// onError: (error) => {
+		// 	toast({
+		// 		title: "Error occurred",
+		// 		description: `The error is ${error}`,
+		// 		duration: 5000,
+		// 		type: 'background',
+		// 		color: 'red',
 
-			})
-			console.log('error', error)
-		}
-	})
+		// 	})
+		// 	console.log('error', error)
+		// }
+	// })
 
 	const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
 		execute(values)
@@ -147,6 +148,7 @@ const LoginForm = () => {
 						<Link href='/auth/forgot-password'>Did you forget your password?</Link>
 					</Button>
 				</form>
+			{hasErrored && <FormMessage>There was an error logging in. Please try again.</FormMessage>}
 			</Form>
 		</AuthCard>
 	)

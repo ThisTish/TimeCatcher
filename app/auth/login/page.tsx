@@ -6,7 +6,6 @@ const LoginPage = () => {
 
 		<div>
 			<LoginForm />
-			{/* next add socials */}
 		</div>
 
 	)

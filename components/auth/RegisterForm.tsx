@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { useAction } from "next-safe-action/hooks"
-import { signIn } from "@/server/auth"
+import { register } from "@/server/actions/register"
 import { cn } from "@/lib/utils"
 
 import { Button } from "@/components/ui/button"
@@ -36,30 +36,30 @@ const RegisterForm = () => {
 	})
 
 	const { toast } = useToast()
-	const { execute, status } = useAction(signIn, {
-		onSuccess: () => {
-			toast({
-				title: "Success! You're registered",
-				description: "Start catching your time!",
-				duration: 5000,
-				type: 'foreground',
-				color: 'green',
+	const { execute, status } = useAction(register, {
+		// onSuccess: () => {
+		// 	toast({
+		// 		title: "Success! You're registered",
+		// 		description: "Start catching your time!",
+		// 		duration: 5000,
+		// 		type: 'foreground',
+		// 		color: 'green',
 
-			})
-			console.log('success')
-		},
-		onError: (error) => {
-			toast({
-				title: "Error occurred",
-				description: `The error is ${error}`,
-				duration: 5000,
-				type: 'background',
-				color: 'red',
+		// 	})
+		// 	console.log('success')
+		// },
+		// onError: (error) => {
+		// 	toast({
+		// 		title: "Error occurred",
+		// 		description: `The error is ${error}`,
+		// 		duration: 5000,
+		// 		type: 'background',
+		// 		color: 'red',
 
-			})
-			console.log('error', error)
+		// 	})
+		// 	console.log('error', error)
 			
-		}
+		// }
 	})
 
 	const onSubmit = (values: z.infer<typeof registerFormSchema>) => {
