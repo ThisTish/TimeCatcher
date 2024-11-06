@@ -7,7 +7,7 @@ export const registerFormSchema = z.object({
 	})
 	.max(20, {
 		message: 'Less than 20 characters for username, please'
-	}).toLowerCase(),
+	}),
 
 	email: z.string().email({
 		message: 'Not an actual email address. Please try again'
@@ -29,14 +29,7 @@ export const registerFormSchema = z.object({
 
 
 // to login a user
-// todo trying to make it so you can login with username or email, while still keeping their requirements. 
 export const loginFormSchema = z.object({
-	username: z.string().min(3, {
-		message: 'Use more than 3 characters for a username, please',
-	})
-	.max(20, {
-		message: 'Can you make a username under 20 characters, please'
-	}).toLowerCase(),
 
 	email: z.string().email({
 		message: 'Not an actual email address. Please try again'

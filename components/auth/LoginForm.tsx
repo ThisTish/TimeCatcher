@@ -14,14 +14,12 @@ import { Button } from "@/components/ui/button"
 import {
 	Form,
 	FormControl,
-	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { ArrowBigDown, ArrowBigUp } from "lucide-react"
 import AuthCard from "./AuthCard"
 
 
@@ -30,7 +28,6 @@ const LoginForm = () => {
 	const loginForm = useForm({
 		resolver: zodResolver(loginFormSchema),
 		defaultValues: {
-			username: '',
 			email: '',
 			password: ''
 		}
@@ -38,23 +35,7 @@ const LoginForm = () => {
 
 	// const { toast } = useToast()
 	const { execute, status, hasErrored } = useAction(login)
-	
-		// onSuccess: () => {
-			
-		// 	console.log('success')
-		// },
-		// onError: (error) => {
-		// 	toast({
-		// 		title: "Error occurred",
-		// 		description: `The error is ${error}`,
-		// 		duration: 5000,
-		// 		type: 'background',
-		// 		color: 'red',
 
-		// 	})
-		// 	console.log('error', error)
-		// }
-	// })
 
 	const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
 		execute(values)
@@ -65,32 +46,6 @@ const LoginForm = () => {
 		<AuthCard cardTitle="Time to Login" backButtonLabel="Register instead?" backButtonHref="/auth/register" showSocials={true}>
 			<Form {...loginForm}>
 				<form onSubmit={loginForm.handleSubmit(onSubmit)}>
-
-					{/* username */}
-					<FormField
-						control={loginForm.control}
-						name="username"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
-									Username
-								</FormLabel>
-								<FormControl>
-									<Input
-										type="text"
-										placeholder="username"
-										autoComplete="username"
-										{...field} />
-								</FormControl>
-								<FormDescription>
-									<span className="flex justify-center">Login with username<ArrowBigUp /> or email<ArrowBigDown /> </span>
-								</FormDescription>
-								<FormMessage>
-									{loginForm.formState.errors.username?.message}
-								</FormMessage>
-							</FormItem>
-						)}
-					/>
 
 					{/* email */}
 					<FormField
