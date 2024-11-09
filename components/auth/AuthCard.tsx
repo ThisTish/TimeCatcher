@@ -23,15 +23,15 @@ const AuthCard = ({cardTitle, children, showSocials, backButtonLabel, backButton
 			<CardContent>
 				{children}
 			</CardContent>
-			{showSocials ? (
-			<CardContent>
-				<Socials />
-			</CardContent>
+			
+			{showSocials 
+			? (	<CardContent>
+					<Socials />
+				</CardContent>
 			): null
 			}
 			<CardFooter>
 				<BackButton href={backButtonHref} label={backButtonLabel} />
-			
 			</CardFooter>
 
 

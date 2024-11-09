@@ -8,7 +8,6 @@ import { useAction } from "next-safe-action/hooks"
 import { login } from '@/server/actions/login'
 import Link from "next/link"
 import { cn } from "@/lib/utils"
-// import { useToast } from "@/hooks/use-toast"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -33,9 +32,7 @@ const LoginForm = () => {
 		}
 	})
 
-	// const { toast } = useToast()
 	const { execute, status, hasErrored } = useAction(login)
-
 
 	const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
 		execute(values)
@@ -94,16 +91,16 @@ const LoginForm = () => {
 						)}
 					/>
 
-					<Button 
-					type="submit"
-					className={cn('w-full', status === "executing" ? 'animate-pulse' : '')}
+					<Button
+						type="submit"
+						className={cn('w-full', status === "executing" ? 'animate-pulse' : '')}
 					>Login</Button>
-					<Button 
-					variant={'link'}>
+					<Button
+						variant={'link'}>
 						<Link href='/auth/forgot-password'>Did you forget your password?</Link>
 					</Button>
 				</form>
-			{hasErrored && <FormMessage>There was an error logging in. Please try again.</FormMessage>}
+				{hasErrored && <FormMessage>There was an error logging in. Please try again.</FormMessage>}
 			</Form>
 		</AuthCard>
 	)
