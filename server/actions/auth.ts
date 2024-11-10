@@ -26,6 +26,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 			clientId: process.env.GITHUB_CLIENT_ID,
 			clientSecret: process.env.GITHUB_CLIENT_SECRET
 		}),
+		// linkedin network error, but seems to be connecting fine
 		LinkedIn({
 			clientId: process.env.LINKEDIN_CLIENT_ID,
 			clientSecret: process.env.LINKEDIN_CLIENT_SECRET

@@ -41,6 +41,7 @@ const Socials = () => {
 				<p>Sign in with GitHub</p>
 				{/* social icon */}
 			</Button>
+			{/* linkedin network error, but seems to be connecting fine */}
 			<Button
 				variant={'outline'}
 				className=""
