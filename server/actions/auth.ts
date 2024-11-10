@@ -4,7 +4,7 @@ import { prisma } from "@/prisma/prisma"
 import Google from 'next-auth/providers/google'
 // todo get id and secret for each
 import Discord from "next-auth/providers/discord"
-import Instagram from "next-auth/providers/instagram"
+import Github from "next-auth/providers/github"
 import LinkedIn from "next-auth/providers/linkedin"
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -22,5 +22,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 			clientId: process.env.DISCORD_CLIENT_ID,
 			clientSecret: process.env.DISCORD_CLIENT_SECRET
 		}),
+		Github({
+			clientId: process.env.GITHUB_CLIENT_ID,
+			clientSecret: process.env.GITHUB_CLIENT_SECRET
+		}),
+		LinkedIn({
+			clientId: process.env.LINKEDIN_CLIENT_ID,
+			clientSecret: process.env.LINKEDIN_CLIENT_SECRET
+		})
 	]
 })

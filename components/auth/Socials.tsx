@@ -10,7 +10,7 @@ const Socials = () => {
 				className=""
 				onClick={() => signIn('google', {
 
-					redirect: false, //????
+					redirect: false,
 					callbackUrl: '/'
 
 				})}>
@@ -22,7 +22,7 @@ const Socials = () => {
 				className=""
 				onClick={() => signIn('discord', {
 
-					redirect: false, //????
+					redirect: false, 
 					callbackUrl: '/' 
 
 				})}>
@@ -32,13 +32,13 @@ const Socials = () => {
 			<Button
 				variant={'outline'}
 				className=""
-				onClick={() => signIn('instagram', {
+				onClick={() => signIn('github', {
 
-					redirect: false, //????
+					redirect: false, 
 					callbackUrl: '/' 
 
 				})}>
-				<p>Sign in with Instagram</p>
+				<p>Sign in with GitHub</p>
 				{/* social icon */}
 			</Button>
 			<Button
@@ -46,7 +46,7 @@ const Socials = () => {
 				className=""
 				onClick={() => signIn('linkedin', {
 
-					redirect: false, //????
+					redirect: false,
 					callbackUrl: '/' 
 
 				})}>
