@@ -1,7 +1,9 @@
+import EmailVerificationForm from "@/components/auth/EmailVerificationForm"
+
 const NewVerificationPage = () => {
-	return ( 
-		<h1>todo</h1>
-	 );
+	return (
+		<EmailVerificationForm />
+	)
 }
- 
-export default NewVerificationPage;
+
+export default NewVerificationPage

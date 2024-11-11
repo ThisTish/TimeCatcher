@@ -140,7 +140,8 @@ const RegisterForm = () => {
 							</FormItem>
 						)}
 					/>
-
+					
+					{/* alert messages for error or success */}
 					{hasErrored && <FormAlert message={`${result.data?.error}`} type={'error'}/>}
 					{hasSucceeded && <FormAlert message={`${result.data?.success}`} type={'success'}/>}
 					
