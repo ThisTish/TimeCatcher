@@ -1,5 +1,4 @@
 'use server'
-// todo
 import { getBaseUrl } from '@/lib/baseUrl'
 import { Resend } from 'resend'
 
@@ -15,5 +14,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 		subject: 'Verify your email with TimeCatcher',
 		html: `<p><a href=${confirmLink}>Click Here</a> to verify ${email}</p>`,
 		// react: <EmailVerification /> // design email component
-	});
+	})
+	if (error) return { error: error.message }
+	if (data) return { data }
 } 

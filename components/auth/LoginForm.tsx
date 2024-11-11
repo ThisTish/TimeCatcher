@@ -20,8 +20,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import AuthCard from "./AuthCard"
-import FormError from "./FormError"
-import FormSuccess from "./FormSuccess"
+import FormAlert from "./FormAlert"
 
 
 const LoginForm = () => {
@@ -35,7 +34,7 @@ const LoginForm = () => {
 	})
 
 	const { execute, status, isExecuting, hasErrored, hasSucceeded } = useAction(login, {
-		onSuccess: ((data) =>{
+		onSuccess: ((data) => {
 			console.log('success', data)
 		}),
 		onError: ((error) => {
@@ -103,10 +102,9 @@ const LoginForm = () => {
 						type="submit"
 						className={cn('w-full', isExecuting ? 'animate-pulse' : '')}
 					>Login</Button>
-
-					{/* todo error and success messages */}
-					{/* {hasErrored && <FormError message={error.message}}
-					{hasSucceeded && <FormSuccess message={FormSuccess.message}} */}
+{/* 
+					{hasErrored && <FormAlert message={`${result.data?.error}`} type={'error'} />}
+					{hasSucceeded && <FormAlert message={`${result.data?.success}`} type={'success'} />} */}
 					<Button
 						variant={'link'}>
 						<Link href='/auth/forgot-password'>Did you forget your password?</Link>

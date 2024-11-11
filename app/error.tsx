@@ -6,7 +6,7 @@ import { useEffect } from "react"
 
 const ErrorPage = ({error, reset}: {error: Error & {digest?: string}, reset: () => void}) => {
 	useEffect(() =>{
-		console.error(error)	
+		console.log(error)	
 	},[])
 
 	return ( 

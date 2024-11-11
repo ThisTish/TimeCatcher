@@ -16,12 +16,11 @@ import {
 	FormField,
 	FormItem,
 	FormLabel,
-	FormMessage,
+	FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import AuthCard from "./AuthCard"
-import FormSuccess from "./FormSuccess"
-import FormError from "./FormError"
+import FormAlert from "./FormAlert"
 
 const RegisterForm = () => {
 
@@ -35,21 +34,11 @@ const RegisterForm = () => {
 		}
 	})
 
-	const { execute, status, isExecuting, hasErrored, hasSucceeded } = useAction(register, {
-		onSuccess: () => {
-		
-			console.log('success on registerForm')
-		},
-		onError: (error) => {
-		
-			console.log('error', error)
-			
-		}
-	})
+	const { execute, result, isExecuting, hasErrored, hasSucceeded } = useAction(register)
 
 	const onSubmit = (values: z.infer<typeof registerFormSchema>) => {
 		execute(values)
-		// registerForm.reset()
+		registerForm.reset()
 	}
 
 	return (
@@ -152,9 +141,9 @@ const RegisterForm = () => {
 						)}
 					/>
 
-					{/* {hasErrored && <FormError message={error.message} />}
-					{hasSucceeded && <FormSuccess message={FormSuccess.message} />} */}
-
+					{hasErrored && <FormAlert message={`${result.data?.error}`} type={'error'}/>}
+					{hasSucceeded && <FormAlert message={`${result.data?.success}`} type={'success'}/>}
+					
 					<Button
 						type="submit"
 						className={cn('w-full', isExecuting ? 'animate-pulse' : '')}
