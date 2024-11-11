@@ -28,7 +28,7 @@ const RegisterForm = () => {
 	const registerForm = useForm<z.infer<typeof registerFormSchema>>({
 		resolver: zodResolver(registerFormSchema),
 		defaultValues: {
-			username: '',
+			name: '',
 			email: '',
 			password: '',
 			confirm: ''
@@ -36,15 +36,15 @@ const RegisterForm = () => {
 	})
 
 	const { execute, status, isExecuting, hasErrored, hasSucceeded } = useAction(register, {
-		// todo onSuccess: () => {
+		onSuccess: () => {
 		
-		// 	console.log('success')
-		// },
-		//todo  onError: (error) => {
+			console.log('success on registerForm')
+		},
+		onError: (error) => {
 		
-		// 	console.log('error', error)
+			console.log('error', error)
 			
-		// }
+		}
 	})
 
 	const onSubmit = (values: z.infer<typeof registerFormSchema>) => {
@@ -57,26 +57,26 @@ const RegisterForm = () => {
 			<Form {...registerForm}>
 				<form onSubmit={registerForm.handleSubmit(onSubmit)}>
 
-					{/* username */}
+					{/* name */}
 					<FormField
 						control={registerForm.control}
-						name="username"
+						name="name"
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									Username
+									Name
 								</FormLabel>
 								<FormControl>
 									<Input
 										type="text"
-										placeholder="username"
-										autoComplete="username"
+										placeholder="name"
+										autoComplete="name"
 										{...field} />
 								</FormControl>
 								<FormDescription>
 								</FormDescription>
 								<FormMessage>
-									{registerForm.formState.errors.username?.message}
+									{registerForm.formState.errors.name?.message}
 								</FormMessage>
 							</FormItem>
 						)}

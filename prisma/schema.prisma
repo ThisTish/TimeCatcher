@@ -13,6 +13,7 @@ model User {
   email         String          @unique
   emailVerified DateTime?
   image         String?
+  password      String?
   accounts      Account[]
   sessions      Session[]
   createdAt DateTime @default(now())
@@ -51,10 +52,11 @@ model Session {
 }
 
 model VerificationToken {
-  identifier String
+  id String
   token      String
   expires    DateTime
-  @@id([identifier, token])
+  email      String
+  @@id([id, token])
 }
 
 enum Color {

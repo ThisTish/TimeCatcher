@@ -2,11 +2,11 @@
 import * as z from 'zod'
 // to register a user
 export const registerFormSchema = z.object({
-	username: z.string().min(3, {
-		message: 'More than 3 characters for a username, please',
+	name: z.string().min(3, {
+		message: 'More than 3 characters for a name, please',
 	})
 	.max(20, {
-		message: 'Less than 20 characters for username, please'
+		message: 'Less than 20 characters for name, please'
 	}),
 
 	email: z.string().email({

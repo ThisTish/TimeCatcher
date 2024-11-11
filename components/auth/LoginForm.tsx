@@ -35,7 +35,12 @@ const LoginForm = () => {
 	})
 
 	const { execute, status, isExecuting, hasErrored, hasSucceeded } = useAction(login, {
-		//todo logic for data or error
+		onSuccess: ((data) =>{
+			console.log('success', data)
+		}),
+		onError: ((error) => {
+			console.log('error', error)
+		})
 	})
 
 	const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
