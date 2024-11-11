@@ -1,14 +1,13 @@
 import NextAuth from "next-auth"
 import { PrismaAdapter } from "@auth/prisma-adapter"
-import { prisma } from "@/prisma/prisma"
+import { db } from "@/prisma/db"
 import Google from 'next-auth/providers/google'
-// todo get id and secret for each
 import Discord from "next-auth/providers/discord"
 import Github from "next-auth/providers/github"
 import LinkedIn from "next-auth/providers/linkedin"
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-	adapter: PrismaAdapter(prisma),
+	adapter: PrismaAdapter(db),
 	secret: process.env.AUTH_SECRET,
 	session:{
 		strategy:'jwt'

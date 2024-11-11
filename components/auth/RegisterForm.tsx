@@ -3,7 +3,7 @@
 import { registerFormSchema } from "@/lib/types"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
+import * as z  from "zod"
 import { useAction } from "next-safe-action/hooks"
 import { register } from "@/server/actions/register"
 import { cn } from "@/lib/utils"
@@ -20,8 +20,8 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import AuthCard from "./AuthCard"
-import { useToast } from "@/hooks/use-toast"
-import { Toast } from "../ui/toast"
+import FormSuccess from "./FormSuccess"
+import FormError from "./FormError"
 
 const RegisterForm = () => {
 
@@ -35,28 +35,13 @@ const RegisterForm = () => {
 		}
 	})
 
-	const { toast } = useToast()
-	const { execute, status } = useAction(register, {
-		// onSuccess: () => {
-		// 	toast({
-		// 		title: "Success! You're registered",
-		// 		description: "Start catching your time!",
-		// 		duration: 5000,
-		// 		type: 'foreground',
-		// 		color: 'green',
-
-		// 	})
+	const { execute, status, isExecuting, hasErrored, hasSucceeded } = useAction(register, {
+		// todo onSuccess: () => {
+		
 		// 	console.log('success')
 		// },
-		// onError: (error) => {
-		// 	toast({
-		// 		title: "Error occurred",
-		// 		description: `The error is ${error}`,
-		// 		duration: 5000,
-		// 		type: 'background',
-		// 		color: 'red',
-
-		// 	})
+		//todo  onError: (error) => {
+		
 		// 	console.log('error', error)
 			
 		// }
@@ -167,9 +152,12 @@ const RegisterForm = () => {
 						)}
 					/>
 
+					{/* {hasErrored && <FormError message={error.message} />}
+					{hasSucceeded && <FormSuccess message={FormSuccess.message} />} */}
+
 					<Button
 						type="submit"
-						className={cn('w-full', status === "executing" ? 'animate-pulse' : '')}
+						className={cn('w-full', isExecuting ? 'animate-pulse' : '')}
 					>Submit
 					</Button>
 

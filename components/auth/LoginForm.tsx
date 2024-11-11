@@ -20,11 +20,13 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import AuthCard from "./AuthCard"
+import FormError from "./FormError"
+import FormSuccess from "./FormSuccess"
 
 
 const LoginForm = () => {
 
-	const loginForm = useForm({
+	const loginForm = useForm<z.infer<typeof loginFormSchema>>({
 		resolver: zodResolver(loginFormSchema),
 		defaultValues: {
 			email: '',
@@ -32,11 +34,12 @@ const LoginForm = () => {
 		}
 	})
 
-	const { execute, status, hasErrored } = useAction(login)
+	const { execute, status, isExecuting, hasErrored, hasSucceeded } = useAction(login, {
+		//todo logic for data or error
+	})
 
 	const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
 		execute(values)
-		// loginForm.reset()
 	}
 
 	return (
@@ -93,14 +96,17 @@ const LoginForm = () => {
 
 					<Button
 						type="submit"
-						className={cn('w-full', status === "executing" ? 'animate-pulse' : '')}
+						className={cn('w-full', isExecuting ? 'animate-pulse' : '')}
 					>Login</Button>
+
+					{/* todo error and success messages */}
+					{/* {hasErrored && <FormError message={error.message}}
+					{hasSucceeded && <FormSuccess message={FormSuccess.message}} */}
 					<Button
 						variant={'link'}>
 						<Link href='/auth/forgot-password'>Did you forget your password?</Link>
 					</Button>
 				</form>
-				{hasErrored && <FormMessage>There was an error logging in. Please try again.</FormMessage>}
 			</Form>
 		</AuthCard>
 	)
