@@ -4,6 +4,7 @@ import AuthCard from "./AuthCard"
 import { useSearchParams, useRouter } from "next/navigation"
 import { newVerification } from "@/server/actions/tokens"
 import FormAlert from "./FormAlert"
+import { set } from "zod"
 
 const EmailVerificationForm = () => {
 	const [verificationError, setVerificationError] = useState('')
@@ -26,7 +27,11 @@ const EmailVerificationForm = () => {
 		}
 		if (success) {
 			setVerificationSuccess(success)
-			return
+			setTimeout(() => {
+				router.push('/auth/login')
+
+			},3000)
+			
 		}
 
 	}, [])

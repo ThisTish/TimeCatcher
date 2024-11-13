@@ -49,6 +49,7 @@ const LoginForm = () => {
 	return (
 		<AuthCard cardTitle="Time to Login" backButtonLabel="Register instead?" backButtonHref="/auth/register" showSocials={true}>
 			<Form {...loginForm}>
+				{/* either form in form is the problem  of the hydration error*/}
 				<form onSubmit={loginForm.handleSubmit(onSubmit)}>
 
 					{/* email */}
@@ -61,6 +62,7 @@ const LoginForm = () => {
 									Email
 								</FormLabel>
 								<FormControl>
+									{/* or one of these additions or something */}
 									<Input
 										type="email"
 										placeholder="email"
