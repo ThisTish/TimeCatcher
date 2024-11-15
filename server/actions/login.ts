@@ -1,9 +1,8 @@
-'use server'
+"use server"
 import { loginFormSchema } from '@/lib/types'
 import { actionClient } from "@/lib/safe-action"
 import { db } from '@/prisma/db'
-import { hash } from 'bcrypt'
-import { signIn } from 'next-auth/react'
+import { signIn } from '@/server/actions/auth'
 import { generateVerificationToken } from './tokens'
 import { sendVerificationEmail } from './emails'
 import { AuthError } from 'next-auth'
@@ -18,47 +17,40 @@ export const login = actionClient
 					email
 				}
 			})
+			console.log('existing user', existingUser)
 			if (!existingUser) {
 				return { error: 'User not found' }
 			}
 
-			if (existingUser.email !== email ) {
-				return { error: 'Email not found' }
-			}
 
 			if (!existingUser.emailVerified) {
 				const verificationToken = await generateVerificationToken(existingUser.email)
 				await sendVerificationEmail(existingUser.email, verificationToken.token)
 				return { error: 'Email not verified, check inbox for new verification email' }
 			}
-
-			if (!existingUser.password) {
-				return { error: "Error with password" }
-			}
-
-			// const hashedPassword = existingUser.password = await hash(existingUser.password, 10)
+			console.log( 'success on login1', email, password, code)
 
 			await signIn('credentials', {
 				email,
 				password,
-				return: false
+				redirect: false
 			})
-
-			console.log( 'success on login', email, password, code)
+			
+			console.log( 'success on login2', email, password, code)
 			return { success: 'Login successful, redirecting to login page...' }
 		} catch (error) {
+			console.log('error in logging in', error)
 			if (error instanceof AuthError) {
 				switch (error.message) {
 					case 'CredentialsSignin': {
-						return { error: 'Error with credentials' }
+						return { error: 'Invalid email or password. Please try again.' }
 					}
 					default: {
-						return { error: 'Error logging in' }
+						return { error: `Error logging in: ${error.message}` }
 					}
 				}
 			}
 		}
-	
 })
 
 

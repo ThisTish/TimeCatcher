@@ -8,6 +8,7 @@ import { useAction } from "next-safe-action/hooks"
 import { login } from '@/server/actions/login'
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import { useRouter } from 'next/navigation'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -21,10 +22,13 @@ import {
 import { Input } from "@/components/ui/input"
 import AuthCard from "./AuthCard"
 import FormAlert from "./FormAlert"
+import { revalidatePath } from "next/cache"
 
 
 const LoginForm = () => {
 	
+	const router = useRouter()
+
 	const loginForm = useForm<z.infer<typeof loginFormSchema>>({
 		resolver: zodResolver(loginFormSchema),
 		defaultValues: {
@@ -36,6 +40,8 @@ const LoginForm = () => {
 	const { execute, status, isExecuting, hasErrored, hasSucceeded } = useAction(login, {
 		onSuccess: ((data) => {
 			console.log('success', data)
+			router.push('/dashboard')
+			router.refresh()
 		}),
 		onError: ((error) => {
 			console.log('error', error)
@@ -44,6 +50,7 @@ const LoginForm = () => {
 
 	const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
 		execute(values)
+		
 	}
 
 	return (
@@ -107,10 +114,7 @@ const LoginForm = () => {
 {/* 
 					{hasErrored && <FormAlert message={`${result.data?.error}`} type={'error'} />}
 					{hasSucceeded && <FormAlert message={`${result.data?.success}`} type={'success'} />} */}
-					<Button
-						variant={'link'}>
 						<Link href='/auth/forgot-password'>Did you forget your password?</Link>
-					</Button>
 				</form>
 			</Form>
 		</AuthCard>
