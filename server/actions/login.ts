@@ -40,8 +40,9 @@ export const login = actionClient
 			return { success: 'Login successful, redirecting to login page...' }
 		} catch (error) {
 			console.log('error in logging in', error)
+
 			if (error instanceof AuthError) {
-				switch (error.message) {
+				switch (error.type) {
 					case 'CredentialsSignin': {
 						return { error: 'Invalid email or password. Please try again.' }
 					}

@@ -23,9 +23,12 @@ import { Input } from "@/components/ui/input"
 import AuthCard from "./AuthCard"
 import FormAlert from "./FormAlert"
 import { revalidatePath } from "next/cache"
+import { useState } from "react"
 
 
 const LoginForm = () => {
+	const [error, setError] = useState<string | null>(null)
+	const [success, setSuccess] = useState<string | null>(null)
 	
 	const router = useRouter()
 
@@ -37,19 +40,24 @@ const LoginForm = () => {
 		}
 	})
 
-	const { execute, status, isExecuting, hasErrored, hasSucceeded } = useAction(login, {
+	const { execute, status, isExecuting, } = useAction(login, {
 		onSuccess: ((data) => {
 			console.log('success', data)
-			router.push('/dashboard')
-			router.refresh()
-		}),
-		onError: ((error) => {
-			console.log('error', error)
+			if(data?.data?.error){
+				setError(data.data.error)
+			}
+			if(data?.data?.success){
+				setError(null)
+				setSuccess(data.data.success)
+				router.push('/dashboard')
+				router.refresh()
+}
 		})
 	})
 
 	const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
 		execute(values)
+		// router.push('/dashboard')
 		
 	}
 
@@ -111,9 +119,10 @@ const LoginForm = () => {
 						type="submit"
 						className={cn('w-full', isExecuting ? 'animate-pulse' : '')}
 					>Login</Button>
-{/* 
-					{hasErrored && <FormAlert message={`${result.data?.error}`} type={'error'} />}
-					{hasSucceeded && <FormAlert message={`${result.data?.success}`} type={'success'} />} */}
+
+					{error ? <FormAlert type="error" message={error} /> : null}
+					{success ? <FormAlert type="success" message={success} /> : null}
+
 						<Link href='/auth/forgot-password'>Did you forget your password?</Link>
 				</form>
 			</Form>
