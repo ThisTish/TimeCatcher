@@ -45,3 +45,18 @@ export const loginFormSchema = z.object({
 	code: z.optional(z.string())
 })
 
+export const forgotPasswordFormSchema = z.object({
+
+	email: z.string().email({
+		message: 'Not an actual email address. Please try again'
+	}).toLowerCase()
+})
+
+export const newPasswordFormSchema = z.object({
+
+	password: z.string().min(8, {
+		message: "A password should be more than 8 characters, yeah"
+	}),
+	token: z.string().nullable().optional()
+})
+

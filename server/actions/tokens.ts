@@ -69,3 +69,32 @@ export const newVerification = async (token: string) => {
 	return { success: 'Email successfully verified' }
 }
 
+
+export const generateResetPasswordToken = async (email: string) => {
+	const existingResetPasswordToken = await db.resetPasswordToken.findFirst({
+		where: {
+			email
+		}
+	})
+
+	if (existingResetPasswordToken) {
+		await db.resetPasswordToken.delete({
+			where: {
+				id_token: {
+					id: existingResetPasswordToken.id,
+					token: existingResetPasswordToken.token
+				}
+			}
+		})
+	}
+
+	const newResetPasswordToken = await db.resetPasswordToken.create({
+		data: {
+			id: crypto.randomUUID(),
+			email,
+			token: crypto.randomUUID(),
+			expires: new Date(Date.now() + 1000 * 60 * 60 * 24)
+		}
+	})
+	return newResetPasswordToken
+}

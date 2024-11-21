@@ -124,3 +124,11 @@ model TimeLog {
   @@index([userId])
   @@index([categoryId])
 }
+
+model resetPasswordToken {
+  id String
+  token      String
+  expires    DateTime
+  email      String
+  @@id([id, token])
+}
