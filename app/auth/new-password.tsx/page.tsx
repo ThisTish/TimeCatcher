@@ -1,8 +1,9 @@
+import NewPasswordForm from "@/components/auth/NewPasswordForm";
 
 const NewPasswordPage = () => {
 	return ( 
 		<div>
-			<h1>Reset Password</h1>
+			<NewPasswordForm />
 		</div>
 	 );
 }

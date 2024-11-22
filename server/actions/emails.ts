@@ -22,7 +22,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 
 
 export const sendResetPasswordEmail = async (email: string, token: string) => {
-	const confirmLink = `${domain}/auth/reset-password?token=${token}`
+	const confirmLink = `${domain}/auth/new-password?token=${token}`
 
 	const { data, error } = await resend.emails.send({
 		from: 'The Creator <onboarding@resend.dev>',

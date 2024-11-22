@@ -98,3 +98,15 @@ export const generateResetPasswordToken = async (email: string) => {
 	})
 	return newResetPasswordToken
 }
+
+export const getPasswordResetToken = async (token: string) => {
+	try {
+		const passwordResetToken = await db.resetPasswordToken.findFirst({
+			where: {token}
+		})
+
+		return passwordResetToken
+	} catch (error) {
+		return { error: 'Token not found' }
+	}
+}
