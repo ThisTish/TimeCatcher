@@ -46,7 +46,7 @@ export const newPassword = actionClient
 					}
 				})
 			}
-				return { success: `Reset password has been sent.` }
+				return { success: `Password updated! Redirecting to login page...` }
 			}
 		})
 

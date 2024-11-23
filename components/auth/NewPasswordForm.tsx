@@ -50,6 +50,10 @@ const NewPasswordForm = () => {
 			}
 			if(data?.data?.success){
 				setSuccess(data.data.success)
+				newPasswordForm.reset()
+				setTimeout(() => {
+					router.push('/auth/login')
+				}, 3000)
 }
 		})
 	})
@@ -61,7 +65,7 @@ const NewPasswordForm = () => {
 	}
 
 	return (
-		<AuthCard cardTitle="Time to Login" backButtonLabel="Register instead?" backButtonHref="/auth/register" showSocials={true}>
+		<AuthCard cardTitle="Enter a new password" backButtonLabel="Back to login" backButtonHref="/auth/login" showSocials={false}>
 			<Form {...newPasswordForm}>
 				<form onSubmit={newPasswordForm.handleSubmit(onSubmit)}>
 
@@ -72,13 +76,12 @@ const NewPasswordForm = () => {
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
-									Password
+									New Password
 								</FormLabel>
 								<FormControl>
 									<Input
 										type="password"
-										placeholder="password"
-										autoComplete="password"
+										placeholder="new password"
 										{...field} />
 								</FormControl>
 								<FormMessage>
