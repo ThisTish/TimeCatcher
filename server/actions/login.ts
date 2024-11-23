@@ -10,14 +10,12 @@ import { AuthError } from 'next-auth'
 export const login = actionClient
 	.schema(loginFormSchema)
 	.action(async ({ parsedInput: { email, password, code } }) => {
-		console.log('logging in')
 		try {
 			const existingUser = await db.user.findFirst({
 				where: {
 					email
 				}
 			})
-			console.log('existing user', existingUser)
 			if (!existingUser) {
 				return { error: 'User not found' }
 			}
@@ -28,7 +26,6 @@ export const login = actionClient
 				await sendVerificationEmail(existingUser.email, verificationToken.token)
 				return { error: 'Email not verified, check inbox for new verification email' }
 			}
-			console.log( 'success on login1', email, password, code)
 
 			await signIn('credentials', {
 				email,
@@ -36,7 +33,6 @@ export const login = actionClient
 				redirect: false
 			})
 			
-			console.log( 'success on login2', email, password, code)
 			return { success: 'Login successful, redirecting to login page...' }
 		} catch (error) {
 			console.log('error in logging in', error)

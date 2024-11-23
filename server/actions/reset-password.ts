@@ -18,7 +18,6 @@ export const resetPassword = actionClient
 		const newResetPasswordToken = await generateResetPasswordToken(email)
 
 		await sendResetPasswordEmail(newResetPasswordToken.email, newResetPasswordToken.token)
-		console.log(newResetPasswordToken.token)
 
 		return { success: `Reset password email has been sent. ` }
 	})

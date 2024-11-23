@@ -33,7 +33,6 @@ const NewPasswordForm = () => {
 	const searchParams = useSearchParams()
 
 	const token = searchParams.get('token')
-	console.log('token', token)
 	if(!token) return <div>Invalid token</div>
 
 	const newPasswordForm = useForm<z.infer<typeof newPasswordFormSchema>>({
