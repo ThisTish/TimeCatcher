@@ -1,8 +1,10 @@
 "use client"
 
+import * as z from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { useAction } from 'next-safe-action/hooks'
+import { categoryFormSchema } from '@/lib/types'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -15,33 +17,35 @@ import {
 	FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import CategoryFormContainer from './CategoryFormContainer'
 
-const formSchema = z.object({
-	category: z.string().min(3, {
-		message: "Please use at least 3 characters.",
-	}),
-	color: z.enum(["BLUE", "GREEN", "YELLOW", "ORANGE", "RED", "PINK", "PURPLE", "BLACK", "WHITE", "GRAY", "BROWN" ]),
-})
 
-export function ProfileForm() {
-	const form = useForm({
-		resolver: zodResolver(formSchema),
+
+const CategoryForm = () => {
+	const categoryForm = useForm<z.infer<typeof categoryFormSchema>>({
+		resolver: zodResolver(categoryFormSchema),
+		defaultValues: {
+			category: '',
+			color: 'WHITE'
+		}
 	})
+
+	// onCreate
+	// onEdit
+
+
 	return (
-		<Form {...form}>
-			<form onSubmit={form.handleSubmit(() => console.log('form'))} className="space-y-8">
+		<Form {...categoryForm}>
+			<form onSubmit={categoryForm.handleSubmit(() => console.log('form'))} className="space-y-8">
 				<FormField
-					control={form.control}
-					name="username"
+					control={categoryForm.control}
+					name="category"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Username</FormLabel>
+							<FormLabel>Category Name</FormLabel>
 							<FormControl>
-								<Input placeholder="shadcn" {...field} />
+								<Input placeholder="Sleep" {...field} />
 							</FormControl>
-							<FormDescription>
-								This is your public display name.
-							</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}
@@ -51,3 +55,6 @@ export function ProfileForm() {
 		</Form>
 	)
 }
+
+
+export default CategoryForm

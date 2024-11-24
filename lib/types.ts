@@ -60,3 +60,9 @@ export const newPasswordFormSchema = z.object({
 	token: z.string().nullable().optional()
 })
 
+export const categoryFormSchema = z.object({
+	category: z.string().min(3, {
+		message: "Please use at least 3 characters.",
+	}),
+	color: z.enum(["BLUE", "GREEN", "YELLOW", "ORANGE", "RED", "PINK", "PURPLE", "BLACK", "WHITE", "GRAY", "BROWN" ]),
+})

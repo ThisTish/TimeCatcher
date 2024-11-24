@@ -6,8 +6,10 @@ import { useMediaQuery } from "@/hooks/use-media-query"
 import { Button } from "@/components/ui/button"
 import {
 	Dialog,
+	DialogClose,
 	DialogContent,
 	DialogDescription,
+	DialogFooter,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
@@ -24,13 +26,14 @@ import {
 } from "@/components/ui/drawer"
 
 type CategoryFormContainerProps = {
-	openButtonLabel: 'Create Category' | 'Edit Category'
-	title: 'Create Category' | 'Edit Category'
+	openButtonLabel: 'Add Category' | 'Edit Category'
+	title: 'Create a new category' | 'Update category details'
 	description: string
 	children: React.ReactNode
+	type: 'create' | 'edit'
 }
 
-const CategoryFormContainer = ({openButtonLabel, title, description, children}: CategoryFormContainerProps) => {
+const CategoryFormContainer = ({openButtonLabel, title, description, children, type}: CategoryFormContainerProps) => {
 	const [open, setOpen] = useState(false)
 	const isDesktop = useMediaQuery("(min-width: 768px)")
 
@@ -48,6 +51,11 @@ const CategoryFormContainer = ({openButtonLabel, title, description, children}: 
 						</DialogDescription>
 					</DialogHeader>
 					{children}
+					<DialogFooter>
+						<DialogClose asChild>
+							<Button variant="outline">Cancel</Button>
+							</DialogClose>
+					</DialogFooter>
 				</DialogContent>
 			</Dialog>
 		)

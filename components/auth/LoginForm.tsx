@@ -1,14 +1,16 @@
 'use client'
 
-import { loginFormSchema } from "@/lib/types"
-import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from 'zod'
+import { useForm } from "react-hook-form"
 import { useAction } from "next-safe-action/hooks"
-import { login } from '@/server/actions/login'
 import Link from "next/link"
-import { cn } from "@/lib/utils"
 import { useRouter } from 'next/navigation'
+import { cn } from "@/lib/utils"
+import { loginFormSchema } from "@/lib/types"
+import { login } from '@/server/actions/login'
+import { useState } from "react"
+
 
 import { Button } from "@/components/ui/button"
 import {
@@ -22,14 +24,12 @@ import {
 import { Input } from "@/components/ui/input"
 import AuthCard from "./AuthCard"
 import FormAlert from "./FormAlert"
-import { revalidatePath } from "next/cache"
-import { useState } from "react"
 
 
 const LoginForm = () => {
 	const [error, setError] = useState<string | null>(null)
 	const [success, setSuccess] = useState<string | null>(null)
-	
+
 	const router = useRouter()
 
 	const loginForm = useForm<z.infer<typeof loginFormSchema>>({
@@ -43,22 +43,20 @@ const LoginForm = () => {
 	const { execute, status, isExecuting, } = useAction(login, {
 		onSuccess: ((data) => {
 			console.log('success', data)
-			if(data?.data?.error){
+			if (data?.data?.error) {
 				setError(data.data.error)
 			}
-			if(data?.data?.success){
+			if (data?.data?.success) {
 				setError(null)
 				setSuccess(data.data.success)
 				router.push('/dashboard')
 				router.refresh()
-}
+			}
 		})
 	})
 
 	const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
 		execute(values)
-		// router.push('/dashboard')
-		
 	}
 
 	return (
@@ -123,7 +121,7 @@ const LoginForm = () => {
 					{error ? <FormAlert type="error" message={error} /> : null}
 					{success ? <FormAlert type="success" message={success} /> : null}
 
-						<Link href='/auth/forgot-password'>Did you forget your password?</Link>
+					<Link href='/auth/forgot-password'>Did you forget your password?</Link>
 				</form>
 			</Form>
 		</AuthCard>
