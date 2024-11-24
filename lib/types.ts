@@ -66,3 +66,17 @@ export const categoryFormSchema = z.object({
 	}),
 	color: z.enum(["BLUE", "GREEN", "YELLOW", "ORANGE", "RED", "PINK", "PURPLE", "BLACK", "WHITE", "GRAY", "BROWN" ]),
 })
+
+export enum E_Colors {
+	Blue = 'Blue',
+	Green = 'Green',
+	Yellow = 'Yellow',
+	Orange = 'Orange',
+	Red = 'Red',
+	Pink = 'Pink',
+	Purple = 'Purple',
+	Black = 'Black',
+	White = 'White',
+	Gray = 'Gray',
+	Brown = 'Brown'
+}

@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import CategoryFormContainer from './CategoryFormContainer'
+import ColorSelect from './ColorSelect'
 
 
 
@@ -45,6 +46,19 @@ const CategoryForm = () => {
 							<FormLabel>Category Name</FormLabel>
 							<FormControl>
 								<Input placeholder="Sleep" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={categoryForm.control}
+					name="color"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Category Color</FormLabel>
+							<FormControl>
+								<ColorSelect />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
