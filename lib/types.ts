@@ -60,23 +60,23 @@ export const newPasswordFormSchema = z.object({
 	token: z.string().nullable().optional()
 })
 
+export enum E_Colors {
+	BLUE = 'Blue',
+	GREEN = 'Green',
+	YELLOW = 'Yellow',
+	ORANGE = 'Orange',
+	RED = 'Red',
+	PINK = 'Pink',
+	PURPLE = 'Purple',
+	BLACK = 'Black',
+	WHITE = 'White',
+	GRAY = 'Gray',
+	BROWN = 'Brown'
+}
+
 export const categoryFormSchema = z.object({
 	category: z.string().min(3, {
 		message: "Please use at least 3 characters.",
 	}),
-	color: z.enum(["BLUE", "GREEN", "YELLOW", "ORANGE", "RED", "PINK", "PURPLE", "BLACK", "WHITE", "GRAY", "BROWN" ]),
+	color: z.enum([E_Colors.BLUE, E_Colors.GREEN, E_Colors.YELLOW, E_Colors.ORANGE, E_Colors.RED, E_Colors.PINK, E_Colors.PURPLE, E_Colors.BLACK, E_Colors.WHITE, E_Colors.GRAY, E_Colors.BROWN])
 })
-
-export enum E_Colors {
-	Blue = 'Blue',
-	Green = 'Green',
-	Yellow = 'Yellow',
-	Orange = 'Orange',
-	Red = 'Red',
-	Pink = 'Pink',
-	Purple = 'Purple',
-	Black = 'Black',
-	White = 'White',
-	Gray = 'Gray',
-	Brown = 'Brown'
-}

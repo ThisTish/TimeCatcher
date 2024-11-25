@@ -49,7 +49,7 @@ const LoginForm = () => {
 			if (data?.data?.success) {
 				setError(null)
 				setSuccess(data.data.success)
-				router.push('/dashboard')
+				router.push('/')
 				router.refresh()
 			}
 		})

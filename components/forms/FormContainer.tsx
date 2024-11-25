@@ -24,16 +24,16 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from "@/components/ui/drawer"
+import Link from "next/link"
 
-type CategoryFormContainerProps = {
+type FormContainerProps = {
 	openButtonLabel: 'Add Category' | 'Edit Category'
 	title: 'Create a new category' | 'Update category details'
 	description: string
 	children: React.ReactNode
-	type: 'create' | 'edit'
 }
 
-const CategoryFormContainer = ({openButtonLabel, title, description, children, type}: CategoryFormContainerProps) => {
+const FormContainer = ({openButtonLabel, title, description, children}: FormContainerProps) => {
 	const [open, setOpen] = useState(false)
 	const isDesktop = useMediaQuery("(min-width: 768px)")
 
@@ -41,7 +41,7 @@ const CategoryFormContainer = ({openButtonLabel, title, description, children, t
 		return (
 			<Dialog open={open} onOpenChange={setOpen}>
 				<DialogTrigger asChild>
-					<Button variant="outline">{openButtonLabel}</Button>
+					<button>{openButtonLabel}</button>
 				</DialogTrigger>
 				<DialogContent className="sm:max-w-[425px]">
 					<DialogHeader>
@@ -85,4 +85,4 @@ const CategoryFormContainer = ({openButtonLabel, title, description, children, t
 	)
 }
 
-export default CategoryFormContainer
+export default FormContainer

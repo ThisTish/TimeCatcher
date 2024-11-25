@@ -14,7 +14,6 @@ const ColorSelect = () => {
 
 	return (
 		<div className="flex flex-col gap-6">
-	
 			<select
 				id="color"
 				className="select select-bordered"

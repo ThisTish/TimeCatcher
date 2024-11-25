@@ -3,9 +3,18 @@ import { signOut } from "next-auth/react"
 import { Session } from "next-auth"
 import Image from "next/image"
 import avatar from '@/public/avatar.webp'
+import { useRouter } from "next/navigation"
+
 
 const UserBtn = ({user}: Session) => {
+	const router = useRouter()
 	if(!user) return null
+
+	const handleSignout = () =>{
+		signOut()
+		router.push('/')
+
+	}
 	
 	return (
 		<div>

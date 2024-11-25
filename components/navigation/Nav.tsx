@@ -1,8 +1,9 @@
 import { auth } from '@/server/actions/auth'
 import UserBtn from './UserBtn'
 import Link from 'next/link'
-import CategoryFormContainer from '../categoryForm/CategoryFormContainer'
-import CategoryForm from '../categoryForm/CategoryForm'
+import FormContainer from '../forms/FormContainer'
+
+import CategoryForm from '../forms/categoryForm/CategoryForm'
 
 const Nav = async () => {
 	const session = await auth()
@@ -22,23 +23,29 @@ const Nav = async () => {
 						</button>
 					</li>
 
-) :
-			(
-				<>
-				<li>
-					<CategoryFormContainer title='Create a new category' description='Choose a name and color for a new category to track' openButtonLabel='Add Category' type='create'>
-						<CategoryForm />
-					</CategoryFormContainer>
-				</li>
-				<li>
-					<UserBtn user={session?.user} expires={session?.expires} />
-				</li>
-				</>
-				)
+				) :
+					(
+						<div className='flex gap-3'>
+							<li>
+								<Link href={'/timers'}>Timers</Link>
+							</li>
+							<li>
+								<Link href={'/dashboard'}>Dashboard</Link>
+							</li>
+							<li>
+								<FormContainer title='Create a new category' description='Choose a name and color for a new category to track' openButtonLabel='Add Category' >
+									<CategoryForm />
+								</FormContainer>
+							</li>
+							<li>
+								<UserBtn user={session?.user} expires={session?.expires} />
+							</li>
+						</div>
+					)
 				}
-	</ul>
+			</ul>
 		</header>
-	);
+	)
 }
 
-export default Nav;
+export default Nav

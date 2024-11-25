@@ -4,20 +4,18 @@ import * as z from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useAction } from 'next-safe-action/hooks'
-import { categoryFormSchema } from '@/lib/types'
+import { categoryFormSchema, E_Colors } from '@/lib/types'
 
 import { Button } from "@/components/ui/button"
 import {
 	Form,
 	FormControl,
-	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import CategoryFormContainer from './CategoryFormContainer'
 import ColorSelect from './ColorSelect'
 
 
@@ -27,7 +25,7 @@ const CategoryForm = () => {
 		resolver: zodResolver(categoryFormSchema),
 		defaultValues: {
 			category: '',
-			color: 'WHITE'
+			color: E_Colors.WHITE
 		}
 	})
 
@@ -37,7 +35,7 @@ const CategoryForm = () => {
 
 	return (
 		<Form {...categoryForm}>
-			<form onSubmit={categoryForm.handleSubmit(() => console.log('form'))} className="space-y-8">
+			<form onSubmit={categoryForm.handleSubmit(() => console.log(categoryForm.getValues().color))} className="space-y-8">
 				<FormField
 					control={categoryForm.control}
 					name="category"
@@ -45,7 +43,16 @@ const CategoryForm = () => {
 						<FormItem>
 							<FormLabel>Category Name</FormLabel>
 							<FormControl>
-								<Input placeholder="Sleep" {...field} />
+								<div>
+								<Input list='categories' placeholder="Sleep" {...field} />
+								<datalist id="categories">
+									<option value="Sleep" />
+									<option value="Work" />
+									<option value="Chores" />
+									<option value="Exercise" />
+									<option value="Social" />
+								</datalist>
+								</div>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -59,6 +66,7 @@ const CategoryForm = () => {
 							<FormLabel>Category Color</FormLabel>
 							<FormControl>
 								<ColorSelect />
+							<ColorSelect />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
