@@ -16,8 +16,11 @@ import {
 	FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import ColorSelect from './ColorSelect'
+import { TwitterPicker } from 'react-color'
+import React from 'react'
+import { Color } from '@prisma/client'
 
+console.log('E_Colors', (Object.values(E_Colors) as string[]))
 
 
 const CategoryForm = () => {
@@ -25,9 +28,10 @@ const CategoryForm = () => {
 		resolver: zodResolver(categoryFormSchema),
 		defaultValues: {
 			category: '',
-			color: E_Colors.WHITE
+			color: E_Colors.white
 		}
 	})
+
 
 	// onCreate
 	// onEdit
@@ -44,14 +48,14 @@ const CategoryForm = () => {
 							<FormLabel>Category Name</FormLabel>
 							<FormControl>
 								<div>
-								<Input list='categories' placeholder="Sleep" {...field} />
-								<datalist id="categories">
-									<option value="Sleep" />
-									<option value="Work" />
-									<option value="Chores" />
-									<option value="Exercise" />
-									<option value="Social" />
-								</datalist>
+									<Input list='categories' placeholder="Sleep" {...field} />
+									<datalist id="categories">
+										<option value="Sleep" />
+										<option value="Work" />
+										<option value="Chores" />
+										<option value="Exercise" />
+										<option value="Social" />
+									</datalist>
 								</div>
 							</FormControl>
 							<FormMessage />
@@ -64,9 +68,15 @@ const CategoryForm = () => {
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Category Color</FormLabel>
+								<div>
+									<TwitterPicker
+										colors={Object.values(E_Colors) as string[]}
+										onChangeComplete={(color) => console.log('color', color)}
+										onChange={(color) => console.log(color.color)}
+									/>
+								</div>
 							<FormControl>
-								<ColorSelect />
-							<ColorSelect />
+								<Input type="hidden" {...field} placeholder='color'/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
