@@ -18,7 +18,6 @@ import {
 import { Input } from "@/components/ui/input"
 import { TwitterPicker } from 'react-color'
 import React from 'react'
-import { Color } from '@prisma/client'
 
 console.log('E_Colors', (Object.values(E_Colors) as string[]))
 
@@ -32,6 +31,25 @@ const CategoryForm = () => {
 		}
 	})
 
+	interface HSLColor {
+		a?: number | undefined;
+		h: number;
+		l: number;
+		s: number;
+	}
+
+	const colorValues: HSLColor[] = [
+		{ h: 212, s: 96, l: 78 },
+		{ h: 142, s: 77, l: 73 },
+		{ h: 50, s: 98, l: 64 },
+		{ h: 27, s: 96, l: 65 },
+		{ h: 0, s: 91, l: 71 },
+		{ h: 329, s: 86, l: 70 },
+		{ h: 270, s: 95, l: 75 },
+		{ h: 0, s: 0, l: 0 },
+		{ h: 0, s: 0, l: 100 },
+		{ h: 216, s: 12, l: 84 }
+	];
 
 	// onCreate
 	// onEdit
@@ -69,10 +87,11 @@ const CategoryForm = () => {
 						<FormItem>
 							<FormLabel>Category Color</FormLabel>
 								<div>
+									{/* ! not working */}
 									<TwitterPicker
-										colors={Object.values(E_Colors) as string[]}
-										onChangeComplete={(color) => console.log('color', color)}
-										onChange={(color) => console.log(color.color)}
+										colors={colorValues.map(color => `hsl(${color.h}, ${color.s}%, ${color.l}%)`)}
+										onChangeComplete={(color) => console.log('color', colorValues)}
+										onChange={(color) => console.log(color.hex)}
 									/>
 								</div>
 							<FormControl>
