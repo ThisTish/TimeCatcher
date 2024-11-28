@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import AuthCard from "./AuthCard"
-import FormAlert from "./FormAlert"
+import FormAlert from "../forms/FormAlert"
 import { useState } from "react"
 
 

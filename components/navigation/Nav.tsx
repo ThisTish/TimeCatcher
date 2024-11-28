@@ -3,7 +3,7 @@ import UserBtn from './UserBtn'
 import Link from 'next/link'
 import FormContainer from '../forms/FormContainer'
 
-import CategoryForm from '../forms/categoryForm/CategoryForm'
+import CategoryForm from '../forms/CategoryForm'
 
 const Nav = async () => {
 	const session = await auth()
@@ -33,8 +33,8 @@ const Nav = async () => {
 								<Link href={'/dashboard'}>Dashboard</Link>
 							</li>
 							<li>
-								<FormContainer title='Create a new category' description='Choose a name and color for a new category to track' openButtonLabel='Add Category' >
-									<CategoryForm />
+								<FormContainer title='Create a new category' description='Choose a name and color for a new category to track' openButtonLabel='Add Category'  >
+									<CategoryForm mode='create' />
 								</FormContainer>
 							</li>
 							<li>

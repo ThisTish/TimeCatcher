@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react"
 import AuthCard from "./AuthCard"
 import { useSearchParams, useRouter } from "next/navigation"
 import { newVerification } from "@/server/actions/tokens"
-import FormAlert from "./FormAlert"
+import FormAlert from "../forms/FormAlert"
 import { set } from "zod"
 
 const EmailVerificationForm = () => {
