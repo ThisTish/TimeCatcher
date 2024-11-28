@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useAction } from 'next-safe-action/hooks'
 import { categoryFormSchema, E_Colors } from '@/lib/types'
+import { HSLColor } from 'react-color'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -16,10 +17,19 @@ import {
 	FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select"
 import { TwitterPicker } from 'react-color'
 import React from 'react'
 
-console.log('E_Colors', (Object.values(E_Colors) as string[]))
+const colorItems = Object.values(E_Colors)
+
+console.log('E_Colors', (colorItems))
 
 
 const CategoryForm = () => {
@@ -31,25 +41,8 @@ const CategoryForm = () => {
 		}
 	})
 
-	interface HSLColor {
-		a?: number | undefined;
-		h: number;
-		l: number;
-		s: number;
-	}
 
-	const colorValues: HSLColor[] = [
-		{ h: 212, s: 96, l: 78 },
-		{ h: 142, s: 77, l: 73 },
-		{ h: 50, s: 98, l: 64 },
-		{ h: 27, s: 96, l: 65 },
-		{ h: 0, s: 91, l: 71 },
-		{ h: 329, s: 86, l: 70 },
-		{ h: 270, s: 95, l: 75 },
-		{ h: 0, s: 0, l: 0 },
-		{ h: 0, s: 0, l: 100 },
-		{ h: 216, s: 12, l: 84 }
-	];
+
 
 	// onCreate
 	// onEdit
@@ -57,7 +50,9 @@ const CategoryForm = () => {
 
 	return (
 		<Form {...categoryForm}>
-			<form onSubmit={categoryForm.handleSubmit(() => console.log(categoryForm.getValues().color))} className="space-y-8">
+			<form onSubmit={categoryForm.handleSubmit(() => console.log(categoryForm.getValues()))} className="space-y-8">
+			
+			{/* Name */}
 				<FormField
 					control={categoryForm.control}
 					name="category"
@@ -80,22 +75,28 @@ const CategoryForm = () => {
 						</FormItem>
 					)}
 				/>
+
+				{/* Color */}
 				<FormField
 					control={categoryForm.control}
 					name="color"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Category Color</FormLabel>
-								<div>
-									{/* ! not working */}
-									<TwitterPicker
-										colors={colorValues.map(color => `hsl(${color.h}, ${color.s}%, ${color.l}%)`)}
-										onChangeComplete={(color) => console.log('color', colorValues)}
-										onChange={(color) => console.log(color.hex)}
-									/>
-								</div>
 							<FormControl>
-								<Input type="hidden" {...field} placeholder='color'/>
+								<Select onValueChange={field.onChange} required>
+									<SelectTrigger >
+										<SelectValue placeholder="Color" />
+									</SelectTrigger>
+									<SelectContent>
+										{colorItems.map((color, index) =>(
+										<SelectItem key={index} value={color}>	
+											<div  className={`size-5 bg-${color} inline-block mr-3 -mb-1 rounded-sm`}></div>
+											{color}
+										</SelectItem>
+									))}
+									</SelectContent>
+								</Select>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -109,3 +110,18 @@ const CategoryForm = () => {
 
 
 export default CategoryForm
+
+
+
+	// const colorValues: HSLColor[] = [
+	// 	{ h: 212, s: 96, l: 78 },
+	// 	{ h: 142, s: 77, l: 73 },
+	// 	{ h: 50, s: 98, l: 64 },
+	// 	{ h: 27, s: 96, l: 65 },
+	// 	{ h: 0, s: 91, l: 71 },
+	// 	{ h: 329, s: 86, l: 70 },
+	// 	{ h: 270, s: 95, l: 75 },
+	// 	{ h: 0, s: 0, l: 0 },
+	// 	{ h: 0, s: 0, l: 100 },
+	// 	{ h: 216, s: 12, l: 84 }
+	// ];
