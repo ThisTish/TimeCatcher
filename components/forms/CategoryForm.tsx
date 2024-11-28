@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useAction } from 'next-safe-action/hooks'
 import { categoryFormSchema, E_Colors } from '@/lib/types'
-import { HSLColor } from 'react-color'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -24,38 +23,57 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select"
-import { TwitterPicker } from 'react-color'
 import React from 'react'
+import { createCategory } from '@/server/actions/create-category'
+import FormAlert from './FormAlert'
 
-const colorItems = Object.values(E_Colors)
-
-console.log('E_Colors', (colorItems))
+const colorItems = Object.values(E_Colors).filter(color => color !== E_Colors.white)
 
 
-const CategoryForm = () => {
+
+const CategoryForm = ({ mode }: { mode: 'create' | 'edit' }) => {
 	const categoryForm = useForm<z.infer<typeof categoryFormSchema>>({
 		resolver: zodResolver(categoryFormSchema),
 		defaultValues: {
-			category: '',
+			name: '',
 			color: E_Colors.white
 		}
 	})
 
+	const action = mode === 'create' ? createCategory : async () => {
+		console.log('editCategory');
+		return undefined;
+	}
 
 
-
-	// onCreate
-	// onEdit
+	const { execute, result, isExecuting, hasErrored, hasSucceeded } = useAction(action)
 
 
+	const onSubmit = (values: z.infer<typeof categoryFormSchema>) => {
+		execute(values)
+
+		if (hasSucceeded) {
+			if(result.data?.success){
+			console.log('success', result.data?.success)
+			}
+			if(result.data?.error){
+			console.log('error', result.data?.success)
+			}
+			categoryForm.reset()
+
+		}
+		// onCreate
+		// onEdit
+
+	}
 	return (
 		<Form {...categoryForm}>
-			<form onSubmit={categoryForm.handleSubmit(() => console.log(categoryForm.getValues()))} className="space-y-8">
-			
-			{/* Name */}
+			<form onSubmit={categoryForm.handleSubmit(onSubmit)} className="space-y-8">
+
+				{/* Name */}
 				<FormField
 					control={categoryForm.control}
-					name="category"
+					name="name"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Category Name</FormLabel>
@@ -84,17 +102,21 @@ const CategoryForm = () => {
 						<FormItem>
 							<FormLabel>Category Color</FormLabel>
 							<FormControl>
-								<Select onValueChange={field.onChange} required>
+								<Select onValueChange={field.onChange}>
 									<SelectTrigger >
-										<SelectValue placeholder="Color" />
+										<SelectValue placeholder={<WhiteSelectItem label={'white'} />} />
 									</SelectTrigger>
 									<SelectContent>
-										{colorItems.map((color, index) =>(
-										<SelectItem key={index} value={color}>	
-											<div  className={`size-5 bg-${color} inline-block mr-3 -mb-1 rounded-sm`}></div>
-											{color}
+										<SelectItem defaultValue={E_Colors.white} value={E_Colors.white}>
+											<div className={`size-5 bg-white border-gray border inline-block mr-3 -mb-1 rounded-sm`}></div>
+											{E_Colors.white}
 										</SelectItem>
-									))}
+										{colorItems.map((color, index) => (
+											<SelectItem key={index} value={color}>
+												<div className={`size-5 bg-${color} inline-block mr-3 -mb-1 rounded-sm`}></div>
+												{color}
+											</SelectItem>
+										))}
 									</SelectContent>
 								</Select>
 							</FormControl>
@@ -102,7 +124,11 @@ const CategoryForm = () => {
 						</FormItem>
 					)}
 				/>
+
+				{hasErrored && <FormAlert message={`${result.data?.error}`} type={'error'} />}
+				{hasSucceeded && <FormAlert message={`${result.data?.success}`} type={'success'} />}
 				<Button type="submit">Submit</Button>
+
 			</form>
 		</Form>
 	)
@@ -112,16 +138,11 @@ const CategoryForm = () => {
 export default CategoryForm
 
 
-
-	// const colorValues: HSLColor[] = [
-	// 	{ h: 212, s: 96, l: 78 },
-	// 	{ h: 142, s: 77, l: 73 },
-	// 	{ h: 50, s: 98, l: 64 },
-	// 	{ h: 27, s: 96, l: 65 },
-	// 	{ h: 0, s: 91, l: 71 },
-	// 	{ h: 329, s: 86, l: 70 },
-	// 	{ h: 270, s: 95, l: 75 },
-	// 	{ h: 0, s: 0, l: 0 },
-	// 	{ h: 0, s: 0, l: 100 },
-	// 	{ h: 216, s: 12, l: 84 }
-	// ];
+const WhiteSelectItem = ({ label }: { label: string }) => {
+	return (
+		<>
+			<div className={`size-5 bg-white border-gray border inline-block mr-3 -mb-1 rounded-sm`}></div>
+			{label}
+		</>
+	)
+}

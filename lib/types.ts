@@ -74,7 +74,7 @@ export enum E_Colors {
 }
 
 export const categoryFormSchema = z.object({
-	category: z.string().min(3, {
+	name: z.string().min(3, {
 		message: "Please use at least 3 characters.",
 	}),
 	color: z.enum(Object.values(E_Colors) as [string, ...string[]])
