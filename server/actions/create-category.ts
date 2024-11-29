@@ -21,10 +21,9 @@ export const createCategory = actionClient
 				data: {
 					name,
 					color: color.toUpperCase() as Color,
-					userId
+					userId: '1'
 				}
 			})
-			console.log(newCategory)
 		return { success: `${newCategory.name} created!` } // add a goal?${newCategory.id}
 
 		} catch (error) {

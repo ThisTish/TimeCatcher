@@ -4,7 +4,11 @@ import * as z from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useAction } from 'next-safe-action/hooks'
+import { useEffect } from 'react'
+import { useToast } from "@/hooks/use-toast"
 import { categoryFormSchema, E_Colors } from '@/lib/types'
+import { createCategory } from '@/server/actions/create-category'
+import FormAlert from './FormAlert'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -23,9 +27,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select"
-import React from 'react'
-import { createCategory } from '@/server/actions/create-category'
-import FormAlert from './FormAlert'
 
 const colorItems = Object.values(E_Colors).filter(color => color !== E_Colors.white)
 
@@ -40,37 +41,53 @@ const CategoryForm = ({ mode }: { mode: 'create' | 'edit' }) => {
 		}
 	})
 
+	const { toast } = useToast()
+
 	const action = mode === 'create' ? createCategory : async () => {
 		console.log('editCategory');
 		return undefined;
 	}
 
-
 	const { execute, result, isExecuting, hasErrored, hasSucceeded } = useAction(action)
-
 
 	const onSubmit = (values: z.infer<typeof categoryFormSchema>) => {
 		execute(values)
+	}
 
-		if (hasSucceeded) {
-			if(result.data?.success){
-			console.log('success', result.data?.success)
-			}
-			if(result.data?.error){
-			console.log('error', result.data?.success)
-			}
+	useEffect(() => {
+		if(result.data?.success){
+			toast({
+				title: `${result.data?.success}`,
+				description: "Continue to add more categories, or click 'Done' to close the form",
+				variant: 'success'
+			})
 			categoryForm.reset()
-
-		}
-
-		if (hasErrored) {
-			console.log('error', )
 			
+			console.log('success', result.data?.success)
 		}
+		if(result.data?.error){
+			toast({
+				title: `${result.data?.error}`,
+				description: "Try again or refresh page",
+				variant: 'destructive'
+			})
+		}
+	
+		if (hasErrored) {
+			toast({
+				title: `${result.data?.error}`,
+				description: "Try again or refresh page",
+				variant: 'destructive'
+			})
+	
+		}
+
+	}, [result.data])
+
 		// onCreate
 		// onEdit
 
-	}
+	
 	return (
 		<Form {...categoryForm}>
 			<form onSubmit={categoryForm.handleSubmit(onSubmit)} className="space-y-8">
@@ -130,12 +147,22 @@ const CategoryForm = ({ mode }: { mode: 'create' | 'edit' }) => {
 					)}
 				/>
 
-				{hasErrored && <FormAlert message={`${result.data?.error}`} type={'error'} />}
-				{hasSucceeded && <FormAlert message={`${result.data?.success}`} type={'success'} />}
-				<Button type="submit">Submit</Button>
+			{hasSucceeded || hasErrored ? (
+				<>
+					{hasErrored || result.data?.error && 
+						<Button type="submit" disabled={isExecuting}>Try Again</Button>
+					}
+					{hasSucceeded && result.data?.success &&
+						<Button type="submit" disabled={isExecuting}>Submit Another Category</Button>
+					}
+				</>
+			) : (
+				<Button type="submit" disabled={isExecuting}>Submit</Button>
+			)}
 
-			</form>
-		</Form>
+
+		</form>
+		</Form >
 	)
 }
 

@@ -33,7 +33,11 @@ const Nav = async () => {
 								<Link href={'/dashboard'}>Dashboard</Link>
 							</li>
 							<li>
-								<FormContainer title='Create a new category' description='Choose a name and color for a new category to track' openButtonLabel='Add Category'  >
+								<FormContainer 
+								title='Create a new category' 
+								description='Choose a name and color for a new category to track' 
+								openButtonLabel='Add Category'
+								>
 									<CategoryForm mode='create' />
 								</FormContainer>
 							</li>

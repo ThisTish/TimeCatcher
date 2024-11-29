@@ -27,7 +27,7 @@ import {
 import Link from "next/link"
 
 type FormContainerProps = {
-	openButtonLabel: 'Add Category' | 'Edit Category'
+	openButtonLabel: string
 	title: 'Create a new category' | 'Update category details'
 	description: string
 	children: React.ReactNode
@@ -53,7 +53,7 @@ const FormContainer = ({openButtonLabel, title, description, children}: FormCont
 					{children}
 					<DialogFooter>
 						<DialogClose asChild>
-							<Button variant="outline">Cancel</Button>
+							<Button variant="outline">Done</Button>
 							</DialogClose>
 					</DialogFooter>
 				</DialogContent>
@@ -77,7 +77,7 @@ const FormContainer = ({openButtonLabel, title, description, children}: FormCont
 
 				<DrawerFooter className="pt-2">	
 					<DrawerClose asChild>
-						<Button variant="outline">Cancel</Button>
+						<Button variant="outline">Done</Button>
 					</DrawerClose>
 				</DrawerFooter>
 			</DrawerContent>
