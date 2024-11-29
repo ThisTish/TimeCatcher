@@ -8,7 +8,6 @@ import { useEffect } from 'react'
 import { useToast } from "@/hooks/use-toast"
 import { categoryFormSchema, E_Colors } from '@/lib/types'
 import { createCategory } from '@/server/actions/create-category'
-import FormAlert from './FormAlert'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -30,8 +29,6 @@ import {
 
 const colorItems = Object.values(E_Colors).filter(color => color !== E_Colors.white)
 
-
-
 const CategoryForm = ({ mode }: { mode: 'create' | 'edit' }) => {
 	const categoryForm = useForm<z.infer<typeof categoryFormSchema>>({
 		resolver: zodResolver(categoryFormSchema),
@@ -47,6 +44,7 @@ const CategoryForm = ({ mode }: { mode: 'create' | 'edit' }) => {
 		console.log('editCategory');
 		return undefined;
 	}
+	const description = mode === 'create' ? 'Continue to add more, or click Done to close the form' : 'Update successful! If you are finished, click Done to close the form'
 
 	const { execute, result, isExecuting, hasErrored, hasSucceeded } = useAction(action)
 
@@ -58,7 +56,7 @@ const CategoryForm = ({ mode }: { mode: 'create' | 'edit' }) => {
 		if(result.data?.success){
 			toast({
 				title: `${result.data?.success}`,
-				description: "Continue to add more categories, or click 'Done' to close the form",
+				description: description,
 				variant: 'success'
 			})
 			categoryForm.reset()
@@ -71,6 +69,8 @@ const CategoryForm = ({ mode }: { mode: 'create' | 'edit' }) => {
 				description: "Try again or refresh page",
 				variant: 'destructive'
 			})
+			console.log('error', result.data?.error)
+
 		}
 	
 		if (hasErrored) {
@@ -79,6 +79,7 @@ const CategoryForm = ({ mode }: { mode: 'create' | 'edit' }) => {
 				description: "Try again or refresh page",
 				variant: 'destructive'
 			})
+			console.log('error', result.data?.error)
 	
 		}
 

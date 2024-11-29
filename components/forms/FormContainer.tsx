@@ -41,7 +41,7 @@ const FormContainer = ({openButtonLabel, title, description, children}: FormCont
 		return (
 			<Dialog open={open} onOpenChange={setOpen}>
 				<DialogTrigger asChild>
-					<button>{openButtonLabel}</button>
+					<button type="button" className="font-bold">{openButtonLabel}</button>
 				</DialogTrigger>
 				<DialogContent className="sm:max-w-[425px]">
 					<DialogHeader>
