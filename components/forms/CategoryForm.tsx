@@ -62,6 +62,11 @@ const CategoryForm = ({ mode }: { mode: 'create' | 'edit' }) => {
 			categoryForm.reset()
 
 		}
+
+		if (hasErrored) {
+			console.log('error', )
+			
+		}
 		// onCreate
 		// onEdit
 
