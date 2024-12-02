@@ -1,35 +1,31 @@
 "use client"
 
-import { useToast } from "@/hooks/use-toast"
-import {
-  Toast,
-  ToastClose,
-  ToastDescription,
-  ToastProvider,
-  ToastTitle,
-  ToastViewport,
-} from "@/components/ui/toast"
+import { useEffect, useState } from 'react'
+import { Toaster as Toasty} from 'sonner'
 
-export function Toaster() {
-  const { toasts } = useToast()
+const Toaster = () =>{
+	// cosnt {theme} = useTheme()
 
-  return (
-    <ToastProvider>
-      {toasts.map(function ({ id, title, description, action, ...props }) {
-        return (
-          <Toast key={id} {...props}>
-            <div className="grid gap-1">
-              {title && <ToastTitle>{title}</ToastTitle>}
-              {description && (
-                <ToastDescription>{description}</ToastDescription>
-              )}
-            </div>
-            {action}
-            <ToastClose />
-          </Toast>
-        )
-      })}
-      <ToastViewport />
-    </ToastProvider>
-  )
+	const [isMounted, setIsMounted] = useState(false)
+
+	useEffect(() => {
+		setIsMounted(true)
+	}, [])
+
+
+	if(!isMounted) return null
+
+	// if(typeof theme === 'string'){
+	return(
+		<Toasty 
+			richColors
+			position='bottom-center'
+			expand={false}
+			visibleToasts={1}
+			// theme={theme as "light" | "dark" | "system"}
+			/>
+	)
+	// }
 }
+
+export default Toaster

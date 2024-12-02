@@ -4,17 +4,37 @@ import { db } from "@/prisma/db"
 import { auth } from "./auth"
 
 export const getAllCategoriesBasic = async () =>{
-	const session = await auth()
-	if (!session) return 
-	const userId = session.user?.id?.toString()
-	if(!userId) return 
+	try {
+		const session = await auth()
+		if (!session) return 
+		const userId = session.user?.id?.toString()
+		if(!userId) return 
+	
+		const categoryData = await db.category.findMany({
+			where:{
+				userId
+			}
+		})
 
-	const categoryData = await db.category.findMany({
-		where:{
-			userId
-		}
-	})
+		return categoryData
+		
+	} catch (error) {
+		console.log(error)
+	}
+}
 
 
-	return categoryData
+export const getCategory = async (id: string) =>{
+	try {	
+		const categoryData = await db.category.findMany({
+			where:{
+				id
+			}
+		})
+
+		return {success: categoryData}
+
+	} catch (error) {
+		return {error: "Category not found"}
+	}
 }

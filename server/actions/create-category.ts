@@ -9,8 +9,27 @@ import { Color } from "@prisma/client"
 
 export const createCategory = actionClient
 	.schema(categoryFormSchema)
-	.action(async ({ parsedInput: { name, color } }) => {
+	.action(async ({ parsedInput: { name, color, id } }) => {
 
+		if(id){
+			try {
+				const updatedCategory = await db.category.update({
+					where: {
+						id
+					},
+					data: {
+						name,
+						color: color.toUpperCase() as Color
+					}
+				})
+				return { success: `${updatedCategory.name} updated!` }
+			} catch (error) {
+				console.log(error)
+				return { error: `There was an error updating the category` }
+			}
+		}
+
+		if(!id){
 		const session = await auth()
 		if (!session) return { error: "You must be logged in to create a category" }
 		const userId = session.user?.id?.toString()
@@ -30,6 +49,6 @@ export const createCategory = actionClient
 			console.log(error)
 			return { error: `There was an error creating the category`}
 		}
-
+	}
 
 	})

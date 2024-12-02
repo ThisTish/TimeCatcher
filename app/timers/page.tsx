@@ -2,12 +2,11 @@ import CategoryForm from "@/components/forms/CategoryForm"
 import FormContainer from "@/components/forms/FormContainer"
 import { Button } from "@/components/ui/button"
 import { getAllCategoriesBasic } from "@/server/actions/get-categories"
-import Error from "next/error"
+import { backgrounds } from "@/components/providers/ThemeProvider"
 
 const TimersPage = async () => {
 
 	const categories = await getAllCategoriesBasic()
-	console.dir(categories)
 
 	if(!categories) return <div>Server Error, please reload page.</div>
 
@@ -18,25 +17,37 @@ const TimersPage = async () => {
 			description='Choose a name and color for a new category to track' 
 			openButtonLabel='Here'
 			>
-			<CategoryForm mode='create' />
+			<CategoryForm  />
 		</FormContainer>
-		
 	</div>
+
+	
 
 	return (
 		<div>
 			<h1>Timers</h1>
+			<div className="flex flex-wrap gap-10 m-20">
 			{categories.map((category) =>{
 				return (
 					<div 
 					key={category.id}
-					className={`bg-${category.color.toLowerCase()}`}
+					className={`${backgrounds[category.color]} rounded-md min-w-52 min-h-52 flex flex-col justify-around`}
 					>
-						<h2>{category.name}</h2>
-						<Button variant={'default'}>Start</Button>
+						<h2 className="text-2xl font-bold tracking-wide text-center">{category.name}</h2>
+						<div className="flex justify-center gap-5">
+						<FormContainer
+							title="Update category details"
+							description="Change the name or color of the category"
+							openButtonLabel="Edit"
+							>
+								<CategoryForm id={category.id}/>
+						</FormContainer>
+						<Button type="button" variant={'outline'} className="text-black">Start</Button>
+						</div>
 					</div>
 				)
 			})}
+			</div>
 		</div>
 	)
 }

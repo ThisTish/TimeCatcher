@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 
 import Nav from "@/components/navigation/Nav"
-import { Toaster } from "@/components/ui/toaster"
+import Toaster from '@/components/ui/toaster'
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,8 +18,8 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Nav />
-        {children}
         <Toaster />
+        {children}
       </body>
     </html>
   )
