@@ -12,9 +12,6 @@ export const getAllCategoriesBasic = async () =>{
 	const categoryData = await db.category.findMany({
 		where:{
 			userId
-		},
-		include:{
-			timeLogs: true
 		}
 	})
 
