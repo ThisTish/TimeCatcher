@@ -80,3 +80,5 @@ export const categoryFormSchema = z.object({
 	color: z.enum(Object.values(E_Colors) as [string, ...string[]]),
 	id: z.string().optional()
 })
+
+

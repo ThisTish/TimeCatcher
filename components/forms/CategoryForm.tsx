@@ -132,7 +132,7 @@ const CategoryForm = ({ id }: { id?: string }) => {
 							<FormLabel>Category Name</FormLabel>
 							<FormControl>
 								<div>
-									<Input list='categories' placeholder="Sleep" {...field} />
+									<Input list='categories' placeholder="Name your category whatever you want" {...field} />
 									<datalist id="categories">
 										<option value="Sleep" />
 										<option value="Work" />
@@ -184,7 +184,7 @@ const CategoryForm = ({ id }: { id?: string }) => {
 							<Button type="submit" disabled={isExecuting}>Try Again</Button>
 						}
 						{hasSucceeded && result.data?.success &&  
-						<Button type="submit" disabled={isExecuting || mode === 'edit'}>{mode === 'create' ? 'Submit Another Category' : 'Review update'}</Button>
+						<Button type="submit" disabled={isExecuting}>{mode === 'create' ? 'Submit Another Category' : 'Review update'}</Button>
 
 						}
 					</>
