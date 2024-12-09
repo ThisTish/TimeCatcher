@@ -1,4 +1,4 @@
-"use server"
+'use server'
 
 import { db } from "@/prisma/db"
 import { createSafeActionClient } from "next-safe-action"

@@ -1,33 +1,45 @@
 "use client"
 
-import deleteCategory from "@/server/actions/delete-categoty"
+import deleteCategory from "@/server/actions/delete-category"
 import { Button } from "../ui/button"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
-import { error } from "console"
+import { useAction } from "next-safe-action/hooks"
 
-const DeleteCategoryButton = ({id}: {id: string}) => {
-	
+const DeleteCategoryButton = ({ id }: { id: string }) => {
+
 	const router = useRouter()
 
-const handleDelete = async () =>{
+// todo onsuccess toast not working.
+	const { execute, status } = useAction(deleteCategory, {
+		onSuccess: (data) => {
+			if (data.data?.success) {
+				toast.success(data.data.success)
+				console.log('Category deleted successfully')
+				router.push('/timers')
+			}
+			if (data.data?.error) {
+				console.log('Error occurred while deleting category')
+				toast.error(data.data.error)
+			}
+		},
+		// onExecute: (data) => {
+		// 	toast.loading('Deleting category')
+		// },
+		onError: (error) => {
+			console.log(error)
+		}
+	})
+	// const handleDelete = () => {
+	// 	execute({ id })
 
-
-	const data = await deleteCategory(id)
-	if(data){
-		toast.success('Category deleted')
-		router.push('/timers')
-	}
-	else{
-		toast.error('Category not found')
-	}
-}
+	// }
 
 	return (
-		<Button 
-		key={id}
-		variant={'link'} 
-		onClick={handleDelete}
+		<Button
+			key={id}
+			variant={'link'}
+			onClick={() => execute({id})}
 		>
 			Delete
 		</Button>
