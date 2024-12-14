@@ -6,34 +6,33 @@ import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { useAction } from "next-safe-action/hooks"
 
+
+// todo deleting is working, onExecute is working, onSuccess is not working.
+
 const DeleteCategoryButton = ({ id }: { id: string }) => {
 
 	const router = useRouter()
 
-// todo onsuccess toast not working.
 	const { execute, status } = useAction(deleteCategory, {
 		onSuccess: (data) => {
 			if (data.data?.success) {
+				router.push('/timers')
 				toast.success(data.data.success)
 				console.log('Category deleted successfully')
-				router.push('/timers')
 			}
 			if (data.data?.error) {
 				console.log('Error occurred while deleting category')
 				toast.error(data.data.error)
 			}
 		},
-		// onExecute: (data) => {
+		// onExecute: () => {
 		// 	toast.loading('Deleting category')
 		// },
 		onError: (error) => {
 			console.log(error)
 		}
 	})
-	// const handleDelete = () => {
-	// 	execute({ id })
 
-	// }
 
 	return (
 		<Button

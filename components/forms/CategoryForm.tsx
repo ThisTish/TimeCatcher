@@ -34,7 +34,7 @@ import { backgrounds } from '../providers/ThemeProvider'
 const colorItems = Object.values(E_Colors).filter(color => color !== E_Colors.WHITE)
 
 const CategoryForm = ({ id }: { id?: string }) => {
-	const [ mode, setMode] = useState<'create' | 'edit'>('create')
+	const [mode, setMode] = useState<'create' | 'edit'>('create')
 
 	const categoryForm = useForm<z.infer<typeof categoryFormSchema>>({
 		resolver: zodResolver(categoryFormSchema),
@@ -76,18 +76,18 @@ const CategoryForm = ({ id }: { id?: string }) => {
 		onSuccess: (data) => {
 			if (data.data?.success) {
 				router.push('/timers')
-				categoryForm.reset()
-				if(mode === 'edit')	{
-				toast.success(data.data.success, {
-					description: 'Continue to add more, or click Done to close the form'
-				})
-			}
-				if(mode === 'create'){
+				if (mode === 'edit') {
 					toast.success(data.data.success, {
 						description: 'Update successful! If you are finished, click Done to close the form'
 					})
 				}
+				if (mode === 'create') {
+					toast.success(data.data.success, {
+						description: 'Continue to add more, or click Done to close the form'
+					})
+				}
 				
+				categoryForm.reset()
 			}
 			if (data.data?.error) {
 				toast.error(data.data.error)
@@ -98,16 +98,16 @@ const CategoryForm = ({ id }: { id?: string }) => {
 		onError: (error) => {
 			console.log(error)
 		},
-		onExecute: () =>{
-			if(id){
+		onExecute: () => {
+			if (id) {
 				const updatingToast = toast.loading('Updating category...')
-				setTimeout(() =>{
+				setTimeout(() => {
 					toast.dismiss(updatingToast)
 				}, 3000)
 			}
-			if(!id){
-				const creatingToast = toast.loading('Creating category...') 
-				setTimeout(() =>{
+			if (!id) {
+				const creatingToast = toast.loading('Creating category...')
+				setTimeout(() => {
 					toast.dismiss(creatingToast)
 				}, 3000)
 			}
@@ -177,19 +177,19 @@ const CategoryForm = ({ id }: { id?: string }) => {
 						</FormItem>
 					)}
 				/>
-				
+
 				{hasSucceeded || hasErrored ? (
 					<>
 						{hasErrored || result.data?.error &&
 							<Button type="submit" disabled={isExecuting}>Try Again</Button>
 						}
-						{hasSucceeded && result.data?.success &&  
-						<Button type="submit" disabled={isExecuting}>{mode === 'create' ? 'Submit Another Category' : 'Review update'}</Button>
+						{hasSucceeded && result.data?.success &&
+							<Button type="submit" disabled={isExecuting}>{mode === 'create' ? 'Submit Another Category' : 'Review update'}</Button>
 
 						}
 					</>
 				) : (
-					<Button type="submit" disabled={isExecuting}>{id ? 'Save' :  'Create'}</Button>
+					<Button type="submit" disabled={isExecuting}>{id ? 'Save' : 'Create'}</Button>
 				)}
 
 
