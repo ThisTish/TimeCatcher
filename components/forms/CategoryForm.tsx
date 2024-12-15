@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useAction } from 'next-safe-action/hooks'
 import { categoryFormSchema, E_Colors } from '@/lib/types'
-import { createCategory } from '@/server/actions/create-category'
+import { createCategory } from '@/server/actions/category/create-category'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/select"
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
-import { getCategory } from '@/server/actions/get-categories'
+import { getCategory } from '@/server/actions/category/get-categories'
 import { useEffect, useState } from 'react'
 import { Color } from '@prisma/client'
 import { backgrounds } from '../providers/ThemeProvider'

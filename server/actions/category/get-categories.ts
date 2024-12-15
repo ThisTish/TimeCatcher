@@ -1,7 +1,7 @@
 "use server"
 
 import { db } from "@/prisma/db"
-import { auth } from "./auth"
+import { auth } from "@/server/actions/auth/auth"
 
 export const getAllCategoriesBasic = async () =>{
 	try {

@@ -1,4 +1,4 @@
-import { auth } from '@/server/actions/auth'
+import { auth } from '@/server/actions/auth/auth'
 import UserBtn from './UserBtn'
 import Link from 'next/link'
 import FormContainer from '../forms/FormContainer'

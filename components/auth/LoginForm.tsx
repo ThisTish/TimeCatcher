@@ -8,7 +8,7 @@ import Link from "next/link"
 import { useRouter } from 'next/navigation'
 import { cn } from "@/lib/utils"
 import { loginFormSchema } from "@/lib/types"
-import { login } from '@/server/actions/login'
+import { login } from '@/server/actions/auth/login'
 import { useState } from "react"
 
 

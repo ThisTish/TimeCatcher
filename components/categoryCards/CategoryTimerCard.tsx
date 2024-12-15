@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button"
 import FormContainer from "../forms/FormContainer"
 import CategoryForm from "../forms/CategoryForm"
 import CategoryTimerCardDropDown from "./CategoryTimerCardDropDown";
+import StartButton from "./timer/TimerButton";
+import TimerButton from "./timer/TimerButton";
 
 type Color = keyof typeof backgrounds;
 
@@ -28,7 +30,7 @@ const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) =
 				>
 					<CategoryForm id={category.id} />
 				</FormContainer>
-				<Button type="button" variant={'outline'} className="text-black">Start</Button>
+				<TimerButton categoryId={category.id}/>
 			</div>
 		</div>
 	)

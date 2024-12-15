@@ -2,7 +2,7 @@
 import { loginFormSchema } from '@/lib/types'
 import { actionClient } from "@/lib/safe-action"
 import { db } from '@/prisma/db'
-import { signIn } from '@/server/actions/auth'
+import { signIn } from '@/server/actions/auth/auth'
 import { generateVerificationToken } from './tokens'
 import { sendVerificationEmail } from './emails'
 import { AuthError } from 'next-auth'

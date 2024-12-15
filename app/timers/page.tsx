@@ -1,7 +1,7 @@
 import CategoryForm from "@/components/forms/CategoryForm"
 import FormContainer from "@/components/forms/FormContainer"
-import { getAllCategoriesBasic } from "@/server/actions/get-categories"
-import CategoryTimerCard from "@/components/categories/CategoryTimerCard"
+import { getAllCategoriesBasic } from "@/server/actions/category/get-categories"
+import CategoryTimerCard from "@/components/categoryCards/CategoryTimerCard"
 
 const TimersPage = async () => {
 

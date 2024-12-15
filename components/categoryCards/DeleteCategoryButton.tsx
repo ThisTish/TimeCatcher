@@ -1,6 +1,6 @@
 "use client"
 
-import deleteCategory from "@/server/actions/delete-category"
+import deleteCategory from "@/server/actions/category/delete-category"
 import { Button } from "../ui/button"
 import { toast } from "sonner"
 import { useAction } from "next-safe-action/hooks"

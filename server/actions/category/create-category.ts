@@ -3,7 +3,7 @@
 import { categoryFormSchema } from "@/lib/types"
 import { actionClient } from "@/lib/safe-action"
 import { db } from "@/prisma/db"
-import { auth } from "@/server/actions/auth"
+import { auth } from "@/server/actions/auth/auth"
 import { Color } from "@prisma/client"
 
 
