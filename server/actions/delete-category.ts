@@ -3,6 +3,7 @@
 import { db } from "@/prisma/db"
 import { actionClient } from "@/lib/safe-action"
 import * as z from 'zod'
+import { revalidatePath } from "next/cache"
 
 
 const deleteCategory = actionClient
@@ -15,6 +16,7 @@ const deleteCategory = actionClient
 				}
 			})
 			console.log(data)
+			revalidatePath('/timers')
 			return { success: `Category ${data.name} deleted successfully` }
 
 		} catch (error) {
