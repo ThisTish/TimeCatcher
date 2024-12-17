@@ -1,6 +1,6 @@
 import CategoryForm from "@/components/forms/CategoryForm"
 import FormContainer from "@/components/forms/FormContainer"
-import { getActiveCategory, getAllCategoriesBasic } from "@/server/actions/category/get-categories"
+import { getAllCategoriesBasic } from "@/server/actions/category/get-categories"
 import CategoryTimerCard from "@/components/categoryCards/CategoryTimerCard"
 
 const TimersPage = async () => {
@@ -8,11 +8,9 @@ const TimersPage = async () => {
 
 	const categories = await getAllCategoriesBasic()
 
-
 	if (categories?.some((category) => category.timeLogs.some((log) => log.running))
 	) {
 		timerActive = true
-
 	}
 
 	if (!categories) return <div>Server Error, please reload page.</div>
