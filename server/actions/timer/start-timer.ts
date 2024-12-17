@@ -4,6 +4,7 @@ import { actionClient } from "@/lib/safe-action"
 import { db } from "@/prisma/db"
 import * as z from 'zod'
 import { auth } from "../auth/auth"
+import { revalidatePath } from "next/cache"
 
 
 export const startTimer = actionClient
@@ -26,6 +27,7 @@ export const startTimer = actionClient
 					userId
 				}
 			})
+			revalidatePath('/timers')
 			return { success: 'Timer started!', newTimer }
 		}
 		catch (error) {

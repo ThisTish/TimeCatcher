@@ -11,7 +11,7 @@ export const createCategory = actionClient
 	.schema(categoryFormSchema)
 	.action(async ({ parsedInput: { name, color, id } }) => {
 
-		if(id){
+		if (id) {
 			try {
 				const updatedCategory = await db.category.update({
 					where: {
@@ -29,26 +29,26 @@ export const createCategory = actionClient
 			}
 		}
 
-		if(!id){
-		const session = await auth()
-		if (!session) return { error: "You must be logged in to create a category" }
-		const userId = session.user?.id?.toString()
-		if(!userId) return { error: "You must be logged in to create a category" }
+		if (!id) {
+			const session = await auth()
+			if (!session) return { error: "You must be logged in to create a category" }
+			const userId = session.user?.id?.toString()
+			if (!userId) return { error: "You must be logged in to create a category" }
 
-		try {
-			const newCategory = await db.category.create({
-				data: {
-					name,
-					color: color.toUpperCase() as Color,
-					userId
-				}
-			})
-		return { success: `${newCategory.name} created!` } // add a goal?${newCategory.id}
+			try {
+				const newCategory = await db.category.create({
+					data: {
+						name,
+						color: color.toUpperCase() as Color,
+						userId
+					}
+				})
+				return { success: `${newCategory.name} created!` } // add a goal?${newCategory.id}
 
-		} catch (error) {
-			console.log(error)
-			return { error: `There was an error creating the category`}
+			} catch (error) {
+				console.log(error)
+				return { error: `There was an error creating the category` }
+			}
 		}
-	}
 
 	})
