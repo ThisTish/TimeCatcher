@@ -9,6 +9,9 @@ const StartButton = ({ categoryId, disabled }: { categoryId: string, disabled: b
 
 
 	const { execute, status } = useAction(startTimer, {
+		// onExecute: (() => {
+		// 	toast.loading('Starting timer...')
+		// }),
 		onSuccess: ((data) => {
 			if (data.data?.success) {
 				console.log(data.data.success)
@@ -21,10 +24,7 @@ const StartButton = ({ categoryId, disabled }: { categoryId: string, disabled: b
 		}),
 		onError: ((error) => {
 			console.log(error)
-		}),
-		// onExecute: (() => {
-		// 	toast.loading('Starting timer...')
-		// })
+		})
 	})
 
 	const handleStart = () => {

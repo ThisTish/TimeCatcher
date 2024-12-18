@@ -8,6 +8,9 @@ import { toast } from "sonner"
 const StopButton = ({ categoryId }: { categoryId: string }) => {
 
 	const { execute, status } = useAction(stopTimer, {
+		// onExecute: (() => {
+		// 	toast.loading('Stopping timer...')
+		// }),
 		onSuccess: ((data) => {
 			if (data.data?.success) {
 				console.log(data.data.success)
@@ -21,15 +24,11 @@ const StopButton = ({ categoryId }: { categoryId: string }) => {
 		onError: ((error) => {
 			console.log(error)
 		}),
-		// onExecute: (() => {
-		// 	toast.loading('Starting timer...')
-		// })
 	})
 
 
 	return (
 		<Button
-			variant={'secondary'}
 			key={categoryId}
 			onClick={() => execute({categoryId})}
 		>

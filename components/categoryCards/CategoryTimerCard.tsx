@@ -5,6 +5,7 @@ import CategoryForm from "../forms/CategoryForm"
 import CategoryTimerCardDropDown from "./CategoryTimerCardDropDown"
 import StartButton from "./timer/StartButton"
 import StopButton from "./timer/StopButton"
+import TimerDisplay from "./timer/TimerDisplay"
 
 type Color = keyof typeof backgrounds
 
@@ -27,6 +28,10 @@ const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) =
 				<CategoryTimerCardDropDown id={category.id} />
 			</div>
 			<h2 className="text-2xl font-bold tracking-wide text-center">{category.name}</h2>
+			{category.running ? (
+				<TimerDisplay />
+				): null
+				}
 			<div className="flex justify-center gap-5">
 				<FormContainer
 					title="Update category details"
