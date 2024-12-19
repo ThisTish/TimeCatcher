@@ -6,7 +6,12 @@ import CategoryTimerCard from "@/components/categoryCards/CategoryTimerCard"
 const TimersPage = async () => {
 	let timerActive = false
 
+	
+	
 	// todo useMemo()
+
+
+
 	const categories = await getAllCategoriesBasic()
 
 	if (categories?.some((category) => category.timeLogs.some((log) => log.running))
