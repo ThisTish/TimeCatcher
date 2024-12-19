@@ -13,12 +13,13 @@ import {
 const ThemeSelector = () => {
 	return (
 		<Select>
-			<SelectTrigger className="w-[180px]">
+			<SelectTrigger className="w-[180px]" aria-label="Select a theme">
 				<SelectValue placeholder="Themes" />
 			</SelectTrigger>
 			<SelectContent className="hover:bg-gradient-to-b from-purple via-yellow  to-blue">
 				<SelectGroup>
 					{/* on hover, setOptimistic? for theme colors */}
+					<SelectLabel>Themes</SelectLabel>
 					<SelectItem value="base">Base</SelectItem>
 					<SelectItem value="retro">Retro</SelectItem>
 					<SelectItem value="neon">Neon</SelectItem>

@@ -10,11 +10,11 @@ import DeleteCategoryButton from "./DeleteCategoryButton";
 const CategoryTimerCardDropDown = ({id}: {id: string}) => {
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger>
+			<DropdownMenuTrigger aria-label="options">
 				<MoreVertical className="p-5" size={58}/>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
-				<DropdownMenuItem>More Details</DropdownMenuItem>
+				<DropdownMenuItem >More Details</DropdownMenuItem>
 				<DropdownMenuItem>
 					<DeleteCategoryButton id={id} />
 				</DropdownMenuItem>

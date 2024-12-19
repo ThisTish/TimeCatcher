@@ -23,7 +23,7 @@ const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) =
 	
 
 	return (
-		<div className={`${backgrounds[category.color]} rounded-md min-w-52 min-h-52 flex flex-col justify-around relative`}>
+		<div className={`${backgrounds[category.color]} rounded-md size-52 flex flex-col justify-around relative`}>
 			<div className="absolute right-0 top-0">
 				<CategoryTimerCardDropDown id={category.id} />
 			</div>

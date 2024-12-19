@@ -5,27 +5,30 @@ import FormContainer from '../forms/FormContainer'
 
 import CategoryForm from '../forms/CategoryForm'
 import ThemeSelector from './ThemeSelector'
+import { Button } from '../ui/button'
 
 const Nav = async () => {
 	const session = await auth()
 
 	return (
 		<header className="bg-slate-400 py-4">
-			<ul className="flex justify-between">
-				<li>
-					<Link href="/">
-						<h1>TimeCatcher</h1>
-					</Link>
-				</li>
+			<nav className="flex justify-between">
+				<Link href="/">
+					<h1>TimeCatcher</h1>
+				</Link>
 				{!session ? (
-					<li>
-						<button>
-							<Link href="/auth/login">SignIn</Link>
-						</button>
-					</li>
+					<ul>
+						<li>
+							<Button asChild >
+								<Link href="/auth/login">Sign In</Link>
+							</Button>
+						</li>
+					</ul>
 				) : (
-					<div className='flex gap-3'>
-						<ThemeSelector />
+					<ul className='flex gap-3'>
+						<li>
+							<ThemeSelector />
+						</li>
 						<li>
 							<Link href={'/timers'}>Timers</Link>
 						</li>
@@ -44,10 +47,10 @@ const Nav = async () => {
 						<li>
 							<UserBtn user={session?.user} expires={session?.expires} />
 						</li>
-					</div>
+					</ul>
 				)
 				}
-			</ul>
+			</nav>
 		</header>
 	)
 }
