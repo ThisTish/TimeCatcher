@@ -6,6 +6,7 @@ import CategoryTimerCardDropDown from "./CategoryTimerCardDropDown"
 import StartButton from "./timer/StartButton"
 import StopButton from "./timer/StopButton"
 import TimerDisplay from "./timer/TimerDisplay"
+import CalculatedTimeDisplay from "./timer/CalculatedTimeDisplay"
 
 type Color = keyof typeof backgrounds
 
@@ -28,9 +29,14 @@ const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) =
 				<CategoryTimerCardDropDown id={category.id} />
 			</div>
 			<h2 className="text-2xl font-bold tracking-wide text-center">{category.name}</h2>
+
+
+			<CalculatedTimeDisplay categoryId={category.id}/>
+
+			
 			{category.running ? (
 				<TimerDisplay />
-				): null
+				): <div></div>
 				}
 			<div className="flex justify-center gap-5">
 				<FormContainer

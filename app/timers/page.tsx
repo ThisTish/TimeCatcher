@@ -14,6 +14,10 @@ const TimersPage = async () => {
 
 	const categories = await getAllCategoriesBasic()
 
+
+
+
+
 	if (categories?.some((category) => category.timeLogs.some((log) => log.running))
 	) {
 		timerActive = true
