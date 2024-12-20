@@ -6,7 +6,7 @@ import CategoryTimerCardDropDown from "./CategoryTimerCardDropDown"
 import StartButton from "./timer/StartButton"
 import StopButton from "./timer/StopButton"
 import TimerDisplay from "./timer/TimerDisplay"
-import CalculatedTimeDisplay from "./timer/CalculatedTimeDisplay"
+import { timeFormat } from "@/lib/time-format"
 
 type Color = keyof typeof backgrounds
 
@@ -16,13 +16,16 @@ type CategoryTimerCardProps = {
 	color: Color
 	running: boolean
 	disabled: boolean
+	totalTime: number
 }
 
 
 const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) => {
 
-	
+	const { hours, minutes, seconds } = timeFormat(category.totalTime/1000 || 0)
 
+
+	console.log(category)
 	return (
 		<div className={`${backgrounds[category.color]} rounded-md size-52 flex flex-col justify-around relative`}>
 			<div className="absolute right-0 top-0">
@@ -30,10 +33,11 @@ const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) =
 			</div>
 			<h2 className="text-2xl font-bold tracking-wide text-center">{category.name}</h2>
 
+				<div className="text-center text-xs font-light">
+					<p>Total Time</p>
+					<time>{hours} h {minutes} m {seconds} s</time>
+				</div>
 
-			<CalculatedTimeDisplay categoryId={category.id}/>
-
-			
 			{category.running ? (
 				<TimerDisplay />
 				): <div></div>
@@ -50,7 +54,7 @@ const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) =
 				<StopButton categoryId={category.id} /> :
 					<StartButton categoryId={category.id} disabled={category.disabled}/>
 				}
-			</div>
+			</div> 
 		</div>
 	)
 }

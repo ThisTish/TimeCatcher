@@ -1,31 +1,25 @@
 import CategoryForm from "@/components/forms/CategoryForm"
 import FormContainer from "@/components/forms/FormContainer"
-import { getAllCategoriesBasic } from "@/server/actions/category/get-categories"
+import { getCategoryCardData } from "@/server/actions/category/get-categories"
 import CategoryTimerCard from "@/components/categoryCards/CategoryTimerCard"
 
 const TimersPage = async () => {
-	let timerActive = false
 
-	
-	
 	// todo useMemo()
 
+	const {data, success, error} = await getCategoryCardData()
 
+	if(error) throw new Error(error)
 
-	const categories = await getAllCategoriesBasic()
+	if(!data) throw new Error('Error fetching data, please try again')
 
+		const categories = data
 
+		const runningTimer = categories.find((category) => category.timeLogs.some((log) => log.running))
 
-
-
-	if (categories?.some((category) => category.timeLogs.some((log) => log.running))
-	) {
-		timerActive = true
-	}
-
-	if (!categories) return <div>Server Error, please reload page.</div>
-
-	if (categories === null || categories.length === 0) return <div className="flex gap-1">
+	if(success)
+// !test
+	return <div className="flex gap-1">
 		<p>Start by adding a category</p>
 		<FormContainer
 			title='Create a new category'
@@ -49,8 +43,9 @@ const TimersPage = async () => {
 							id: category.id,
 							name: category.name,
 							color: category.color,
-							running: category.timeLogs.some((log) => log.running) ? true : false,
-							disabled: timerActive && !category.timeLogs.some((log) => log.running) ? true : false
+							running: runningTimer?.id === category.id ? true : false,
+							disabled: runningTimer && runningTimer.id !== category.id ? true : false,
+							totalTime: category.timeLogs.reduce((acc, log) => acc + (log.timePassed ?? 0), 0)
 						}}
 					/>
 				)}

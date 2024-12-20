@@ -9,7 +9,7 @@ import { revalidatePath } from "next/cache"
 
 export const startTimer = actionClient
 	.schema(z.object({categoryId: z.string()}))
-	.action(async ({ parsedInput: { categoryId }  }) => {
+	.action(async ({ parsedInput: { categoryId } }) => {
 
 		try {
 				const session = await auth()
