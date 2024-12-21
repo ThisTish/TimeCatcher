@@ -33,7 +33,13 @@ import { backgrounds } from '../providers/ThemeProvider'
 
 const colorItems = Object.values(E_Colors).filter(color => color !== E_Colors.WHITE)
 
-const CategoryForm = ({ id }: { id?: string }) => {
+type CategoryFormProps = {
+	id?: string
+	categoryName?: string
+	categoryColor?: E_Colors
+}
+
+const CategoryForm = ({ id, categoryName, categoryColor }: CategoryFormProps) => {
 	const [mode, setMode] = useState<'create' | 'edit'>('create')
 
 	const categoryForm = useForm<z.infer<typeof categoryFormSchema>>({
@@ -45,32 +51,42 @@ const CategoryForm = ({ id }: { id?: string }) => {
 		mode: 'onChange'
 	})
 
+	useEffect(() =>{
+		console.log(categoryColor)
+		if(id && categoryName && categoryColor){
+			categoryForm.setValue('name', categoryName)
+			categoryForm.setValue('color', categoryColor)
+			categoryForm.setValue('id', id)
+		}
+
+	}, [id, categoryName, categoryColor])
+
 
 	const router = useRouter()
 
-	const findEditableCategory = async (id: string) => {
-		if (id) {
-			const data = await getCategory(id)
+	// const findEditableCategory = async (id: string) => {
+	// 	if (id) {
+	// 		const data = await getCategory(id)
 
-			if (data.error) {
-				toast.error(data.error)
-				router.push('/timers')
-				return
-			}
+	// 		if (data.error) {
+	// 			toast.error(data.error)
+	// 			router.push('/timers')
+	// 			return
+	// 		}
 
-			if (data.success) {
-				categoryForm.setValue('name', data.success[0].name)
-				categoryForm.setValue('color', data.success[0].color)
-				categoryForm.setValue('id', data.success[0].id)
-			}
-		}
-	}
+	// 		if (data.success) {
+	// 			categoryForm.setValue('name', data.success[0].name)
+	// 			categoryForm.setValue('color', data.success[0].color)
+	// 			categoryForm.setValue('id', data.success[0].id)
+	// 		}
+	// 	}
+	// }
 
-	useEffect(() => {
-		if (id) {
-			findEditableCategory(id)
-		}
-	}, [id])
+	// useEffect(() => {
+	// 	if (id) {
+	// 		findEditableCategory(id)
+	// 	}
+	// }, [id])
 
 	const { execute, result, isExecuting, hasErrored, hasSucceeded } = useAction(createCategory, {
 		onSuccess: (data) => {
@@ -86,7 +102,7 @@ const CategoryForm = ({ id }: { id?: string }) => {
 						description: 'Continue to add more, or click Done to close the form'
 					})
 				}
-				
+
 				categoryForm.reset()
 			}
 			if (data.data?.error) {
@@ -155,7 +171,7 @@ const CategoryForm = ({ id }: { id?: string }) => {
 						<FormItem>
 							<FormLabel>Category Color</FormLabel>
 							<FormControl >
-								<Select onValueChange={field.onChange} value={field.value}>
+								<Select onValueChange={field.onChange} value={field.value || ''}>
 									<SelectTrigger >
 										<SelectValue placeholder={<WhiteSelectItem label={'white'} />} />
 									</SelectTrigger>
