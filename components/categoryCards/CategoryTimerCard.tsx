@@ -17,15 +17,14 @@ type CategoryTimerCardProps = {
 	running: boolean
 	disabled: boolean
 	totalTime: number
+	startTime?: Date
 }
-
 
 const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) => {
 
 	const { hours, minutes, seconds } = timeFormat(category.totalTime/1000 || 0)
 
 
-	console.log(category)
 	return (
 		<div className={`${backgrounds[category.color]} rounded-md size-52 flex flex-col justify-around relative`}>
 			<div className="absolute right-0 top-0">
@@ -38,8 +37,8 @@ const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) =
 					<time>{hours} h {minutes} m {seconds} s</time>
 				</div>
 
-			{category.running ? (
-				<TimerDisplay />
+			{category.running && category.startTime? (
+				<TimerDisplay startTime={category.startTime}/>
 				): <div></div>
 				}
 			<div className="flex justify-center gap-5">
