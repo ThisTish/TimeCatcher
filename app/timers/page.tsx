@@ -15,8 +15,7 @@ const TimersPage = async () => {
 
 		const categories = data
 
-		const runningCategory = categories.find((category) => category.timeLogs.some((log) => log.running))
-		const startTime = runningCategory?.timeLogs.find((log) => log.running)?.startTime
+		const runningTimer = categories.find((category) => category.timeLogs.some((log) => log.running))
 
 	if(success)
 // !test
@@ -44,10 +43,9 @@ const TimersPage = async () => {
 							id: category.id,
 							name: category.name,
 							color: category.color,
-							running: runningCategory?.id === category.id ? true : false,
-							disabled: runningCategory && runningCategory.id !== category.id ? true : false,
-							totalTime: category.timeLogs.reduce((acc, log) => acc + (log.timePassed ?? 0), 0),
-							startTime
+							running: runningTimer?.id === category.id ? true : false,
+							disabled: runningTimer && runningTimer.id !== category.id ? true : false,
+							totalTime: category.timeLogs.reduce((acc, log) => acc + (log.timePassed ?? 0), 0)
 						}}
 					/>
 				)}

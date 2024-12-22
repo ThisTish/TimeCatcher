@@ -18,14 +18,16 @@ type CategoryTimerCardProps = {
 	running: boolean
 	disabled: boolean
 	totalTime: number
-	startTime?: Date
+	startTime?: number
 }
+
 
 const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) => {
 
 	const { hours, minutes, seconds } = timeFormat(category.totalTime / 1000 || 0)
 
 
+	console.log(category)
 	return (
 		<div className={`${backgrounds[category.color]} rounded-md size-52 flex flex-col justify-around relative`}>
 			{/* category options */}
@@ -47,6 +49,7 @@ const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) =
 			}
 
 			{/* edit category */}
+
 			<div className="flex justify-center gap-5">
 				<FormContainer
 					title="Update category details"

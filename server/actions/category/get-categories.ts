@@ -20,6 +20,42 @@ export const getCategory = async (id: string) => {
 }
 
 
+export const getActiveCategory = async () => {
+
+// todo useCallBack or add into following function ('getCategoryCardData')
+
+	try {
+		const session = await auth()
+		if (!session) return
+		const userId = session.user.id.toString()
+
+		const activeCategory = await db.category.findFirst({
+			where: {
+				userId,
+				timeLogs: {
+					some: {
+						running: true
+					}
+				}
+			},
+			include: {
+				timeLogs: {
+					where: {
+						running: true
+					}
+				}
+			}
+		})
+
+		if (!activeCategory) return
+
+		return activeCategory
+	}
+	catch (error) {
+		return { error: "Error finding active category" }
+	}
+}
+
 export const getCategoryCardData = async () => {
 	try {
 		const session = await auth()
