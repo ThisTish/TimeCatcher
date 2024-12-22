@@ -14,7 +14,7 @@ type Color = keyof typeof backgrounds
 type CategoryTimerCardProps = {
 	id: string
 	name: string
-	color: Color
+	color: E_Colors
 	running: boolean
 	disabled: boolean
 	totalTime: number
@@ -27,7 +27,6 @@ const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) =
 	const { hours, minutes, seconds } = timeFormat(category.totalTime / 1000 || 0)
 
 
-	console.log(category)
 	return (
 		<div className={`${backgrounds[category.color]} rounded-md size-52 flex flex-col justify-around relative`}>
 			{/* category options */}
@@ -56,7 +55,7 @@ const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) =
 					description="Change the name or color of the category"
 					openButtonLabel="Edit"
 				>
-					<CategoryForm id={category.id} categoryName={category.name} categoryColor={category.color as E_Colors} />
+					<CategoryForm id={category.id} categoryName={category.name} categoryColor={category.color as E_Colors } />
 				</FormContainer>
 
 				{/* start/stop timer button */}

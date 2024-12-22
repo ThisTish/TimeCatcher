@@ -2,6 +2,7 @@ import CategoryForm from "@/components/forms/CategoryForm"
 import FormContainer from "@/components/forms/FormContainer"
 import { getCategoryCardData } from "@/server/actions/category/get-categories"
 import CategoryTimerCard from "@/components/categoryCards/CategoryTimerCard"
+import { E_Colors } from "@/lib/types"
 
 const TimersPage = async () => {
 
@@ -42,7 +43,7 @@ const TimersPage = async () => {
 						category={{
 							id: category.id,
 							name: category.name,
-							color: category.color,
+							color: category.color as E_Colors,
 							running: runningTimer?.id === category.id ? true : false,
 							disabled: runningTimer && runningTimer.id !== category.id ? true : false,
 							totalTime: category.timeLogs.reduce((acc, log) => acc + (log.timePassed ?? 0), 0)

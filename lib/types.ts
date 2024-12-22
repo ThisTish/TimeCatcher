@@ -77,6 +77,6 @@ export const categoryFormSchema = z.object({
 	name: z.string().min(3, {
 		message: "Please use at least 3 characters.",
 	}),
-	color: z.enum(Object.values(E_Colors) as [string, ...string[]]),
+	color: z.nativeEnum(E_Colors),
 	id: z.string().optional()
 })

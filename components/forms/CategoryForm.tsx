@@ -33,6 +33,7 @@ import { backgrounds } from '../providers/ThemeProvider'
 
 const colorItems = Object.values(E_Colors).filter(color => color !== E_Colors.WHITE)
 
+
 type CategoryFormProps = {
 	id?: string
 	categoryName?: string
@@ -40,71 +41,44 @@ type CategoryFormProps = {
 }
 
 const CategoryForm = ({ id, categoryName, categoryColor }: CategoryFormProps) => {
-	const [mode, setMode] = useState<'create' | 'edit'>('create')
+	const [buttonLabel, setButtonLabel] = useState('Add another')
 
 	const categoryForm = useForm<z.infer<typeof categoryFormSchema>>({
 		resolver: zodResolver(categoryFormSchema),
 		defaultValues: {
-			name: '',
-			color: E_Colors.WHITE
+			id: id ? id : undefined,
+			name: id ? categoryName : '',
+			color: id ? categoryColor : E_Colors.WHITE
 		},
 		mode: 'onChange'
 	})
 
-	useEffect(() =>{
-		console.log(categoryColor)
-		if(id && categoryName && categoryColor){
-			categoryForm.setValue('name', categoryName)
-			categoryForm.setValue('color', categoryColor)
-			categoryForm.setValue('id', id)
-		}
-
-	}, [id, categoryName, categoryColor])
-
 
 	const router = useRouter()
 
-	// const findEditableCategory = async (id: string) => {
-	// 	if (id) {
-	// 		const data = await getCategory(id)
 
-	// 		if (data.error) {
-	// 			toast.error(data.error)
-	// 			router.push('/timers')
-	// 			return
-	// 		}
-
-	// 		if (data.success) {
-	// 			categoryForm.setValue('name', data.success[0].name)
-	// 			categoryForm.setValue('color', data.success[0].color)
-	// 			categoryForm.setValue('id', data.success[0].id)
-	// 		}
-	// 	}
-	// }
-
-	// useEffect(() => {
-	// 	if (id) {
-	// 		findEditableCategory(id)
-	// 	}
-	// }, [id])
 
 	const { execute, result, isExecuting, hasErrored, hasSucceeded } = useAction(createCategory, {
 		onSuccess: (data) => {
 			if (data.data?.success) {
 				router.push('/timers')
-				if (mode === 'edit') {
+
+
+				if (id) {
 					toast.success(data.data.success, {
 						description: 'Update successful! If you are finished, click Done to close the form'
 					})
+					setButtonLabel('Save new updates')
 				}
-				if (mode === 'create') {
+				if (!id) {
 					toast.success(data.data.success, {
 						description: 'Continue to add more, or click Done to close the form'
 					})
+					categoryForm.reset()
 				}
 
-				categoryForm.reset()
 			}
+
 			if (data.data?.error) {
 				toast.error(data.data.error)
 				console.log(data.data.error)
@@ -171,7 +145,7 @@ const CategoryForm = ({ id, categoryName, categoryColor }: CategoryFormProps) =>
 						<FormItem>
 							<FormLabel>Category Color</FormLabel>
 							<FormControl >
-								<Select onValueChange={field.onChange} value={field.value || ''}>
+								<Select onValueChange={field.onChange} value={field.value}>
 									<SelectTrigger >
 										<SelectValue placeholder={<WhiteSelectItem label={'white'} />} />
 									</SelectTrigger>
@@ -180,8 +154,8 @@ const CategoryForm = ({ id, categoryName, categoryColor }: CategoryFormProps) =>
 											<div className={`size-5 bg-WHITE border-gray border inline-block mr-3 -mb-1 rounded-sm`}></div>
 											{E_Colors.WHITE.toLowerCase()}
 										</SelectItem>
-										{colorItems.map((color, index) => (
-											<SelectItem key={index} value={(color)}>
+										{colorItems.map((color) => (
+											<SelectItem key={color} value={color}>
 												<div className={`size-5 ${backgrounds[color.toUpperCase() as Color]} inline-block mr-3 -mb-1 rounded-sm`}></div>
 												{color.valueOf().toLowerCase()}
 											</SelectItem>
@@ -200,7 +174,7 @@ const CategoryForm = ({ id, categoryName, categoryColor }: CategoryFormProps) =>
 							<Button type="submit" disabled={isExecuting}>Try Again</Button>
 						}
 						{hasSucceeded && result.data?.success &&
-							<Button type="submit" disabled={isExecuting}>{mode === 'create' ? 'Submit Another Category' : 'Review update'}</Button>
+							<Button type="submit" disabled={isExecuting}>{buttonLabel}</Button>
 
 						}
 					</>
