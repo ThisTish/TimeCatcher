@@ -18,7 +18,7 @@ type CategoryTimerCardProps = {
 	running: boolean
 	disabled: boolean
 	totalTime: number
-	startTime?: number
+	startTime?: Date
 }
 
 
@@ -47,8 +47,7 @@ const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) =
 			) : <div></div>
 			}
 
-			{/* edit category */}
-
+			{/* edit category button*/}
 			<div className="flex justify-center gap-5">
 				<FormContainer
 					title="Update category details"

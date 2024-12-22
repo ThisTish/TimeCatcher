@@ -6,31 +6,29 @@ import { E_Colors } from "@/lib/types"
 
 const TimersPage = async () => {
 
-	// todo useMemo()
+	const { success, error } = await getCategoryCardData()
 
-	const {data, success, error} = await getCategoryCardData()
+	if (error) throw new Error(error)
 
-	if(error) throw new Error(error)
 
-	if(!data) throw new Error('Error fetching data, please try again')
+	const categories = success
 
-		const categories = data
 
-		const runningTimer = categories.find((category) => category.timeLogs.some((log) => log.running))
-
-	if(success)
-// !test
-	return <div className="flex gap-1">
-		<p>Start by adding a category</p>
-		<FormContainer
-			title='Create a new category'
-			description='Choose a name and color for a new category to track'
-			openButtonLabel='Here'
-		>
-			<CategoryForm />
-		</FormContainer>
-	</div>
-
+	if (categories?.length === 0 || !categories)
+		return (
+		<div className="flex gap-1">
+			<p>Start by adding a category</p>
+			<FormContainer
+				title='Create a new category'
+				description='Choose a name and color for a new category to track'
+				openButtonLabel='Here'
+			>
+				<CategoryForm />
+			</FormContainer>
+		</div>
+		)
+const runningCategory = categories.find((category) => category.timeLogs.some((log) => log.running))
+const startTime = runningCategory?.timeLogs.find((log) => log.running)?.startTime
 
 
 	return (
@@ -44,9 +42,10 @@ const TimersPage = async () => {
 							id: category.id,
 							name: category.name,
 							color: category.color as E_Colors,
-							running: runningTimer?.id === category.id ? true : false,
-							disabled: runningTimer && runningTimer.id !== category.id ? true : false,
-							totalTime: category.timeLogs.reduce((acc, log) => acc + (log.timePassed ?? 0), 0)
+							running: runningCategory?.id === category.id ? true : false,
+							disabled: runningCategory && runningCategory.id !== category.id ? true : false,
+							totalTime: category.timeLogs.reduce((acc, log) => acc + (log.timePassed ?? 0), 0),
+							startTime
 						}}
 					/>
 				)}

@@ -1,10 +1,10 @@
 "use client"
 
 import { timeFormat } from "@/lib/time-format"
-import { getActiveCategory } from "@/server/actions/category/get-categories"
+// import { getActiveCategory } from "@/server/actions/category/get-categories"
 import { useEffect, useState } from "react"
 
-const TimerDisplay = ({startTime}: {startTime: number}) => {
+const TimerDisplay = ({startTime}: {startTime: Date}) => {
 
 	const [time, setTime] = useState(0)
 
@@ -17,17 +17,12 @@ const TimerDisplay = ({startTime}: {startTime: number}) => {
 		let timerInterval: NodeJS.Timeout | null = null;
 
 		const setTimer = async () => {
-			const activeTimer = await getActiveCategory()
-			if (!activeTimer) return
-			if ('timeLogs' in activeTimer && activeTimer.timeLogs[0]) {
-				const startTime = activeTimer.timeLogs[0].startTime.getTime()
+			timerInterval = setInterval(() =>{
+				const currentTime = new Date().getTime()
+				const timePassed = currentTime - startTime.getTime()
+				setTime(timePassed)
+			}, 1000)
 
-				timerInterval = setInterval(() =>{
-					const currentTime = new Date().getTime()
-					const timePassed = currentTime - startTime
-					setTime(timePassed)
-				}, 1000)
-			}
 			return () => {
 				if (timerInterval) {
 					clearInterval(timerInterval)
@@ -35,6 +30,7 @@ const TimerDisplay = ({startTime}: {startTime: number}) => {
 			}
 		}
 		setTimer()
+
 	}, [])
 
 	const { hours, minutes, seconds } = timeFormat(time /1000) 

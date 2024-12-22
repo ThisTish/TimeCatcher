@@ -20,7 +20,7 @@ const deleteCategory = actionClient
 			return { success: `Category ${data.name} deleted successfully` }
 
 		} catch (error) {
-			return { error: 'Error occurred while deleting category' }
+			return { error: `Error occurred while deleting category ${error}` }
 		}
 	})
 
