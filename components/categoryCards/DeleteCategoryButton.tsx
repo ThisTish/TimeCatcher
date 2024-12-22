@@ -22,7 +22,7 @@ const DeleteCategoryButton = ({ id }: { id: string }) => {
 		},
 		onError: (error) => {
 			console.log(error)
-		},
+		}
 	})
 
 

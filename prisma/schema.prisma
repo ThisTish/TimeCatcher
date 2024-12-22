@@ -120,7 +120,7 @@ model TimeLog {
   timePassed Float
   running Boolean
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  category Category @relation(fields: [categoryId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   @@index([userId])
   @@index([categoryId])
 }
