@@ -61,7 +61,12 @@ const CategoryPage = () => {
 		<>
 			<h1>{category?.name}</h1>
 			<p>{category?.color}</p>
-			<TimeLogTable timeLogs={category?.timeLogs || []}/>
+			{category?.timeLogs && category?.timeLogs.length > 0
+			? (
+				<TimeLogTable timeLogs={category?.timeLogs || []}/>
+			)
+				: null
+			}
 			
 				{/* <div key={timelog.id}>
 					<time>{timelog.startTime.getFullYear()}</time>

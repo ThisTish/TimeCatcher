@@ -3,7 +3,7 @@ import TimeLogTableRow from "./TimeLogTableRow"
 
 const TimeLogTable = ({ timeLogs }: { timeLogs: TimeLog[] }) => {
 	return (
-		<table align="center">
+		<table align="center" >
 			<thead>
 				<tr>
 					<th>Started</th>
