@@ -1,6 +1,7 @@
 "use server"
 
 import { actionClient } from "@/lib/safe-action"
+import { timeFormat } from "@/lib/time-format"
 import { db } from "@/prisma/db"
 import { revalidatePath } from "next/cache"
 import * as z from 'zod'
@@ -35,11 +36,19 @@ export const stopTimer = actionClient
 						category: true
 					}
 				})
-				
-				if(!updatedTimeLog) return
 
+				if (!updatedTimeLog) return
 				revalidatePath('/timers')
-				return { success: `Timer stopped for ${updatedTimeLog.category.name}.  ${timePassed} caught!` }
+
+				let { hours, minutes, seconds } = timeFormat(timePassed / 1000)
+
+				if (hours === 0  && minutes === 0) {
+					return { success: `Timer stopped for ${updatedTimeLog.category.name}.  You caught ${seconds} seconds!` }
+				} else if (hours === 0) {
+					return { success: `Timer stopped for ${updatedTimeLog.category.name}.  You caught ${minutes} minutes and ${seconds} seconds!` }
+				} else {
+					return { success: `Timer stopped for ${updatedTimeLog.category.name}.  You caught ${hours} hours, ${minutes} minutes and ${seconds} seconds!` }
+				}
 			}
 
 		} catch (error) {
