@@ -10,10 +10,9 @@ const TimersPage = async () => {
 
 	if (error) throw new Error(error)
 
-
 	const categories = success
 
-
+// No categories display
 	if (categories?.length === 0 || !categories)
 		return (
 		<div className="flex gap-1">
@@ -27,10 +26,12 @@ const TimersPage = async () => {
 			</FormContainer>
 		</div>
 		)
+
+// Running category/timer logic
 const runningCategory = categories.find((category) => category.timeLogs.some((log) => log.running))
-const startTime = runningCategory?.timeLogs.find((log) => log.running)?.startTime
+const runningTimer = runningCategory?.timeLogs.find((log) => log.running)
 
-
+// Categories to display
 	return (
 		<div>
 			<h1>Timers</h1>
@@ -45,7 +46,8 @@ const startTime = runningCategory?.timeLogs.find((log) => log.running)?.startTim
 							running: runningCategory?.id === category.id ? true : false,
 							disabled: runningCategory && runningCategory.id !== category.id ? true : false,
 							totalTime: category.timeLogs.reduce((acc, log) => acc + (log.timePassed ?? 0), 0),
-							startTime
+							startTime: runningTimer?.startTime,
+							timeLogId: runningTimer?.id
 						}}
 					/>
 				)}

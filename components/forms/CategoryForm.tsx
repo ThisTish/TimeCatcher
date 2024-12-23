@@ -26,7 +26,6 @@ import {
 } from "@/components/ui/select"
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
-import { getCategory } from '@/server/actions/category/get-categories'
 import { useEffect, useState } from 'react'
 import { Color } from '@prisma/client'
 import { backgrounds } from '../providers/ThemeProvider'

@@ -13,9 +13,9 @@ export const startTimer = actionClient
 
 		try {
 				const session = await auth()
-					if (!session) return { error: "You must be logged in to create a category" }
+					if (!session) return { error: "You must be logged in to catch time" }
 					const userId = session.user?.id?.toString()
-					if(!userId) return { error: "You must be logged in to create a category" }
+					if(!userId) return { error: "You must be logged in to catch time" }
 
 
 			const newTimer = await db.timeLog.create({

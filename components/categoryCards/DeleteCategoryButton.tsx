@@ -5,6 +5,7 @@ import { Button } from "../ui/button"
 import { toast } from "sonner"
 import { useAction } from "next-safe-action/hooks"
 
+// todo text red, hover-textwhite bg red
 
 const DeleteCategoryButton = ({ id }: { id: string }) => {
 

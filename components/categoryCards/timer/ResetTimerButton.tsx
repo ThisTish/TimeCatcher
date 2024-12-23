@@ -1,14 +1,15 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
+import resetTimer from "@/server/actions/timer/resetTimer"
 import { useAction } from "next-safe-action/hooks"
-import { Button } from "../../ui/button"
-import startTimer from "@/server/actions/timer/start-timer"
 import { toast } from "sonner"
 
-const StartButton = ({ categoryId, disabled }: { categoryId: string, disabled: boolean }) => {
+
+const ResetTimerButton = ({timeLogId}: {timeLogId: string}) => {
 
 
-	const { execute, status } = useAction(startTimer, {
+	const { execute, status } = useAction(resetTimer, {
 		onSuccess: ((data) => {
 			if (data.data?.success) {
 				console.log(data.data.success)
@@ -24,25 +25,24 @@ const StartButton = ({ categoryId, disabled }: { categoryId: string, disabled: b
 		})
 	})
 
-	const handleStart = () => {
-		execute({ categoryId })
+	const handleReset = () => {
+		execute({ timeLogId })
 	}
 
 	return (
 		<Button
 			type="button"
-			variant={'outline'}
+			variant={'secondary'}
 			className="text-black"
-			onClick={handleStart}
-			disabled={status === 'executing' || disabled}
+			onClick={handleReset}
 		>
 			{status === 'executing' ?
-				'Starting... '
+				'resetting... '
 				:
-				'Start'
+				'Reset'
 			}
 		</Button>
 	)
 }
 
-export default StartButton
+export default ResetTimerButton
