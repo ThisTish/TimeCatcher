@@ -4,20 +4,24 @@ import { db } from "@/prisma/db"
 import { auth } from "@/server/actions/auth/auth"
 
 
-// export const getCategory = async (id: string) => {
-// 	try {
-// 		const categoryData = await db.category.findMany({
-// 			where: {
-// 				id
-// 			}
-// 		})
+export const getCategory = async (id: string) => {
+	try {
+		const categoryData = await db.category.findFirst({
+			where: {
+				id
+			},
+			include:{
+				// goals: true,
+				timeLogs: true
+			}
+		})
 
-// 		return { success: categoryData }
+		return { success: categoryData }
 
-// 	} catch (error) {
-// 		return { error: "Category not found" }
-// 	}
-// }
+	} catch (error) {
+		return { error: "Category not found" }
+	}
+}
 
 
 // export const getActiveCategory = async () => {

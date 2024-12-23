@@ -37,7 +37,7 @@ const ResetTimerButton = ({timeLogId}: {timeLogId: string}) => {
 			onClick={handleReset}
 		>
 			{status === 'executing' ?
-				'resetting... '
+				'Resetting... '
 				:
 				'Reset'
 			}

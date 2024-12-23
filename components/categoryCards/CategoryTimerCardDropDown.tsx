@@ -9,6 +9,7 @@ import DeleteCategoryButton from "./DeleteCategoryButton";
 import FormContainer from "../forms/FormContainer";
 import CategoryForm from "../forms/CategoryForm";
 import { E_Colors } from "@/lib/types";
+import Link from "next/link";
 
 const CategoryTimerCardDropDown = ({id, name, color}: {id: string, name: string, color: E_Colors}) => {
 	return (
@@ -18,7 +19,11 @@ const CategoryTimerCardDropDown = ({id, name, color}: {id: string, name: string,
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
 				{/* More Details */}
-				<DropdownMenuItem >More Details</DropdownMenuItem>
+				<DropdownMenuItem >
+					<Link href={`/categories/${id}`}>
+						More Details
+					</Link>
+					</DropdownMenuItem>
 				{/* Delete */}
 				<DropdownMenuItem>
 					<DeleteCategoryButton id={id} />

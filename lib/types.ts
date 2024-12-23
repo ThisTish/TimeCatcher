@@ -80,3 +80,13 @@ export const categoryFormSchema = z.object({
 	color: z.nativeEnum(E_Colors),
 	id: z.string().optional()
 })
+
+
+export type TimeLog = {
+	id: string
+    categoryId: string
+    startTime: Date
+    endTime: Date | null
+    timePassed: number
+    running: boolean
+} | undefined
