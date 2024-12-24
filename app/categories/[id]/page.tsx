@@ -1,13 +1,8 @@
 "use client"
 
-import CategoryContainer from "@/components/categoryPage/CategoryContainer"
 import TimeLogTable from "@/components/categoryPage/TimeLogTable"
-import { timeFormat } from "@/lib/time-format"
-import { E_Colors } from "@/lib/types"
 import { getCategory } from "@/server/actions/category/get-categories"
 import { $Enums } from "@prisma/client"
-import { time, timeLog } from "console"
-// import { CategoriesContext, useCategories } from "@/components/providers/CategoriesProvider"
 import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
@@ -48,33 +43,28 @@ const CategoryPage = () => {
 			}
 		}
 	
-
 	useEffect(() =>{
 		if(categoryId){
 			detailedCategory(categoryId.toString())
 		}
 	}, [])
+
 	if(categoryId){
 	console.dir(category)
 	}
+
 	return (
 		<>
 			<h1>{category?.name}</h1>
 			<p>{category?.color}</p>
-			{category?.timeLogs && category?.timeLogs.length > 0
-			? (
-				<TimeLogTable timeLogs={category?.timeLogs || []}/>
-			)
-				: null
+				{category?.timeLogs.length === 0 || !category?.timeLogs ? (
+					
+					null
+				): (
+					<TimeLogTable timeLogs={category?.timeLogs}/>
+				)
 			}
-			
-				{/* <div key={timelog.id}>
-					<time>{timelog.startTime.getFullYear()}</time>
-					<time>{timelog.endTime ? `${timelog.endTime.getTime()}` : ''}</time>
-					<p>{timelog.timePassed}</p>
-					<p>{timelog.running ? 'true' : 'false'}</p>
-				</div> */}
-			
+						
 		</>
 	)
 }

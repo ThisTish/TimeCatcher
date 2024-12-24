@@ -84,9 +84,9 @@ export const categoryFormSchema = z.object({
 
 export type TimeLog = {
 	id: string
-    categoryId: string
+    categoryId?: string
     startTime: Date
     endTime: Date | null
     timePassed: number
     running: boolean
-} | undefined
+} | undefined | null

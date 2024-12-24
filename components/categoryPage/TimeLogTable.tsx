@@ -1,9 +1,45 @@
 import { TimeLog } from "@/lib/types"
-import TimeLogTableRow from "./TimeLogTableRow"
+import { Button } from "../ui/button"
+import DataTable from "../ui/DataTable"
+import {TimeLogColumns} from "../categoryCards/timer/TimeLogColumns"
 
-const TimeLogTable = ({ timeLogs }: { timeLogs: TimeLog[] }) => {
+const TimeLogTable = ({ timeLogs }: { timeLogs?: TimeLog[] }) => {
+	console.dir(timeLogs)
+	// if(!timeLogs || timeLogs.length === 0) throw new Error('Timelogs not found')
+
+	const dataTable = timeLogs?.map((timeLog) => {
+		if (!timeLog) return null;
+		return {
+			id: timeLog.id,
+			startTime: timeLog.startTime,
+			endTime: timeLog.endTime ?? null,
+			timePassed: timeLog.timePassed,
+			running: timeLog.running
+		}
+	})
+
+	if(!dataTable) throw new Error('Data not found')
+
+
 	return (
-		<table align="center" >
+		<div>
+			<DataTable 
+			columns={TimeLogColumns} 
+			data={dataTable} 
+			title="Timelogs" 
+			description="View, edit, organize, and delete timelogs" 
+			placeholder="Search by date"
+			/>
+		</div>
+	)
+}
+
+export default TimeLogTable
+
+
+
+// trying on my own:
+{/* <table  >
 			<thead>
 				<tr>
 					<th>Started</th>
@@ -13,12 +49,17 @@ const TimeLogTable = ({ timeLogs }: { timeLogs: TimeLog[] }) => {
 				</tr>
 			</thead>
 			<tbody>
-				{timeLogs?.map((timeLog)=>(
-					<TimeLogTableRow timeLog={timeLog} key={timeLog?.id}/>
+				{timeLogs?.map((timeLog) => (
+					<TimeLogTableRow timeLog={timeLog} key={timeLog?.id} />
 				))}
 			</tbody>
-		</table>
-	)
-}
-
-export default TimeLogTable
+			<tfoot>
+				<tr>
+					<td align="right" colSpan={4}>
+						<Button>
+							Add a Timelog
+						</Button>
+					</td>
+				</tr>
+			</tfoot>
+		</table> */}
