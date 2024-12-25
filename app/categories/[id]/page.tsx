@@ -1,8 +1,10 @@
 "use client"
 
 import TimeLogTable from "@/components/categoryPage/TimeLogTable"
+import { Button } from "@/components/ui/button"
 import { getCategory } from "@/server/actions/category/get-categories"
 import { $Enums } from "@prisma/client"
+import Link from "next/link"
 import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
@@ -56,6 +58,7 @@ const CategoryPage = () => {
 	return (
 		<>
 			<h1>{category?.name}</h1>
+			<Link href="/timers">Timers</Link>
 			<p>{category?.color}</p>
 				{category?.timeLogs.length === 0 || !category?.timeLogs ? (
 					

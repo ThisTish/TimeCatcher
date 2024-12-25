@@ -41,17 +41,35 @@ interface DataTableProps<TData, TValue> {
 	placeholder: string
 }
 
+
 const DataTable = <TData, TValue>({ columns, data, title, description, placeholder }: DataTableProps<TData, TValue>) => {
+	const [currentData, setCurrentData] = useState<TData[]>(data)
 	const [sorting, setSorting] = useState<SortingState>([])
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
 
 	const table = useReactTable({
-		data,
+		data: currentData,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
 		groupedColumnMode: false,
+		meta: {
+			updateData: (rowIndex: number, columnId: string, value: any) =>
+				setCurrentData((prev) =>
+					prev.map((row, index) =>
+						index === rowIndex
+							? {
+								...row,
+								[columnId]: value,
+							}
+							: row
+					)
+				),
+		},
+
+
+
 		// getFilteredRowModel: getFilteredRowModel(),
 		// onColumnFiltersChange: setColumnFilters,
 		// state: {
@@ -59,7 +77,7 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 		// 	columnFilters
 		// }
 	})
-
+	console.log(currentData)
 	// table.setGrouping(['timePassed'])
 
 
@@ -136,11 +154,13 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 							)}
 							{/* todo get row to show total time from timePassed for present timeLogs */}
 						</TableBody>
+
+						{/* Total Time for timelogs */}
 						{title === 'Timelogs' ? (
 							<TableFooter>
 								{table.getFooterGroups().map((footerGroup) => (
 									<TableRow key={footerGroup.id}>
-										{footerGroup.headers.map((header) =>(
+										{footerGroup.headers.map((header) => (
 											<TableCell key={header.id}>
 												{header.isPlaceholder ? null : flexRender(header.column.columnDef.footer, header.getContext())}
 											</TableCell>
@@ -148,7 +168,7 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 									</TableRow>
 								))}
 							</TableFooter>
-						):(
+						) : (
 							null
 						)}
 					</Table>

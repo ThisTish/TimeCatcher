@@ -6,7 +6,10 @@ import { toast } from "sonner"
 import { Button } from "../ui/button"
 import { Trash } from "lucide-react"
 import { timeFormat } from "@/lib/time-format"
+import EditableCell from "../ui/EditableCell"
 
+
+// delete column
 const ActionCell = ({ row }: { row: Row<TimeLog> }) => {
 	const { execute, status } = useAction(deleteTimeLog, {
 		onSuccess(data) {
@@ -54,22 +57,8 @@ export const TimeLogColumns: ColumnDef<TimeLog>[] =
 	{
 		accessorKey: 'startTime',
 		header: 'Start Time',
-		cell: ({ row }) => {
-			const startTime = row.getValue('startTime') as Date
-			const formattedDate = new Intl.DateTimeFormat('en-Us', {
-				year: 'numeric',
-				month: 'short',
-				day: '2-digit',
-				hour: '2-digit',
-				minute: '2-digit',
-				second: '2-digit'
-			}).format(new Date(startTime))
-			return (
-				<time>
-					{formattedDate}
-				</time>
-			)
-		}
+		cell: EditableCell
+
 	},
 	{
 		accessorKey: 'endTime',
