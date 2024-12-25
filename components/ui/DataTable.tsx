@@ -21,6 +21,7 @@ import {
 	Table,
 	TableBody,
 	TableCell,
+	TableFooter,
 	TableHead,
 	TableHeader,
 	TableRow,
@@ -35,7 +36,7 @@ import { Label } from "./label"
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[]
 	data: TData[]
-	title: string
+	title: "Timelogs" | "Goals"
 	description: string
 	placeholder: string
 }
@@ -44,18 +45,23 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 	const [sorting, setSorting] = useState<SortingState>([])
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
+
 	const table = useReactTable({
 		data,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
-		getFilteredRowModel: getFilteredRowModel(),
-		onColumnFiltersChange: setColumnFilters,
-		state: {
-			sorting,
-			columnFilters
-		}
+		groupedColumnMode: false,
+		// getFilteredRowModel: getFilteredRowModel(),
+		// onColumnFiltersChange: setColumnFilters,
+		// state: {
+		// 	sorting,
+		// 	columnFilters
+		// }
 	})
+
+	// table.setGrouping(['timePassed'])
+
 
 	return (
 		<Card>
@@ -130,6 +136,21 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 							)}
 							{/* todo get row to show total time from timePassed for present timeLogs */}
 						</TableBody>
+						{title === 'Timelogs' ? (
+							<TableFooter>
+								{table.getFooterGroups().map((footerGroup) => (
+									<TableRow key={footerGroup.id}>
+										{footerGroup.headers.map((header) =>(
+											<TableCell key={header.id}>
+												{header.isPlaceholder ? null : flexRender(header.column.columnDef.footer, header.getContext())}
+											</TableCell>
+										))}
+									</TableRow>
+								))}
+							</TableFooter>
+						):(
+							null
+						)}
 					</Table>
 
 					{/* pagination */}
