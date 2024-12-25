@@ -63,22 +63,7 @@ export const TimeLogColumns: ColumnDef<TimeLog>[] =
 	{
 		accessorKey: 'endTime',
 		header: 'End Time',
-		cell: ({ row }) => {
-			const endTime = row.getValue('endTime') as Date
-			const formattedDate = new Intl.DateTimeFormat('en-Us', {
-				year: 'numeric',
-				month: 'short',
-				day: '2-digit',
-				hour: '2-digit',
-				minute: '2-digit',
-				second: '2-digit'
-			}).format(new Date(endTime))
-			return (
-				<time>
-					{formattedDate}
-				</time>
-			)
-		}
+		cell: EditableCell
 	},
 	{
 		accessorKey: 'timePassed',

@@ -3,18 +3,19 @@
 import { useEffect, useState } from "react"
 import { Input } from "./input"
 
-const EditableCell = ({getValue, row, column, table}: any) => {
+const EditableCell = ({ getValue, row, column, table }: any) => {
 
 	const initialValue = getValue()
-	// console.log('initialValue',initialValue)
-	// console.dir(initialValue instanceof Date)
-	// console.dir(column.id)
 	const [value, setValue] = useState(initialValue)
 	const [isEditing, setIsEditing] = useState(false)
 
-	useEffect(() =>{
-			setValue(initialValue)
-		
+	useEffect(() => {
+		if (initialValue instanceof Date) {
+			setValue(initialValue.toLocaleString())
+		}
+
+		// setValue(initialValue)
+
 	}, [initialValue])
 
 	const onBlur = () => {
@@ -29,9 +30,8 @@ const EditableCell = ({getValue, row, column, table}: any) => {
 		setIsEditing(false)
 	}
 
-	const onClick = () =>{
-		if(initialValue instanceof Date){
-			// console.log('instance of date' , initialValue)
+	const onClick = () => {
+		if (initialValue instanceof Date) {
 			setValue(initialValue.toISOString().slice(0, 16))
 		}
 		setIsEditing(true)
@@ -39,14 +39,14 @@ const EditableCell = ({getValue, row, column, table}: any) => {
 
 	return (
 		<>
-			{column.id === 'startTime' 
+			{column.id === 'startTime' || column.id === 'endTime'
 				? (
-					<Input 
-					type={isEditing ? "datetime-local" : "text"}
-					value={value || ''}
-					onClick={onClick}
-					onChange={(e) => setValue(e.target.value)}
-					onBlur={onBlur}
+					<Input
+						type={isEditing ? "datetime-local" : "text"}
+						value={value || ''}
+						onClick={onClick}
+						onChange={(e) => setValue(e.target.value)}
+						onBlur={onBlur}
 					/>
 				) : (
 					null

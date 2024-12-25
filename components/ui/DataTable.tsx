@@ -67,9 +67,6 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 					)
 				),
 		},
-
-
-
 		// getFilteredRowModel: getFilteredRowModel(),
 		// onColumnFiltersChange: setColumnFilters,
 		// state: {
@@ -78,7 +75,6 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 		// }
 	})
 	console.log(currentData)
-	// table.setGrouping(['timePassed'])
 
 
 	return (
@@ -110,6 +106,7 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 					</div>
 
 					<Table>
+
 						{/* column labels */}
 						<TableHeader>
 							{table.getHeaderGroups().map((headerGroup) => (
@@ -152,7 +149,6 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 									</TableCell>
 								</TableRow>
 							)}
-							{/* todo get row to show total time from timePassed for present timeLogs */}
 						</TableBody>
 
 						{/* Total Time for timelogs */}
