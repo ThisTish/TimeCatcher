@@ -1,16 +1,16 @@
 import { TimeLog } from "@/lib/types"
 import { Button } from "../ui/button"
 import DataTable from "../ui/DataTable"
-import {TimeLogColumns} from "../categoryCards/timer/TimeLogColumns"
+import {TimeLogColumns} from "./TimeLogColumns"
 
 const TimeLogTable = ({ timeLogs }: { timeLogs?: TimeLog[] }) => {
-	console.dir(timeLogs)
-	// if(!timeLogs || timeLogs.length === 0) throw new Error('Timelogs not found')
+	// console.dir(timeLogs)
 
 	const dataTable = timeLogs?.map((timeLog) => {
 		if (!timeLog) return null;
 		return {
 			id: timeLog.id,
+			categoryId: timeLog.categoryId,
 			startTime: timeLog.startTime,
 			endTime: timeLog.endTime ?? null,
 			timePassed: timeLog.timePassed,

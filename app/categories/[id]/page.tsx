@@ -50,7 +50,7 @@ const CategoryPage = () => {
 	}, [])
 
 	if(categoryId){
-	console.dir(category)
+	// console.dir(category)
 	}
 
 	return (
