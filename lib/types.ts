@@ -90,3 +90,11 @@ export type TimeLog = {
     timePassed: number
     running: boolean
 } | undefined | null
+
+export const TimeLogSchema = z.object({
+	id: z.string(),
+	categoryId: z.string(),
+	startTime: z.date(),
+	endTime: z.date().nullable(),
+	timePassed: z.number().optional(),
+})

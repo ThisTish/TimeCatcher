@@ -4,13 +4,14 @@ import deleteTimeLog from "@/server/actions/timer/delete-timelog"
 import { useAction } from "next-safe-action/hooks"
 import { toast } from "sonner"
 import { Button } from "../ui/button"
-import { Trash } from "lucide-react"
+import { Pencil, Save, SaveAll, Trash } from "lucide-react"
 import { timeFormat } from "@/lib/time-format"
 import EditableCell from "../ui/EditableCell"
+import editTimeLog from "@/server/actions/timer/edit-timeLog"
 
 
 // delete column
-const ActionCell = ({ row }: { row: Row<TimeLog> }) => {
+const DeleteCell = ({ row }: { row: Row<TimeLog> }) => {
 	const { execute, status } = useAction(deleteTimeLog, {
 		onSuccess(data) {
 			if (data.data?.success) {
@@ -44,6 +45,52 @@ const ActionCell = ({ row }: { row: Row<TimeLog> }) => {
 				}}
 			>
 				<Trash />
+			</Button>
+		</div>
+	)
+}
+
+
+// delete column
+const EditCell = ({ row }: { row: Row<TimeLog> }) => {
+	const { execute, status } = useAction(editTimeLog, {
+		onSuccess(data) {
+			if (data.data?.success) {
+				toast.success(data.data.success)
+			}
+			if (data.data?.error) {
+				toast.error(data.data.error)
+			}
+		},
+		onError: (error) => {
+			console.log(error)
+		}
+	})
+
+	const editButton = row.original
+	if (!editButton) {
+		return null
+	}
+	return (
+		<div>
+			<Button
+				key={editButton.id}
+				value={editButton.categoryId}
+				type="submit"
+				variant={'secondary'}
+				onClick={() => {
+					if (editButton.categoryId) {
+						console.log(editButton.categoryId, editButton.id)
+						execute({ 
+							id: editButton.id, 
+							categoryId: editButton.categoryId, 
+							startTime: editButton.startTime,
+							endTime: editButton.endTime,
+						})
+					}
+				}}
+			>
+				<Save />
 			</Button>
 		</div>
 	)
@@ -93,6 +140,11 @@ export const TimeLogColumns: ColumnDef<TimeLog>[] =
 	{
 		accessorKey: 'delete',
 		header: 'Delete',
-		cell: ActionCell
+		cell: DeleteCell
+	},
+	{
+		accessorKey: 'edit',
+		header: 'Edit',
+		cell: EditCell
 	}
 ]
