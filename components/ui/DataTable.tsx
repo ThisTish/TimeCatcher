@@ -31,6 +31,7 @@ import { Input } from "./input"
 import { Button } from "./button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Label } from "./label"
+import AddTimeLogForm from "../categoryPage/AddTimeLogForm"
 
 
 interface DataTableProps<TData, TValue> {
@@ -39,10 +40,11 @@ interface DataTableProps<TData, TValue> {
 	title: "Timelogs" | "Goals"
 	description: string
 	placeholder: string
+	categoryId?: string
 }
 
 
-const DataTable = <TData, TValue>({ columns, data, title, description, placeholder }: DataTableProps<TData, TValue>) => {
+const DataTable = <TData, TValue>({ columns, data, title, description, placeholder, categoryId }: DataTableProps<TData, TValue>) => {
 	const [currentData, setCurrentData] = useState<TData[]>(data)
 	const [sorting, setSorting] = useState<SortingState>([])
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -163,6 +165,14 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 										))}
 									</TableRow>
 								))}
+
+								{/* Add a timelog */}
+								<TableRow>
+									<TableCell>
+									<AddTimeLogForm categoryId={categoryId ?? ''}/>
+									</TableCell>
+								
+								</TableRow>
 							</TableFooter>
 						) : (
 							null

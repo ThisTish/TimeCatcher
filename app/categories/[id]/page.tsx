@@ -63,8 +63,9 @@ const CategoryPage = () => {
 				{category?.timeLogs.length === 0 || !category?.timeLogs ? (
 					
 					null
-				): (
-					<TimeLogTable timeLogs={category?.timeLogs}/>
+				): (<>
+					<TimeLogTable timeLogs={category?.timeLogs} />
+					</>
 				)
 			}
 						

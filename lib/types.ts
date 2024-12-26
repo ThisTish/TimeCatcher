@@ -92,9 +92,10 @@ export type TimeLog = {
 } | undefined | null
 
 export const TimeLogSchema = z.object({
-	id: z.string(),
+	id: z.string().optional(),
 	categoryId: z.string(),
 	startTime: z.date(),
 	endTime: z.date().nullable(),
 	timePassed: z.number().optional(),
+	userId: z.string().optional()
 })

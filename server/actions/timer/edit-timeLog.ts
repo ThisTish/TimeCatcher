@@ -12,6 +12,8 @@ export const editTimeLog = actionClient
 
 		if (!endTime || !startTime) return { error: 'You must provide a start & end time' }
 
+		if(startTime.getTime() > endTime.getTime()) return { error: 'Start time must be before end time' }
+
 		const timePassed = endTime.getTime() - startTime.getTime()
 
 		try {

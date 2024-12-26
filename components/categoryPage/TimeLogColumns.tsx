@@ -1,6 +1,6 @@
 import { ColumnDef, createColumnHelper, Row } from "@tanstack/react-table"
 import { TimeLog } from "@/lib/types"
-import deleteTimeLog from "@/server/actions/timer/delete-timelog"
+import deleteTimeLog from "@/server/actions/timer/delete-timeLog"
 import { useAction } from "next-safe-action/hooks"
 import { toast } from "sonner"
 import { Button } from "../ui/button"
@@ -119,7 +119,9 @@ export const TimeLogColumns: ColumnDef<TimeLog>[] =
 			const totalTimePassed = table
 			.getFilteredRowModel()
 			.rows.reduce((sum, row) => sum + row.getValue<number>('timePassed'), 0)
-			return `Total Time Caught: ${timeFormat(totalTimePassed / 1000).hours} : ${timeFormat(totalTimePassed / 1000).minutes} : ${timeFormat(totalTimePassed / 1000).seconds}`
+			const { hours, minutes, seconds } = timeFormat(totalTimePassed / 1000)
+
+			return `Total Time Caught: ${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`
 		},
 		cell: ({ row }) => {
 			const timePassed = row.getValue('timePassed') as number
