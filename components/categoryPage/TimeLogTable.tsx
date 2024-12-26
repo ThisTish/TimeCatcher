@@ -29,7 +29,7 @@ const TimeLogTable = ({ timeLogs }: { timeLogs?: TimeLog[] }) => {
 				title="Timelogs"
 				description="View, edit, organize, and delete timelogs"
 				placeholder="Search by date"
-				// categoryId={timeLogs?.[0]?.categoryId}
+				categoryId={timeLogs?.[0]?.categoryId}
 			/>
 			<Button
 				type="button"

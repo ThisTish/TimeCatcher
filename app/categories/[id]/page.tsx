@@ -34,13 +34,11 @@ const CategoryPage = () => {
 			const data = await getCategory(categoryId)
 			if(data.error){
 				toast.error(data.error)
-				console.log('error')
 				router.push('/timers')
 				return
 			}
 			if(data.success){
 				const categoryData = data.success
-				console.log(JSON.stringify(categoryData))
 				setCategory(categoryData)
 			}
 		}

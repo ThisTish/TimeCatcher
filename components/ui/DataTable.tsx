@@ -48,7 +48,7 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 	const [currentData, setCurrentData] = useState<TData[]>(data)
 	const [sorting, setSorting] = useState<SortingState>([])
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-
+	console.log('datatablecat',categoryId)
 
 	const table = useReactTable({
 		data: currentData,
@@ -76,7 +76,7 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 		// 	columnFilters
 		// }
 	})
-	console.log(currentData)
+	// console.log(currentData)
 
 
 	return (
@@ -154,7 +154,7 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 						</TableBody>
 
 						{/* Total Time for timelogs */}
-						{title === 'Timelogs' ? (
+						{title === 'Timelogs' && categoryId ? (
 							<TableFooter>
 								{table.getFooterGroups().map((footerGroup) => (
 									<TableRow key={footerGroup.id}>
@@ -169,7 +169,7 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 								{/* Add a timelog */}
 								<TableRow>
 									<TableCell>
-									<AddTimeLogForm categoryId={categoryId ?? ''}/>
+									<AddTimeLogForm categoryId={categoryId}/>
 									</TableCell>
 								
 								</TableRow>

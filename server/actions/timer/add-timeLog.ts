@@ -11,7 +11,7 @@ import { TimeLogSchema } from "@/lib/types"
 export const addTimelog = actionClient
 	.schema(TimeLogSchema)
 	.action(async ({ parsedInput: { startTime, endTime, categoryId } }) => {
-
+		console.log('line14',startTime, endTime, categoryId)
 		try {
 			const session = await auth()
 			if (!session) return { error: "You must be logged in to catch time" }
@@ -22,10 +22,11 @@ export const addTimelog = actionClient
 
 			const timePassed = endTime.getTime() - startTime.getTime()
 
-
+console.log('categoryid',categoryId)
 			const newTimeLog = await db.timeLog.create({
 				data: {
 					startTime,
+					endTime,
 					categoryId,
 					running: false,
 					timePassed,
