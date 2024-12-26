@@ -29,6 +29,11 @@ import { toast } from "sonner"
 
 const AddTimeLogForm = ({ categoryId }: { categoryId: string }) => {
 
+	const toLocalIsoString = (date: Date) => {
+		const localDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
+		return localDate.toISOString().slice(0, 16)
+	}
+
 
 	const timeLogForm = useForm<z.infer<typeof TimeLogSchema>>({
 		resolver: zodResolver(TimeLogSchema),
@@ -62,8 +67,8 @@ const AddTimeLogForm = ({ categoryId }: { categoryId: string }) => {
 		if (!endTimeValue) return toast.error('You must provide an end time')
 		const endDate = new Date(endTimeValue)
 		timeLogForm.setValue('endTime', endDate)
+		
 	}
-
 
 
 return (
@@ -84,9 +89,10 @@ return (
 										<Input
 											type="datetime-local"
 											{...field}
-											value={field.value ? new Date(field.value).toISOString().slice(0, 16) : ''}
+											value={field.value ? toLocalIsoString(new Date(field.value)) : ''}
 											onBlur={onStartBlur}
-											onChange={(e) => field.onChange(new Date(e.target.value).toISOString())} />
+											// ! displaying wrong time
+											onChange={(e) => field.onChange(toLocalIsoString(new Date(e.target.value)))} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -103,9 +109,10 @@ return (
 										<Input
 											type="datetime-local"
 											{...field}
-											value={field.value ? new Date(field.value).toISOString().slice(0, 16) : ''} 
+											value={field.value ? toLocalIsoString(new Date(field.value)) : ''}
 											onBlur={onEndBlur}
-											onChange={(e) => field.onChange(new Date(e.target.value).toISOString())}/>
+											// ! displaying wrong time
+											onChange={(e) => field.onChange(toLocalIsoString(new Date(e.target.value)))} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>

@@ -30,43 +30,39 @@ const CategoryPage = () => {
 	const categoryId = useParams().id
 	const [category, setCategory] = useState<Category>()
 
-	const detailedCategory = async (categoryId: string) =>{
-			const data = await getCategory(categoryId)
-			if(data.error){
-				toast.error(data.error)
-				router.push('/timers')
-				return
-			}
-			if(data.success){
-				const categoryData = data.success
-				setCategory(categoryData)
-			}
+	const detailedCategory = async (categoryId: string) => {
+		const data = await getCategory(categoryId)
+		if (data.error) {
+			toast.error(data.error)
+			router.push('/timers')
+			return
 		}
-	
-	useEffect(() =>{
-		if(categoryId){
+		if (data.success) {
+			const categoryData = data.success
+			setCategory(categoryData)
+		}
+	}
+
+	useEffect(() => {
+		if (categoryId) {
 			detailedCategory(categoryId.toString())
 		}
 	}, [])
 
-	if(categoryId){
-	// console.dir(category)
-	}
 
 	return (
 		<>
 			<h1>{category?.name}</h1>
 			<Link href="/timers">Timers</Link>
 			<p>{category?.color}</p>
-				{category?.timeLogs.length === 0 || !category?.timeLogs ? (
-					
-					null
-				): (<>
-					<TimeLogTable timeLogs={category?.timeLogs} />
-					</>
-				)
+			{category?.timeLogs.length === 0 || !category?.timeLogs ? (
+
+				null
+			) : (<>
+				<TimeLogTable timeLogs={category?.timeLogs} />
+			</>
+			)
 			}
-						
 		</>
 	)
 }

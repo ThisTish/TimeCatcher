@@ -20,7 +20,6 @@ const TimeLogTable = ({ timeLogs }: { timeLogs?: TimeLog[] }) => {
 
 	if (!dataTable) throw new Error('Data not found')
 
-
 	return (
 		<div>
 			<DataTable
@@ -34,9 +33,9 @@ const TimeLogTable = ({ timeLogs }: { timeLogs?: TimeLog[] }) => {
 			<Button
 				type="button"
 				onClick={() => console.log('clicked')}
-				>
-					Add a timeLog
-				</Button>
+			>
+				Add a timeLog
+			</Button>
 		</div>
 	)
 }

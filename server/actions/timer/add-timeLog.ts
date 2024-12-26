@@ -11,7 +11,6 @@ import { TimeLogSchema } from "@/lib/types"
 export const addTimelog = actionClient
 	.schema(TimeLogSchema)
 	.action(async ({ parsedInput: { startTime, endTime, categoryId } }) => {
-		console.log('line14',startTime, endTime, categoryId)
 		try {
 			const session = await auth()
 			if (!session) return { error: "You must be logged in to catch time" }
@@ -19,17 +18,16 @@ export const addTimelog = actionClient
 			if (!userId) return { error: "You must be logged in to catch time" }
 
 			if (!startTime || !endTime) return { error: "You must provide a start and end time" }
+			if (startTime > endTime || startTime === endTime) return { error: "The start time must be before the end time" }
+			if (startTime > new Date() || endTime > new Date()) return { error: "You can't catch time in the future." }
 
-			const timePassed = endTime.getTime() - startTime.getTime()
-
-console.log('categoryid',categoryId)
 			const newTimeLog = await db.timeLog.create({
 				data: {
 					startTime,
 					endTime,
 					categoryId,
 					running: false,
-					timePassed,
+					timePassed: endTime.getTime() - startTime.getTime(),
 					userId
 				}
 			})

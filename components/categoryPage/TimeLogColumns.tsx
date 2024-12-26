@@ -39,7 +39,6 @@ const DeleteCell = ({ row }: { row: Row<TimeLog> }) => {
 				variant={'secondary'}
 				onClick={() => {
 					if (deleteButton.categoryId) {
-						console.log(deleteButton.categoryId, deleteButton.id)
 						execute({ id: deleteButton.id, categoryId: deleteButton.categoryId })
 					}
 				}}

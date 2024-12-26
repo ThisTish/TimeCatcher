@@ -48,7 +48,6 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 	const [currentData, setCurrentData] = useState<TData[]>(data)
 	const [sorting, setSorting] = useState<SortingState>([])
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-	console.log('datatablecat',categoryId)
 
 	const table = useReactTable({
 		data: currentData,
