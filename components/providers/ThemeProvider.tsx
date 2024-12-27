@@ -23,6 +23,22 @@ export const backgrounds: Record<Color, string> = {
 	PINK: 'bg-pink',
 	BLACK: 'bg-black text-white',
 	BROWN: 'bg-brown',
-	WHITE: 'bg-white',
-	GREY: 'bg-grey',
+	WHITE: 'bg-white text-black',
+	GREY: 'bg-grey text-white'
+	
+}
+
+export const textColor: Record<Color, string> = {
+	RED: 'text-red',
+	BLUE: 'text-blue',
+	GREEN: 'text-green',
+	YELLOW: 'text-yellow',
+	PURPLE: 'text-purple',
+	ORANGE: 'text-orange',
+	PINK: 'text-pink',
+	BLACK: 'text-black ',
+	BROWN: 'text-brown',
+	WHITE: 'text-black ',
+	GREY: 'text-grey '
+	
 }

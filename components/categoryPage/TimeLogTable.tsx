@@ -30,12 +30,6 @@ const TimeLogTable = ({ timeLogs }: { timeLogs?: TimeLog[] }) => {
 				placeholder="Search by date"
 				categoryId={timeLogs?.[0]?.categoryId}
 			/>
-			<Button
-				type="button"
-				onClick={() => console.log('clicked')}
-			>
-				Add a timeLog
-			</Button>
 		</div>
 	)
 }
