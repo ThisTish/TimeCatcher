@@ -58,13 +58,12 @@ const CategoryPage = () => {
 
 
 	return (
-			<>
+			<main>
 			<h1 className={cn('text-7xl text-white font-bold', category?.color ? textColor[category.color] : 'text-primary ')}>{category?.name}</h1>
 			<Link href="/timers" className="rounded-md border-2 border-black p-2 font-bold inline-flex">
 				<ArrowLeft />
 				<span>Back to timers</span>
 			</Link>
-			<p>{category?.color}</p>
 			{category?.timeLogs.length === 0 || !category?.timeLogs ? (
 
 				<AddTimeLogForm categoryId={category?.id ?? ''} />
@@ -74,7 +73,7 @@ const CategoryPage = () => {
 			)
 			}
 		
-	</>
+	</main>
 	)
 }
 

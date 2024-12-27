@@ -32,6 +32,7 @@ import { Button } from "./button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Label } from "./label"
 import AddTimeLogForm from "../categoryPage/AddTimeLogForm"
+import { isStartTime } from "../categoryPage/TimeLogColumns"
 
 
 interface DataTableProps<TData, TValue> {
@@ -42,6 +43,8 @@ interface DataTableProps<TData, TValue> {
 	placeholder: string
 	categoryId?: string
 }
+
+
 
 
 const DataTable = <TData, TValue>({ columns, data, title, description, placeholder, categoryId }: DataTableProps<TData, TValue>) => {
@@ -68,18 +71,22 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 					)
 				),
 		},
-		// getFilteredRowModel: getFilteredRowModel(),
-		// onColumnFiltersChange: setColumnFilters,
-		// state: {
-		// 	sorting,
-		// 	columnFilters
-		// }
+		getFilteredRowModel: getFilteredRowModel(),
+		filterFns: {
+			isStartTime
+		},
+		onColumnFiltersChange: setColumnFilters,
+		state: {
+			sorting,
+			columnFilters
+		},
+		onSortingChange: setSorting
 	})
 	// console.log(currentData)
-
+	// console.dir(columnFilters)
 
 	return (
-		<Card>
+		<Card className="w-fit bg-gray-200/55">
 			{/* Table Label & description */}
 			<CardHeader>
 				<CardTitle>
@@ -91,20 +98,21 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 			</CardHeader>
 
 			<CardContent>
-				<div>
+				<>
 					{/* search by date */}
-					<div>
+					<search>
 						<Label htmlFor="date">
 							Search by Date
 						</Label>
 						<Input
+							className="w-fit"
 							name="date"
 							type="date"
 							placeholder={placeholder}
 							value={(table.getColumn('startTime')?.getFilterValue() as string) ?? ''}
 							onChange={(event) => table.getColumn('startTime')?.setFilterValue(event.target.value)}
 						/>
-					</div>
+					</search>
 
 					<Table>
 
@@ -197,7 +205,7 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 							<span>Next</span>
 						</Button>
 					</div>
-				</div>
+				</>
 			</CardContent>
 		</Card>
 	)

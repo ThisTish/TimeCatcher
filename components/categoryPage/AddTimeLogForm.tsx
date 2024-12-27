@@ -91,7 +91,6 @@ return (
 											{...field}
 											value={field.value ? toLocalIsoString(new Date(field.value)) : ''}
 											onBlur={onStartBlur}
-											// ! displaying wrong time
 											onChange={(e) => field.onChange(toLocalIsoString(new Date(e.target.value)))} />
 									</FormControl>
 									<FormMessage />
@@ -111,7 +110,6 @@ return (
 											{...field}
 											value={field.value ? toLocalIsoString(new Date(field.value)) : ''}
 											onBlur={onEndBlur}
-											// ! displaying wrong time
 											onChange={(e) => field.onChange(toLocalIsoString(new Date(e.target.value)))} />
 									</FormControl>
 									<FormMessage />

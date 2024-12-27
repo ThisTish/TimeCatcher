@@ -47,6 +47,7 @@ const EditableCell = ({ getValue, row, column, table }: any) => {
 						onClick={onClick}
 						onChange={(e) => setValue(e.target.value)}
 						onBlur={onBlur}
+						disabled={value === null}
 					/>
 				) : (
 					null

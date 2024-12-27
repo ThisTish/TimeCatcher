@@ -21,7 +21,7 @@ const TimeLogTable = ({ timeLogs }: { timeLogs?: TimeLog[] }) => {
 	if (!dataTable) throw new Error('Data not found')
 
 	return (
-		<div>
+		<section>
 			<DataTable
 				columns={TimeLogColumns}
 				data={dataTable}
@@ -30,7 +30,7 @@ const TimeLogTable = ({ timeLogs }: { timeLogs?: TimeLog[] }) => {
 				placeholder="Search by date"
 				categoryId={timeLogs?.[0]?.categoryId}
 			/>
-		</div>
+		</section>
 	)
 }
 

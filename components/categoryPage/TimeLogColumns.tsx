@@ -1,13 +1,14 @@
-import { ColumnDef, createColumnHelper, Row } from "@tanstack/react-table"
+import { ColumnDef, createColumnHelper, FilterFn, Row } from "@tanstack/react-table"
 import { TimeLog } from "@/lib/types"
 import deleteTimeLog from "@/server/actions/timer/delete-timeLog"
 import { useAction } from "next-safe-action/hooks"
 import { toast } from "sonner"
 import { Button } from "../ui/button"
-import { Pencil, Save, SaveAll, Trash } from "lucide-react"
+import { Save, Trash } from "lucide-react"
 import { timeFormat } from "@/lib/time-format"
 import EditableCell from "../ui/EditableCell"
 import editTimeLog from "@/server/actions/timer/edit-timeLog"
+import { boolean } from "zod"
 
 
 // delete column
@@ -31,12 +32,11 @@ const DeleteCell = ({ row }: { row: Row<TimeLog> }) => {
 		return null
 	}
 	return (
-		<div>
 			<Button
 				key={deleteButton.id}
 				value={deleteButton.categoryId}
 				type="submit"
-				variant={'secondary'}
+				variant={'destructive'}
 				onClick={() => {
 					if (deleteButton.categoryId) {
 						execute({ id: deleteButton.id, categoryId: deleteButton.categoryId })
@@ -45,12 +45,12 @@ const DeleteCell = ({ row }: { row: Row<TimeLog> }) => {
 			>
 				<Trash />
 			</Button>
-		</div>
 	)
 }
 
 
-// delete column
+// edit/save column
+// todo disabled until row is in editable mode
 const EditCell = ({ row }: { row: Row<TimeLog> }) => {
 	const { execute, status } = useAction(editTimeLog, {
 		onSuccess(data) {
@@ -71,12 +71,12 @@ const EditCell = ({ row }: { row: Row<TimeLog> }) => {
 		return null
 	}
 	return (
-		<div>
+		
 			<Button
 				key={editButton.id}
 				value={editButton.categoryId}
 				type="submit"
-				variant={'secondary'}
+				variant={'outline'}
 				onClick={() => {
 					if (editButton.categoryId) {
 						console.log(editButton.categoryId, editButton.id)
@@ -91,19 +91,31 @@ const EditCell = ({ row }: { row: Row<TimeLog> }) => {
 			>
 				<Save />
 			</Button>
-		</div>
 	)
 }
 
 
+export const isStartTime: FilterFn<TimeLog> = (row, columnId, filteredValue, addMeta) => {
+	const date = row.getValue('startTime') as Date
+	const start = new Date(filteredValue)
+	console.log(start)
+	if(start && !date) return false
+	return date.getDate() === start.getDate()
+	return true
+}
 
 export const TimeLogColumns: ColumnDef<TimeLog>[] = 
 [
+	// {
+	// 	accessorKey: 'id',
+	// 	header: 'ID'
+	// },
 
 	{
 		accessorKey: 'startTime',
 		header: 'Start Time',
-		cell: EditableCell
+		cell: EditableCell,
+		filterFn: isStartTime
 
 	},
 	{
@@ -134,18 +146,18 @@ export const TimeLogColumns: ColumnDef<TimeLog>[] =
 			)
 		}
 	},
+	// {
+	// 	accessorKey: 'running',
+	// 	header: 'Running'
+	// },
 	{
-		accessorKey: 'running',
-		header: 'Running'
+		accessorKey: 'edit',
+		header: 'Save',
+		cell: EditCell
 	},
 	{
 		accessorKey: 'delete',
 		header: 'Delete',
 		cell: DeleteCell
-	},
-	{
-		accessorKey: 'edit',
-		header: 'Edit',
-		cell: EditCell
 	}
 ]
