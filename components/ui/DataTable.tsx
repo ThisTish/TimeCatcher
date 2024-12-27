@@ -26,13 +26,21 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table"
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { useState } from "react"
 import { Input } from "./input"
 import { Button } from "./button"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, RefreshCcwIcon } from "lucide-react"
 import { Label } from "./label"
 import AddTimeLogForm from "../categoryPage/AddTimeLogForm"
-import { isStartTime } from "../categoryPage/TimeLogColumns"
+import isStartDate from "@/lib/is-start-date"
+import SearchByDate from "../categoryPage/timeLogTable/SearchByDate"
+
 
 
 interface DataTableProps<TData, TValue> {
@@ -73,7 +81,7 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 		},
 		getFilteredRowModel: getFilteredRowModel(),
 		filterFns: {
-			isStartTime
+			isStartDate
 		},
 		onColumnFiltersChange: setColumnFilters,
 		state: {
@@ -99,20 +107,9 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 
 			<CardContent>
 				<>
-					{/* search by date */}
-					<search>
-						<Label htmlFor="date">
-							Search by Date
-						</Label>
-						<Input
-							className="w-fit"
-							name="date"
-							type="date"
-							placeholder={placeholder}
-							value={(table.getColumn('startTime')?.getFilterValue() as string) ?? ''}
-							onChange={(event) => table.getColumn('startTime')?.setFilterValue(event.target.value)}
-						/>
-					</search>
+					{/*SearchBar  */}
+					{/* todo fix date value and add date range */}
+					<SearchByDate table={table} />
 
 					<Table>
 
@@ -176,9 +173,8 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 								{/* Add a timelog */}
 								<TableRow>
 									<TableCell>
-									<AddTimeLogForm categoryId={categoryId}/>
+										<AddTimeLogForm categoryId={categoryId} />
 									</TableCell>
-								
 								</TableRow>
 							</TableFooter>
 						) : (

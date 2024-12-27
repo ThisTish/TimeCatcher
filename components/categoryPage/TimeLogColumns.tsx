@@ -9,6 +9,7 @@ import { timeFormat } from "@/lib/time-format"
 import EditableCell from "../ui/EditableCell"
 import editTimeLog from "@/server/actions/timer/edit-timeLog"
 import { boolean } from "zod"
+import isStartDate from "@/lib/is-start-date"
 
 
 // delete column
@@ -95,14 +96,7 @@ const EditCell = ({ row }: { row: Row<TimeLog> }) => {
 }
 
 
-export const isStartTime: FilterFn<TimeLog> = (row, columnId, filteredValue, addMeta) => {
-	const date = row.getValue('startTime') as Date
-	const start = new Date(filteredValue)
-	console.log(start)
-	if(start && !date) return false
-	return date.getDate() === start.getDate()
-	return true
-}
+
 
 export const TimeLogColumns: ColumnDef<TimeLog>[] = 
 [
@@ -115,7 +109,7 @@ export const TimeLogColumns: ColumnDef<TimeLog>[] =
 		accessorKey: 'startTime',
 		header: 'Start Time',
 		cell: EditableCell,
-		filterFn: isStartTime
+		filterFn: isStartDate
 
 	},
 	{
