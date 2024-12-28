@@ -10,6 +10,13 @@ import EditableCell from "../ui/EditableCell"
 import editTimeLog from "@/server/actions/timer/edit-timeLog"
 import { boolean } from "zod"
 import isStartDate from "@/lib/is-start-date"
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@/components/ui/tooltip"
+
 
 
 // delete column
@@ -33,19 +40,30 @@ const DeleteCell = ({ row }: { row: Row<TimeLog> }) => {
 		return null
 	}
 	return (
-			<Button
-				key={deleteButton.id}
-				value={deleteButton.categoryId}
-				type="submit"
-				variant={'destructive'}
-				onClick={() => {
-					if (deleteButton.categoryId) {
-						execute({ id: deleteButton.id, categoryId: deleteButton.categoryId })
-					}
-				}}
-			>
-				<Trash />
-			</Button>
+		<TooltipProvider>
+			<Tooltip>
+				<TooltipTrigger asChild>
+					<Button
+						key={deleteButton.id}
+						value={deleteButton.categoryId}
+						type="submit"
+						variant={'destructive'}
+						onClick={() => {
+							if (deleteButton.categoryId) {
+								execute({ id: deleteButton.id, categoryId: deleteButton.categoryId })
+							}
+						}}
+					>
+						<Trash />
+					</Button>
+				</TooltipTrigger>
+				<TooltipContent>
+					<p>Delete Timelog</p>
+				</TooltipContent>
+			</Tooltip>
+		</TooltipProvider>
+
+
 	)
 }
 
@@ -72,86 +90,97 @@ const EditCell = ({ row }: { row: Row<TimeLog> }) => {
 		return null
 	}
 	return (
-		
-			<Button
-				key={editButton.id}
-				value={editButton.categoryId}
-				type="submit"
-				variant={'outline'}
-				onClick={() => {
-					if (editButton.categoryId) {
-						console.log(editButton.categoryId, editButton.id)
-						execute({ 
-							id: editButton.id, 
-							categoryId: editButton.categoryId, 
-							startTime: editButton.startTime,
-							endTime: editButton.endTime,
-						})
-					}
-				}}
-			>
-				<Save />
-			</Button>
+		<TooltipProvider>
+			<Tooltip>
+				<TooltipTrigger asChild>
+					<Button
+						key={editButton.id}
+						value={editButton.categoryId}
+						type="submit"
+						variant={'outline'}
+						onClick={() => {
+							if (editButton.categoryId) {
+								console.log(editButton.categoryId, editButton.id)
+								execute({
+									id: editButton.id,
+									categoryId: editButton.categoryId,
+									startTime: editButton.startTime,
+									endTime: editButton.endTime,
+								})
+							}
+						}}
+					>
+						<Save />
+					</Button>
+				</TooltipTrigger>
+				<TooltipContent>
+					<p>Save changes</p>
+				</TooltipContent>
+			</Tooltip>
+		</TooltipProvider>
+
+
+
 	)
 }
 
 
 
 
-export const TimeLogColumns: ColumnDef<TimeLog>[] = 
-[
-	// {
-	// 	accessorKey: 'id',
-	// 	header: 'ID'
-	// },
+export const TimeLogColumns: ColumnDef<TimeLog>[] =
+	[
+		// {
+		// 	accessorKey: 'id',
+		// 	header: 'ID'
+		// },
 
-	{
-		accessorKey: 'startTime',
-		header: 'Start Time',
-		cell: EditableCell,
-		filterFn: isStartDate
+		{
+			accessorKey: 'startTime',
+			header: 'Start Time',
+			cell: EditableCell,
+			filterFn: isStartDate
 
-	},
-	{
-		accessorKey: 'endTime',
-		header: 'End Time',
-		cell: EditableCell
-	},
-	{
-		accessorKey: 'timePassed',
-		header: 'Time Caught',
-		footer: ({table}) =>{
-			const totalTimePassed = table
-			.getFilteredRowModel()
-			.rows.reduce((sum, row) => sum + row.getValue<number>('timePassed'), 0)
-			const { hours, minutes, seconds } = timeFormat(totalTimePassed / 1000)
-
-			return `Total Time Caught: ${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`
 		},
-		cell: ({ row }) => {
-			const timePassed = row.getValue('timePassed') as number
-			const { hours, minutes, seconds } = timeFormat(timePassed / 1000)
-			const formattedTimePassed = `${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`
+		{
+			accessorKey: 'endTime',
+			header: 'End Time',
+			cell: EditableCell
+		},
+		{
+			accessorKey: 'timePassed',
+			header: 'Time Caught',
+			footer: ({ table }) => {
+				const totalTimePassed = table
+					.getFilteredRowModel()
+					.rows.reduce((sum, row) => sum + row.getValue<number>('timePassed'), 0)
+				const { hours, minutes, seconds } = timeFormat(totalTimePassed / 1000)
 
-			return (
-				<span>
-					{formattedTimePassed}
-				</span>
-			)
+				return `Total Time Caught: ${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`
+			},
+			cell: ({ row }) => {
+				const timePassed = row.getValue('timePassed') as number
+				const { hours, minutes, seconds } = timeFormat(timePassed / 1000)
+				const formattedTimePassed = `${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`
+
+				return (
+					<span>
+						{formattedTimePassed}
+					</span>
+				)
+			}
+		},
+		// {
+		// 	accessorKey: 'running',
+		// 	header: 'Running'
+		// },
+		{
+			accessorKey: 'edit',
+			header: 'Save',
+			cell: EditCell
+		},
+		{
+			accessorKey: 'delete',
+			header: 'Delete',
+			cell: DeleteCell
 		}
-	},
-	// {
-	// 	accessorKey: 'running',
-	// 	header: 'Running'
-	// },
-	{
-		accessorKey: 'edit',
-		header: 'Save',
-		cell: EditCell
-	},
-	{
-		accessorKey: 'delete',
-		header: 'Delete',
-		cell: DeleteCell
-	}
-]
+	]
