@@ -4,40 +4,44 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { MoreVertical } from "lucide-react";
-import DeleteCategoryButton from "./DeleteCategoryButton";
-import FormContainer from "../forms/FormContainer";
-import CategoryForm from "../forms/CategoryForm";
-import { E_Colors } from "@/lib/types";
-import Link from "next/link";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
+import { MoreVertical } from "lucide-react"
+import DeleteCategoryButton from "./DeleteCategoryButton"
+import FormContainer from "../forms/FormContainer"
+import CategoryForm from "../forms/CategoryForm"
+import { E_Colors } from "@/lib/types"
+import Link from "next/link"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip"
 
 const CategoryTimerCardDropDown = ({ id, name, color }: { id: string, name: string, color: E_Colors }) => {
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger aria-label="options">
-				<TooltipProvider>
-					<Tooltip>
-					<TooltipTrigger>
-						<MoreVertical className="p-5" size={58} />
+			<TooltipProvider>
+				<Tooltip>
+					<TooltipTrigger asChild>
+						<DropdownMenuTrigger aria-label="options">
+							<MoreVertical className="p-5" size={58} />
+						</DropdownMenuTrigger>
 					</TooltipTrigger>
-					<TooltipContent>
-						Category Details
+					<TooltipContent className="-mb-5">
+						Options
 					</TooltipContent>
-					</Tooltip>
-				</TooltipProvider>
-			</DropdownMenuTrigger>
+				</Tooltip>
+			</TooltipProvider>
+
 			<DropdownMenuContent>
+
 				{/* More Details */}
 				<DropdownMenuItem >
 					<Link href={`/categories/${id}`}>
 						More Details
 					</Link>
 				</DropdownMenuItem>
+
 				{/* Delete */}
 				<DropdownMenuItem>
 					<DeleteCategoryButton id={id} />
 				</DropdownMenuItem>
+
 				{/* Edit */}
 				<DropdownMenuItem asChild>
 					<FormContainer
@@ -49,8 +53,9 @@ const CategoryTimerCardDropDown = ({ id, name, color }: { id: string, name: stri
 					</FormContainer>
 				</DropdownMenuItem>
 			</DropdownMenuContent>
+
 		</DropdownMenu>
-	);
+	)
 }
 
 export default CategoryTimerCardDropDown

@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button"
 import {
 	Form,
 	FormControl,
-	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -21,18 +20,14 @@ import {
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react"
 import { useAction } from "next-safe-action/hooks"
 import addTimelog from "@/server/actions/timer/add-timeLog"
 import { toast } from "sonner"
+import toLocalIsoString from "@/lib/to-Local-ISO-String"
 
 
 const AddTimeLogForm = ({ categoryId }: { categoryId: string }) => {
 
-	const toLocalIsoString = (date: Date) => {
-		const localDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
-		return localDate.toISOString().slice(0, 16)
-	}
 
 
 	const timeLogForm = useForm<z.infer<typeof TimeLogSchema>>({

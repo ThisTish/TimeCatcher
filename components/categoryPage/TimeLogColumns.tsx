@@ -118,9 +118,6 @@ const EditCell = ({ row }: { row: Row<TimeLog> }) => {
 				</TooltipContent>
 			</Tooltip>
 		</TooltipProvider>
-
-
-
 	)
 }
 

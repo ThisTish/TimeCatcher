@@ -6,7 +6,7 @@ const isStartDate: FilterFn<TimeLog> = (row, columnId, filteredValue, addMeta) =
 	const start = new Date(filteredValue)
 	console.log(start)
 	if(start && !date) return false
-	return date.getDate() === start.getDate()
+	return date.getDate() === start.getUTCDate()
 }
 
 export default isStartDate
