@@ -1,5 +1,5 @@
 import { TimeLog } from "@/lib/types"
-import DataTable from "../ui/DataTable"
+import DataTable from "../../ui/DataTable"
 import { TimeLogColumns } from "./TimeLogColumns"
 
 const TimeLogTable = ({ timeLogs }: { timeLogs?: TimeLog[] }) => {

@@ -1,11 +1,11 @@
 import { ColumnDef, createColumnHelper, FilterFn, Row } from "@tanstack/react-table"
 import { TimeLog } from "@/lib/types"
 import { timeFormat } from "@/lib/time-format"
-import EditableCell from "../ui/EditableCell"
+import EditableCell from "@/components/ui/EditableCell"
 import isStartDate from "@/lib/is-start-date"
 
-import DeleteTimeLogButton from "./timeLogTable/DeleteTimeLogButton"
-import EditTimeLogButton from "./timeLogTable/EditTimeLogButton"
+import DeleteTimeLogButton from "./DeleteTimeLogButton"
+import EditTimeLogButton from "./EditTimeLogButton"
 
 
 export const TimeLogColumns: ColumnDef<TimeLog>[] = 

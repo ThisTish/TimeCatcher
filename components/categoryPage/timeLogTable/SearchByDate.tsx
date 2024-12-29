@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { Label } from "@radix-ui/react-label"
 import { RefreshCcwIcon } from "lucide-react"
 
 const SearchByDate = ({table}: any) => {

@@ -4,7 +4,7 @@ import { useState } from "react"
 import isStartDate from "@/lib/is-start-date"
 
 import SearchByDate from "../categoryPage/timeLogTable/SearchByDate"
-import AddTimeLogForm from "../categoryPage/AddTimeLogForm"
+import AddTimeLogForm from "../categoryPage/timeLogTable/AddTimeLogForm"
 
 import {
 	ColumnDef,

@@ -12,8 +12,13 @@ export const getCategory = async (id: string) => {
 			},
 			include:{
 				// goals: true,
-				timeLogs: true
-			}
+				timeLogs: {
+					orderBy: {
+						startTime: 'desc'
+					}
+				}
+			},
+			
 		})
 
 		return { success: categoryData }
