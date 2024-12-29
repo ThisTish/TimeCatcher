@@ -28,7 +28,7 @@ import Link from "next/link"
 
 type FormContainerProps = {
 	openButtonLabel: string
-	title: 'Create a new category' | 'Update category details'
+	title: 'Create a new category' | 'Update category details' | 'Add a new goal' | 'Update goal details'
 	description: string
 	children: React.ReactNode
 }

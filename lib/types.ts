@@ -99,3 +99,12 @@ export const TimeLogSchema = z.object({
 	timePassed: z.number().optional(),
 	userId: z.string().optional()
 })
+
+export const GoalFormSchema = z.object({
+	id: z.string(),
+	categoryId: z.string(),
+	timeFrame: z.string(),
+	targetTime: z.number(),
+	reoccurring: z.boolean(),
+	active: z.boolean()
+})

@@ -1,7 +1,5 @@
 import { backgrounds } from "@/components/providers/ThemeProvider"
 import { Button } from "@/components/ui/button"
-import FormContainer from "../forms/FormContainer"
-import CategoryForm from "../forms/CategoryForm"
 import CategoryTimerCardDropDown from "./CategoryTimerCardDropDown"
 import StartButton from "./timer/StartButton"
 import StopButton from "./timer/StopButton"
