@@ -1,130 +1,14 @@
 import { ColumnDef, createColumnHelper, FilterFn, Row } from "@tanstack/react-table"
 import { TimeLog } from "@/lib/types"
-import deleteTimeLog from "@/server/actions/timer/delete-timeLog"
-import { useAction } from "next-safe-action/hooks"
-import { toast } from "sonner"
-import { Button } from "../ui/button"
-import { Save, Trash } from "lucide-react"
 import { timeFormat } from "@/lib/time-format"
 import EditableCell from "../ui/EditableCell"
-import editTimeLog from "@/server/actions/timer/edit-timeLog"
-import { boolean } from "zod"
 import isStartDate from "@/lib/is-start-date"
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger,
-} from "@/components/ui/tooltip"
+
+import DeleteTimeLogButton from "./timeLogTable/DeleteTimeLogButton"
+import EditTimeLogButton from "./timeLogTable/EditTimeLogButton"
 
 
-
-// delete column
-const DeleteCell = ({ row }: { row: Row<TimeLog> }) => {
-	const { execute, status } = useAction(deleteTimeLog, {
-		onSuccess(data) {
-			if (data.data?.success) {
-				toast.success(data.data.success)
-			}
-			if (data.data?.error) {
-				toast.error(data.data.error)
-			}
-		},
-		onError: (error) => {
-			console.log(error)
-		}
-	})
-
-	const deleteButton = row.original
-	if (!deleteButton) {
-		return null
-	}
-	return (
-		<TooltipProvider>
-			<Tooltip>
-				<TooltipTrigger asChild>
-					<Button
-						key={deleteButton.id}
-						value={deleteButton.categoryId}
-						type="submit"
-						variant={'destructive'}
-						onClick={() => {
-							if (deleteButton.categoryId) {
-								execute({ id: deleteButton.id, categoryId: deleteButton.categoryId })
-							}
-						}}
-					>
-						<Trash />
-					</Button>
-				</TooltipTrigger>
-				<TooltipContent>
-					<p>Delete Timelog</p>
-				</TooltipContent>
-			</Tooltip>
-		</TooltipProvider>
-
-
-	)
-}
-
-
-// edit/save column
-// todo disabled until row is in editable mode
-const EditCell = ({ row }: { row: Row<TimeLog> }) => {
-	const { execute, status } = useAction(editTimeLog, {
-		onSuccess(data) {
-			if (data.data?.success) {
-				toast.success(data.data.success)
-			}
-			if (data.data?.error) {
-				toast.error(data.data.error)
-			}
-		},
-		onError: (error) => {
-			console.log(error)
-		}
-	})
-
-	const editButton = row.original
-	if (!editButton) {
-		return null
-	}
-	return (
-		<TooltipProvider>
-			<Tooltip>
-				<TooltipTrigger asChild>
-					<Button
-						key={editButton.id}
-						value={editButton.categoryId}
-						type="submit"
-						variant={'outline'}
-						onClick={() => {
-							if (editButton.categoryId) {
-								console.log(editButton.categoryId, editButton.id)
-								execute({
-									id: editButton.id,
-									categoryId: editButton.categoryId,
-									startTime: editButton.startTime,
-									endTime: editButton.endTime,
-								})
-							}
-						}}
-					>
-						<Save />
-					</Button>
-				</TooltipTrigger>
-				<TooltipContent>
-					<p>Save changes</p>
-				</TooltipContent>
-			</Tooltip>
-		</TooltipProvider>
-	)
-}
-
-
-
-
-export const TimeLogColumns: ColumnDef<TimeLog>[] =
+export const TimeLogColumns: ColumnDef<TimeLog>[] = 
 	[
 		// {
 		// 	accessorKey: 'id',
@@ -135,13 +19,16 @@ export const TimeLogColumns: ColumnDef<TimeLog>[] =
 			accessorKey: 'startTime',
 			header: 'Start Time',
 			cell: EditableCell,
-			filterFn: isStartDate
+			filterFn: isStartDate,
+			sortingFn: 'datetime',
 
 		},
 		{
 			accessorKey: 'endTime',
 			header: 'End Time',
-			cell: EditableCell
+			cell: EditableCell,
+			sortingFn: 'datetime'
+
 		},
 		{
 			accessorKey: 'timePassed',
@@ -164,7 +51,8 @@ export const TimeLogColumns: ColumnDef<TimeLog>[] =
 						{formattedTimePassed}
 					</span>
 				)
-			}
+			},
+			sortingFn: 'basic'
 		},
 		// {
 		// 	accessorKey: 'running',
@@ -173,11 +61,13 @@ export const TimeLogColumns: ColumnDef<TimeLog>[] =
 		{
 			accessorKey: 'edit',
 			header: 'Save',
-			cell: EditCell
+			cell: EditTimeLogButton,
+			enableSorting: false
 		},
 		{
 			accessorKey: 'delete',
 			header: 'Delete',
-			cell: DeleteCell
+			cell: DeleteTimeLogButton,
+			enableSorting: false
 		}
 	]

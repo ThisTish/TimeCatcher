@@ -1,5 +1,11 @@
 "use client"
 
+import { useState } from "react"
+import isStartDate from "@/lib/is-start-date"
+
+import SearchByDate from "../categoryPage/timeLogTable/SearchByDate"
+import AddTimeLogForm from "../categoryPage/AddTimeLogForm"
+
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -7,6 +13,7 @@ import {
 	getCoreRowModel,
 	getFilteredRowModel,
 	getPaginationRowModel,
+	sortingFns,
 	SortingState,
 	useReactTable,
 } from "@tanstack/react-table"
@@ -26,22 +33,8 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table"
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { useState } from "react"
-import { Input } from "./input"
 import { Button } from "./button"
-import { ChevronLeft, ChevronRight, RefreshCcwIcon } from "lucide-react"
-import { Label } from "./label"
-import AddTimeLogForm from "../categoryPage/AddTimeLogForm"
-import isStartDate from "@/lib/is-start-date"
-import SearchByDate from "../categoryPage/timeLogTable/SearchByDate"
-
-
+import { ChevronDownSquare, ChevronLeft, ChevronRight, ChevronUpSquareIcon } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[]
@@ -51,9 +44,6 @@ interface DataTableProps<TData, TValue> {
 	placeholder: string
 	categoryId?: string
 }
-
-
-
 
 const DataTable = <TData, TValue>({ columns, data, title, description, placeholder, categoryId }: DataTableProps<TData, TValue>) => {
 	const [currentData, setCurrentData] = useState<TData[]>(data)
@@ -88,13 +78,17 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 			sorting,
 			columnFilters
 		},
-		onSortingChange: setSorting
+		onSortingChange: setSorting,
+		sortingFns: {...sortingFns}
+		
 	})
 	// console.log(currentData)
 	// console.dir(columnFilters)
+	// console.log(table.getState().sorting)
 
 	return (
 		<Card className="w-fit bg-gray-200/55">
+			
 			{/* Table Label & description */}
 			<CardHeader>
 				<CardTitle>
@@ -106,13 +100,11 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 			</CardHeader>
 
 			<CardContent>
-				<>
+				
 					{/*SearchBar  */}
-					{/* todo fix date value and add date range */}
 					<SearchByDate table={table} />
 
 					<Table>
-
 						{/* column labels */}
 						<TableHeader>
 							{table.getHeaderGroups().map((headerGroup) => (
@@ -122,14 +114,38 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 											<TableHead key={header.id}>
 												{header.isPlaceholder
 													? null
-													: flexRender(
-														header.column.columnDef.header,
-														header.getContext()
+													: (
+														<div
+															className={
+																header.column.getCanSort()
+																	? 'cursor-pointer select-none'
+																	: ''
+															}
+															onClick={header.column.getToggleSortingHandler()}
+															title={header.column.getCanSort()
+																? header.column.getNextSortingOrder() === 'asc'
+																	? 'Sort ascending'
+																	: header.column.getNextSortingOrder() === 'desc'
+																		? 'Sort descending'
+																		: 'Clear sort'
+																: undefined
+															}
+														>
+															{flexRender(
+																header.column.columnDef.header,
+																header.getContext()
+															)}
+															{{
+																asc: <ChevronUpSquareIcon />,
+																desc: <ChevronDownSquare />,
+															}
+															[header.column.getIsSorted() as string] ?? null
+															}
+														</div>
 													)}
 											</TableHead>
 										)
 									})}
-
 								</TableRow>
 							))}
 						</TableHeader>
@@ -137,7 +153,7 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 						{/* data rows and columns */}
 						<TableBody>
 							{table.getRowModel().rows?.length ? (
-								table.getRowModel().rows.map((row) => (
+								table.getRowModel().rows.slice(0,10).map((row) => (
 									<TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
 										{row.getVisibleCells().map((cell) => (
 											<TableCell key={cell.id}>
@@ -171,7 +187,7 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 								))}
 
 								{/* Add a timelog */}
-								<TableRow>
+								<TableRow >
 									<TableCell>
 										<AddTimeLogForm categoryId={categoryId} />
 									</TableCell>
@@ -201,7 +217,7 @@ const DataTable = <TData, TValue>({ columns, data, title, description, placehold
 							<span>Next</span>
 						</Button>
 					</div>
-				</>
+				
 			</CardContent>
 		</Card>
 	)

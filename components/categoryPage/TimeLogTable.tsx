@@ -1,10 +1,8 @@
 import { TimeLog } from "@/lib/types"
-import { Button } from "../ui/button"
 import DataTable from "../ui/DataTable"
 import { TimeLogColumns } from "./TimeLogColumns"
 
 const TimeLogTable = ({ timeLogs }: { timeLogs?: TimeLog[] }) => {
-	// console.dir(timeLogs)
 
 	const dataTable = timeLogs?.map((timeLog) => {
 		if (!timeLog) return null;

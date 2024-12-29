@@ -1,17 +1,17 @@
 "use client"
 
+import { cn } from "@/lib/utils"
+import { getCategory } from "@/server/actions/category/get-categories"
+import { $Enums } from "@prisma/client"
+import Link from "next/link"
+import { notFound, useParams, useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
+
 import AddTimeLogForm from "@/components/categoryPage/AddTimeLogForm"
 import TimeLogTable from "@/components/categoryPage/TimeLogTable"
 import { backgrounds, textColor } from "@/components/providers/ThemeProvider"
 import { Button } from "@/components/ui/button"
-import { categoryFormSchema } from "@/lib/types"
-import { cn } from "@/lib/utils"
-import { getCategory } from "@/server/actions/category/get-categories"
-import { $Enums } from "@prisma/client"
 import { ArrowLeft } from "lucide-react"
-import Link from "next/link"
-import { useParams, useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
 
 import { toast } from "sonner"
 
@@ -37,6 +37,8 @@ const CategoryPage = () => {
 	const categoryId = useParams().id
 	const [category, setCategory] = useState<Category>()
 
+	if (!categoryId) throw notFound
+
 	const detailedCategory = async (categoryId: string) => {
 		const data = await getCategory(categoryId)
 		if (data.error) {
@@ -58,23 +60,38 @@ const CategoryPage = () => {
 
 
 	return (
-			<main>
-			<h1 className={cn('text-7xl text-white font-bold', category?.color ? textColor[category.color] : 'text-primary ')}>{category?.name}</h1>
-			<Link href="/timers" className="rounded-md border-2 border-black p-2 font-bold inline-flex">
-				<ArrowLeft />
-				<span>Back to timers</span>
-			</Link>
-			{category?.timeLogs.length === 0 || !category?.timeLogs ? (
+		<main>
+			<header className="flex justify-between">
+				<h1 className={cn('text-7xl text-white font-bold', category?.color ? textColor[category.color] : 'text-primary ')}>{category?.name}</h1>
 
-				<AddTimeLogForm categoryId={category?.id ?? ''} />
-			) : (<>
-				<TimeLogTable timeLogs={category?.timeLogs} />
-			</>
-			)
+				{/* Back Button to timers*/}
+				<Button
+					variant={'outline'}>
+					<Link href="/timers" className="inline-flex gap-1 items-center">
+						<ArrowLeft />
+						<span className="text-sm">Back to timers</span>
+					</Link>
+				</Button>
+			</header>
+
+			{/* timeLogs */}
+			{category?.timeLogs.length === 0 || !category?.timeLogs
+				? (
+					<AddTimeLogForm categoryId={category?.id ?? ''} />
+				) : (
+					<TimeLogTable timeLogs={category?.timeLogs} />
+				)
 			}
-		
-	</main>
+
+		</main>
 	)
 }
 
 export default CategoryPage
+
+// * idea to go to next or previous category buttons at bottom with category names in buttons
+
+// * timer
+// const startTime = category?.timeLogs.find((timelog) => timelog.running)?.startTime
+// need timer context i suppose for re-rendering & making sure it is the only category timer running
+// <CategoryPageTimer startTime={startTime ?? null} categoryId={category?.id ?? categoryId[0]}/>

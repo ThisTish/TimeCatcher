@@ -8,8 +8,8 @@ import * as z from 'zod'
 
 
 export const stopTimer = actionClient
-	.schema(z.object({ categoryId: z.string() }))
-	.action(async ({ parsedInput: { categoryId } }) => {
+	.schema(z.object({ categoryId: z.string(), page: z.string() }))
+	.action(async ({ parsedInput: { categoryId, page } }) => {
 		try {
 			const activeTimeLog = await db.timeLog.findFirst({
 				where: {
@@ -38,7 +38,8 @@ export const stopTimer = actionClient
 				})
 
 				if (!updatedTimeLog) return
-				revalidatePath('/timers')
+
+				revalidatePath(`/${page}`)
 
 				let { hours, minutes, seconds } = timeFormat(timePassed / 1000)
 

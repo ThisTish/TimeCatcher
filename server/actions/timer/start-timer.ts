@@ -27,7 +27,7 @@ export const startTimer = actionClient
 					userId
 				}
 			})
-			revalidatePath('/timers')
+			revalidatePath(`/timers`)
 			return { success: 'Timer started!', newTimer }
 		}
 		catch (error) {

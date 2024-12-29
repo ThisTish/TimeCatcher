@@ -59,7 +59,7 @@ const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) =
 						<>
 							<ResetTimerButton timeLogId={category.timeLogId} />
 
-							<StopButton categoryId={category.id} />
+							<StopButton categoryId={category.id} page={'timers'} />
 						</>)
 					: (
 						<>
