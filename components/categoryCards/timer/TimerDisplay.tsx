@@ -1,6 +1,7 @@
 "use client"
 
 import { timeFormat } from "@/lib/time-format"
+import { Timer } from "lucide-react"
 import { useEffect, useState } from "react"
 
 const TimerDisplay = ({ startTime }: { startTime: Date }) => {
@@ -30,9 +31,10 @@ const TimerDisplay = ({ startTime }: { startTime: Date }) => {
 	const { hours, minutes, seconds } = timeFormat(time / 1000)
 
 	return (
-		<div className="text-center">
-			<time>{hours} h {minutes} m {seconds} s</time>
-		</div>
+			<>
+				<Timer  size={18}/>
+			<time dateTime={`${hours}h ${minutes}m ${seconds}s`}>{hours.toString().padStart(2,'0')} : {minutes.toString().padStart(2,'0')} : {seconds.toString().padStart(2, '0')}</time>
+			</>
 	)
 }
 

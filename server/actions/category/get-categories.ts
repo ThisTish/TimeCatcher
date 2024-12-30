@@ -84,6 +84,16 @@ export const getCategoryCardData = async () => {
 						running: true,
 						id: true
 					}
+				},
+				goals:{
+					select:{
+						id: true,
+						timeFrame: true,
+						active: true,
+						reoccurring: true,
+						targetTime: true,
+						completed: true
+					}
 				}
 			}
 		})
