@@ -7,6 +7,8 @@ import TimerDisplay from "./timer/TimerDisplay"
 import { timeFormat } from "@/lib/time-format"
 import { E_Colors } from "@/lib/types"
 import ResetTimerButton from "./timer/ResetTimerButton"
+import { DualRangeSlider } from "../ui/DualRangeSlider"
+import { useState } from "react"
 
 type Color = keyof typeof backgrounds
 
@@ -71,6 +73,7 @@ const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) =
 					)
 				}
 			</div>
+		
 		</div>
 	)
 }

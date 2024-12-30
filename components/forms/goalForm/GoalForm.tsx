@@ -15,22 +15,58 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { GoalFormSchema } from '@/lib/types'
 import { createGoal } from '@/server/actions/goal/createGoal'
 import { Checkbox } from '@/components/ui/checkbox'
-
+import { DualRangeSlider } from '@/components/ui/DualRangeSlider'
+import { time } from 'console'
+import { timeFormat } from '@/lib/time-format'
 
 
 type GoalFormProps = {
 	id?: string
 	categoryId?: string
-	timeFrame?: 'day' | 'week' | 'month' | 'year'
+	timeFrame: 'day' | 'week' | 'month' | 'year'
 	targetTime?: number
 	reoccurring?: boolean
 	active?: boolean
+}
+
+const setSliderOptions = (timeFrame: string ) => {
+	switch (timeFrame) {
+		case 'day':
+			return {
+				min: 15*60*1000,
+				max: 12*60*60*1000,
+				steps: 12*60*60*1000 / 48
+			}
+		case 'week':
+			return {
+				min: 30*60*1000,
+				max: 7*12*60*60*1000,
+				steps: 7*12*60*60*1000 / 168
+			}
+		case 'month':
+			return {
+				min: 60*60*1000,
+				max: 31*12*60*60*1000,
+				steps: 31*12*60*60*1000 / 372
+			}
+		case 'year':
+			return {
+				min: 10*60*60*1000,
+				max: 365*12*60*60*1000,
+				steps: 365*12*60*60*1000 / 876
+			}		
+			default:
+				return {
+					min: 10*60*60*1000,
+					max: 365*12*60*60*1000,
+					steps: 365*12*60*60*1000 / 4380
+				}
+	}
 }
 
 const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring, active }: GoalFormProps) => {
@@ -42,7 +78,7 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring, active }
 			id: id ? id : undefined,
 			categoryId: id ? categoryId : '',
 			timeFrame: id ? timeFrame : 'day',
-			targetTime: id ? targetTime : 0,
+			targetTime: id ? targetTime : setSliderOptions(timeFrame).min,
 			reoccurring: id ? reoccurring : false,
 			active: id ? active : true
 		},
@@ -101,6 +137,16 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring, active }
 		execute(values)
 	}
 
+	const sliderTargetTimeLabel = () =>{
+		const { hours, minutes } = timeFormat(goalForm.getValues('targetTime') / 1000)
+		if(timeFrame === 'month' || timeFrame === 'year'){
+			return `${hours}hr`
+		}
+		if(hours <= 0){
+			return `${minutes}min`
+		}
+		return `${hours}hr ${minutes}min`
+	}
 
 	return (
 		<Form {...goalForm}>
@@ -111,11 +157,20 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring, active }
 					control={goalForm.control}
 					name="targetTime"
 					render={({ field }) => (
-						<FormItem>
-							<FormLabel>TargetTime</FormLabel>
+						<FormItem >
+							<FormLabel>Target Time</FormLabel>
 							<FormControl>
 								{/* slider */}
-									<Input {...field} type='range' />
+								<DualRangeSlider
+									className='py-10'
+									label={() => `${sliderTargetTimeLabel()}`}
+									value={[field.value]}
+									min={setSliderOptions(timeFrame).min}
+									max={setSliderOptions(timeFrame).max}
+									step={setSliderOptions(timeFrame).steps}
+									onValueChange={(value) => field.onChange(value[0])}
+								/>
+								
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -128,7 +183,7 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring, active }
 					name="reoccurring"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Reoccurring?</FormLabel>
+							<FormLabel>Reoccurring? </FormLabel>
 							<FormControl >
 								<Checkbox id='reoccurring' checked={field.value} onCheckedChange={field.onChange} />
 							</FormControl>
