@@ -4,7 +4,7 @@ import * as z from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useAction } from 'next-safe-action/hooks'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -21,7 +21,6 @@ import { GoalFormSchema } from '@/lib/types'
 import { createGoal } from '@/server/actions/goal/createGoal'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DualRangeSlider } from '@/components/ui/DualRangeSlider'
-import { time } from 'console'
 import { timeFormat } from '@/lib/time-format'
 
 
@@ -31,7 +30,6 @@ type GoalFormProps = {
 	timeFrame: 'day' | 'week' | 'month' | 'year'
 	targetTime?: number
 	reoccurring?: boolean
-	active?: boolean
 }
 
 const setSliderOptions = (timeFrame: string ) => {
@@ -69,29 +67,41 @@ const setSliderOptions = (timeFrame: string ) => {
 	}
 }
 
-const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring, active }: GoalFormProps) => {
+
+
+const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring }: GoalFormProps) => {
 	const [buttonLabel, setButtonLabel] = useState('Add another')
+
+	const sliderTargetTimeLabel = () =>{
+		const { hours, minutes } = timeFormat(goalForm.getValues('targetTime') / 1000)
+		if(timeFrame === 'month' || timeFrame === 'year'){
+			return `${hours}hr`
+		}
+		if(hours <= 0){
+			return `${minutes}min`
+		}
+		return `${hours}hr ${minutes}min`
+	}
 
 	const goalForm = useForm<z.infer<typeof GoalFormSchema>>({
 		resolver: zodResolver(GoalFormSchema),
 		defaultValues: {
 			id: id ? id : undefined,
-			categoryId: id ? categoryId : '',
-			timeFrame: id ? timeFrame : 'day',
+			categoryId: categoryId,
+			timeFrame: timeFrame,
 			targetTime: id ? targetTime : setSliderOptions(timeFrame).min,
 			reoccurring: id ? reoccurring : false,
-			active: id ? active : true
 		},
 		mode: 'onChange'
 	})
 
 	const router = useRouter()
 
-	const { execute, result, isExecuting, hasErrored, hasSucceeded } = useAction(createGoal, {
+	const { execute, isExecuting, hasErrored, hasSucceeded } = useAction(createGoal, {
 		onSuccess: (data) => {
 			if (data.data?.success) {
+				console.log('executed')
 				router.push('/timers')
-
 
 				if (id) {
 					toast.success(data.data.success, {
@@ -119,13 +129,16 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring, active }
 		},
 		onExecute: () => {
 			if (id) {
-				const updatingToast = toast.loading('Updating category...')
+				console.log('executing')
+				const updatingToast = toast.loading('Updating goal...')
 				setTimeout(() => {
 					toast.dismiss(updatingToast)
 				}, 3000)
 			}
 			if (!id) {
-				const creatingToast = toast.loading('Creating category...')
+				console.log('executing')
+
+				const creatingToast = toast.loading('Creating goal...')
 				setTimeout(() => {
 					toast.dismiss(creatingToast)
 				}, 3000)
@@ -134,19 +147,11 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring, active }
 	})
 
 	const onSubmit = (values: z.infer<typeof GoalFormSchema>) => {
+		console.log('submitting',values)
 		execute(values)
 	}
 
-	const sliderTargetTimeLabel = () =>{
-		const { hours, minutes } = timeFormat(goalForm.getValues('targetTime') / 1000)
-		if(timeFrame === 'month' || timeFrame === 'year'){
-			return `${hours}hr`
-		}
-		if(hours <= 0){
-			return `${minutes}min`
-		}
-		return `${hours}hr ${minutes}min`
-	}
+	
 
 	return (
 		<Form {...goalForm}>
@@ -168,7 +173,11 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring, active }
 									min={setSliderOptions(timeFrame).min}
 									max={setSliderOptions(timeFrame).max}
 									step={setSliderOptions(timeFrame).steps}
-									onValueChange={(value) => field.onChange(value[0])}
+									onValueChange={(value) => {
+										console.log('slider changed', value)
+										field.onChange(value[0])
+									}
+									}
 								/>
 								
 							</FormControl>
@@ -192,7 +201,7 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring, active }
 					)}
 				/>
 
-				{hasSucceeded || hasErrored ? (
+				{/* {hasSucceeded || hasErrored ? (
 					<>
 						{hasErrored || result.data?.error &&
 							<Button type="submit" disabled={isExecuting}>Try Again</Button>
@@ -202,9 +211,9 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring, active }
 
 						}
 					</>
-				) : (
-					<Button type="submit" disabled={isExecuting}>{id ? 'Save' : 'Create'}</Button>
-				)}
+				) : ( */}
+					<Button type="submit" >{id ? 'Save' : 'Add'}</Button>
+				{/* )} */}
 
 
 			</form>
