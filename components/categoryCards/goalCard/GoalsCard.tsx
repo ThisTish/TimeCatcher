@@ -25,28 +25,25 @@ const GoalCards = ({ goals, color, timePassed }: GoalCardProps) => {
 
 
 	return (
-		<Card className={`${backgrounds[color]} rounded-md w-64 height-52 flex flex-col justify-around relative`}>
-
-			<CardHeader>
-				<h3 className="text-xl font-semibold">Goals</h3>
-
+		<Card className={`${backgrounds[color]} rounded-md size-64 flex flex-col justify-around relative`}>
+			<CardHeader className="pt-2 pb-1 mb-1 text-lg font-bold text-center border border-b-2">
+			<h3>GOALS</h3>
 			</CardHeader>
-
 			{/* running timer display */}
-			<CardContent className="flex flex-col gap-3 items-center justify-center h-10 tabular-nums">
+			<CardContent className="grid gap-1 tabular-nums">
 				{/* {goals?.map((goal) => ( */}
+					<GoalDisplay
+					/>
+					<GoalDisplay
+					/>
+					<GoalDisplay
+					/>
 					<GoalDisplay
 					/>
 {/* ))} */}
 
 
 			</CardContent>
-
-
-			{/* edit category button*/}
-			<CardFooter className="flex justify-center gap-5">
-
-			</CardFooter>
 		</Card>
 	)
 }

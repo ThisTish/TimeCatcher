@@ -42,7 +42,7 @@ const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) =
 
 	return (
 		<>
-		<Card className={`${backgrounds[category.color]} rounded-md size-52 flex flex-col justify-around relative`}>
+		<Card className={`${backgrounds[category.color]} rounded-md size-64 flex flex-col justify-around relative`}>
 
 			{/* category options */}
 			<div className="absolute right-0 top-0">

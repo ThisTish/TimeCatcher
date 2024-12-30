@@ -35,7 +35,7 @@ const runningTimer = runningCategory?.timeLogs.find((log) => log.running)
 	return (
 		<div>
 			<h1>Timers</h1>
-			<div className="flex flex-wrap gap-10 m-20">
+			<div className="flex flex-wrap justify-center gap-10 md:m-20">
 				{categories.map((category) =>
 					<CategoryTimerCard
 						key={category.id}
