@@ -1,13 +1,16 @@
+"use client"
+
 import { backgrounds } from "@/components/providers/ThemeProvider"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { E_Colors } from "@/lib/types"
 import { TimeFrame } from "@prisma/client"
 import GoalDisplay from "./GoalDisplay"
+import getTotalTime from "@/server/actions/timer/getTotalTime"
+import { useEffect, useState } from "react"
 
 type GoalCardProps = {
 	categoryId: string
 	color: E_Colors
-	timePassed: number
 	goals?: {
 		id: string
 		timeFrame: TimeFrame
@@ -18,9 +21,27 @@ type GoalCardProps = {
 	}[]
 }
 
+const GoalCards = ({ goals, color, categoryId }: GoalCardProps) => {
+	const [dayTime, setDayTime] = useState(0)
+	const [weekTime, setWeekTime] = useState(0)
+	const [monthTime, setMonthTime] = useState(0)
+	const [yearTime, setYearTime] = useState(0)
+	const [totalTimes, setTotalTimes] = useState<Record<string, number>>({})
 
+	useEffect(() => {
+		const fetchTimes = async () => {
+			if (!goals) return
+			const times: Record<string, number> = {}
+			for (const goal of goals) {
+				if (goal.active) {
+					times[goal.id] = (await getTotalTime(categoryId, goal.timeFrame)) ?? 0
+				}
+			}
+			setTotalTimes(times)
+		}
+		fetchTimes().catch(console.error)
+	}, [])
 
-const GoalCards = ({ goals, color, timePassed }: GoalCardProps) => {
 
 	const activeGoals = goals?.filter((goal) => goal.active)
 
@@ -32,13 +53,33 @@ const GoalCards = ({ goals, color, timePassed }: GoalCardProps) => {
 			{/* running timer display */}
 			<CardContent className="grid gap-1 tabular-nums">
 				{activeGoals?.map((goal) => (
-					goal.timeFrame === TimeFrame.YEAR ? (
-						<GoalDisplay key={goal.id} timeFrame='YEAR' timePassed={360000} targetTime={2400000} />
-					) : null
-				))
-			}
-				
-
+					<div key={goal.id}>
+						{goal.timeFrame === TimeFrame.DAY && (
+							<GoalDisplay timeFrame='DAY' timePassed={dayTime} targetTime={goal.targetTime} />
+						)}
+						{goal.timeFrame === TimeFrame.WEEK && (
+							<GoalDisplay timeFrame='WEEK' timePassed={weekTime} targetTime={goal.targetTime} />
+						)}
+						{goal.timeFrame === TimeFrame.MONTH && (
+							<GoalDisplay timeFrame='MONTH' timePassed={monthTime} targetTime={goal.targetTime} />
+						)}
+						{goal.timeFrame === TimeFrame.YEAR && (
+							<GoalDisplay timeFrame='YEAR' timePassed={yearTime} targetTime={goal.targetTime} />
+						)}
+					</div>
+				))}
+				{!activeGoals?.some((goal) => goal.timeFrame === TimeFrame.DAY) && (
+					<button className="btn btn-primary">Add Day Goal</button>
+				)}
+				{!activeGoals?.some((goal) => goal.timeFrame === TimeFrame.WEEK) && (
+					<button className="btn btn-primary">Add Week Goal</button>
+				)}
+				{!activeGoals?.some((goal) => goal.timeFrame === TimeFrame.MONTH) && (
+					<button className="btn btn-primary">Add Month Goal</button>
+				)}
+				{!activeGoals?.some((goal) => goal.timeFrame === TimeFrame.YEAR) && (
+					<button className="btn btn-primary">Add Year Goal</button>
+				)}
 
 			</CardContent>
 		</Card>

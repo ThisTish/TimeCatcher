@@ -90,7 +90,6 @@ enum TimeFrame {
   DAY
   WEEK
   MONTH
-  SEASON
   YEAR
 }
 

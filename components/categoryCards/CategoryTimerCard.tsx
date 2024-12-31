@@ -8,7 +8,7 @@ import StartButton from "./timer/StartButton"
 import StopButton from "./timer/StopButton"
 import TimerDisplay from "./timer/TimerDisplay"
 import ResetTimerButton from "./timer/ResetTimerButton"
-import GoalCards from "./goalCard/GoalsCard"
+import GoalCards from "./goalCard/GoalCards"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card"
@@ -96,7 +96,7 @@ const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) =
 				}
 			</CardFooter>
 		</Card>
-		<GoalCards goals={category.goals} categoryId={category.id} color={category.color} timePassed={category.totalTime}/>
+		<GoalCards goals={category.goals} categoryId={category.id} color={category.color} />
 		</>
 	)
 }

@@ -3,6 +3,7 @@ import FormContainer from "@/components/forms/FormContainer"
 import { getCategoryCardData } from "@/server/actions/category/get-categories"
 import CategoryTimerCard from "@/components/categoryCards/CategoryTimerCard"
 import { E_Colors } from "@/lib/types"
+import getTotalTime from "@/server/actions/timer/getTotalTime"
 
 const TimersPage = async () => {
 

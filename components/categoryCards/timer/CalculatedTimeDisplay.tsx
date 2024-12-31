@@ -1,16 +1,17 @@
 
 import { timeFormat } from "@/lib/time-format"
 import getTotalTime from "@/server/actions/timer/getTotalTime"
+import { TimeFrame } from "@prisma/client"
 
 type CalculatedTimeDisplayProps = {
 	categoryId: string
-	timeFrame?: "allTime" | "day" | "week" | "month" | "season" | "year"
+	timeFrame: TimeFrame
 }
 
 
 const CalculatedTimeDisplay = async ({categoryId, timeFrame}: CalculatedTimeDisplayProps) => {
 
-	const totalTime = await getTotalTime(categoryId)
+	const totalTime = await getTotalTime(categoryId, timeFrame)
 
 	if(!totalTime) return 0
 
