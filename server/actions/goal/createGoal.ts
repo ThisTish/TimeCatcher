@@ -21,7 +21,7 @@ export const createGoal = actionClient
 					},
 					data: {
 						categoryId,
-						timeFrame: timeFrame.toUpperCase() as TimeFrame,
+						timeFrame: timeFrame as TimeFrame,
 						targetTime,
 						reoccurring
 					}
@@ -45,14 +45,14 @@ export const createGoal = actionClient
 					data: {
 						categoryId,
 						userId,
-						timeFrame: timeFrame.toUpperCase() as TimeFrame,
+						timeFrame: timeFrame as TimeFrame,
 						targetTime,
 						completed: false,
 						reoccurring,
 						active: true
 					}
 				})
-				return { success: `${newGoal.timeFrame.toLowerCase()} goal created!` } 
+				return { success: `${newGoal.timeFrame.slice(0,1).toUpperCase() + newGoal.timeFrame.slice(1).toLowerCase()} goal created!` } 
 
 			} catch (error) {
 				console.log(error)

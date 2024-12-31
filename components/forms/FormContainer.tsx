@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, CSSProperties } from "react"
 import { useMediaQuery } from "@/hooks/use-media-query"
 
 import { Button } from "@/components/ui/button"
@@ -25,15 +25,17 @@ import {
 	DrawerTrigger,
 } from "@/components/ui/drawer"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 type FormContainerProps = {
 	openButtonLabel: string
 	title: 'Create a new category' | 'Update category details' | 'Add a new goal' | 'Update goal details'
 	description: string
 	children: React.ReactNode
+	className?: string
 }
 
-const FormContainer = ({openButtonLabel, title, description, children}: FormContainerProps) => {
+const FormContainer = ({openButtonLabel, title, description, children, className}: FormContainerProps) => {
 	const [open, setOpen] = useState(false)
 	const isDesktop = useMediaQuery("(min-width: 768px)")
 
@@ -41,7 +43,7 @@ const FormContainer = ({openButtonLabel, title, description, children}: FormCont
 		return (
 			<Dialog open={open} onOpenChange={setOpen}>
 				<DialogTrigger asChild>
-					<Button type="button" variant={'ghost'} className="border-white border">{openButtonLabel}</Button>
+					<Button type="button" variant='ghost' className={cn("border-white border", className)}>{openButtonLabel}</Button>
 				</DialogTrigger>
 				<DialogContent className="sm:max-w-[425px]">
 					<DialogHeader>
@@ -64,7 +66,7 @@ const FormContainer = ({openButtonLabel, title, description, children}: FormCont
 	return (
 		<Drawer open={open} onOpenChange={setOpen}>
 			<DrawerTrigger asChild>
-				<Button variant="outline">{openButtonLabel}</Button>
+				<Button variant="ghost">{openButtonLabel}</Button>
 			</DrawerTrigger>
 			<DrawerContent>
 				<DrawerHeader className="text-left">

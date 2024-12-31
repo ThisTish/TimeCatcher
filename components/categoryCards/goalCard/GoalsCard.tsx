@@ -45,13 +45,34 @@ const GoalCards = ({ goals, color, categoryId }: GoalCardProps) => {
 
 	const activeGoals = goals?.filter((goal) => goal.active)
 
-	return (
-		<Card className={`${backgrounds[color]} rounded-md size-64 flex flex-col justify-around relative`}>
-			<CardHeader className="pt-2 pb-1 mb-1 text-lg font-bold text-center border border-b-2">
-				<h3>GOALS</h3>
-			</CardHeader>
-			{/* running timer display */}
-			<CardContent className="grid gap-1 tabular-nums">
+	const timeFrames = Object.values(TimeFrame)
+
+	timeFrames.map((timeFrame) => {
+		const goal = activeGoals?.find((goal) => goal.timeFrame === timeFrame)
+
+		const timePassed =
+			timeFrame === TimeFrame.DAY
+				? dayTime
+				: timeFrame === TimeFrame.WEEK
+					? weekTime
+					: timeFrame === TimeFrame.MONTH
+						? monthTime
+						: yearTime
+	}
+	)
+
+return (
+	<Card className={`${backgrounds[color]} rounded-md size-64 flex flex-col justify-around relative`}>
+		<CardHeader className="pt-2 pb-1 mb-1 text-lg font-bold text-center border border-b-2">
+			<h3>GOALS</h3>
+		</CardHeader>
+		{/* running timer display */}
+
+		<CardContent className="grid gap-1 tabular-nums">
+			
+
+		</CardContent>
+		{/* <CardContent className="grid gap-1 tabular-nums">
 				{activeGoals?.map((goal) => (
 					<div key={goal.id}>
 						{goal.timeFrame === TimeFrame.DAY && (
@@ -81,9 +102,9 @@ const GoalCards = ({ goals, color, categoryId }: GoalCardProps) => {
 					<button className="btn btn-primary">Add Year Goal</button>
 				)}
 
-			</CardContent>
-		</Card>
-	)
+			</CardContent> */}
+	</Card>
+)
 }
 
 export default GoalCards

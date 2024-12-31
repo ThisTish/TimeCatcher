@@ -7,6 +7,7 @@ import { TimeFrame } from "@prisma/client";
 import GoalDisplay from "./GoalDisplay";
 import getTotalTime from "@/server/actions/timer/getTotalTime";
 import { useEffect, useState } from "react";
+import GoalDisplayEmpty from "./GoalDisplayEmpty";
 
 type GoalCardProps = {
 	categoryId: string;
@@ -52,27 +53,17 @@ const GoalCards = ({ goals, color, categoryId }: GoalCardProps) => {
 
 		if (goal) {
 			return (
-				<div key={timeFrame}>
 					<GoalDisplay
+						key={goal.id}
 						timeFrame={timeFrame}
 						timePassed={totalTimes[timeFrame] ?? 0}
 						targetTime={goal.targetTime}
 					/>
-				</div>
 			);
 		}
 
 		return (
-			<div key={timeFrame}>
-				<button
-					className="btn btn-primary"
-					onClick={() => {
-						console.log(`Add ${timeFrame} Goal`); // Replace with real add goal logic
-					}}
-				>
-					Add {timeFrame.charAt(0).toUpperCase() + timeFrame.slice(1).toLowerCase()} Goal
-				</button>
-			</div>
+			<GoalDisplayEmpty key={timeFrame} timeFrame={timeFrame} categoryId={categoryId}/>
 		);
 	});
 

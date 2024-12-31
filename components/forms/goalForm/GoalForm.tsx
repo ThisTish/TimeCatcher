@@ -22,37 +22,38 @@ import { createGoal } from '@/server/actions/goal/createGoal'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DualRangeSlider } from '@/components/ui/DualRangeSlider'
 import { timeFormat } from '@/lib/time-format'
+import { TimeFrame } from '@prisma/client'
 
 
 type GoalFormProps = {
 	id?: string
 	categoryId?: string
-	timeFrame: 'day' | 'week' | 'month' | 'year'
+	timeFrame: TimeFrame
 	targetTime?: number
 	reoccurring?: boolean
 }
 
 const setSliderOptions = (timeFrame: string ) => {
 	switch (timeFrame) {
-		case 'day':
+		case 'DAY':
 			return {
 				min: 15*60*1000,
 				max: 12*60*60*1000,
 				steps: 12*60*60*1000 / 48
 			}
-		case 'week':
+		case 'WEEK':
 			return {
 				min: 30*60*1000,
 				max: 7*12*60*60*1000,
 				steps: 7*12*60*60*1000 / 168
 			}
-		case 'month':
+		case 'MONTH':
 			return {
 				min: 60*60*1000,
 				max: 31*12*60*60*1000,
 				steps: 31*12*60*60*1000 / 372
 			}
-		case 'year':
+		case 'YEAR':
 			return {
 				min: 10*60*60*1000,
 				max: 365*12*60*60*1000,
@@ -71,10 +72,11 @@ const setSliderOptions = (timeFrame: string ) => {
 
 const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring }: GoalFormProps) => {
 	const [buttonLabel, setButtonLabel] = useState('Add another')
+	console.log(timeFrame)
 
 	const sliderTargetTimeLabel = () =>{
 		const { hours, minutes } = timeFormat(goalForm.getValues('targetTime') / 1000)
-		if(timeFrame === 'month' || timeFrame === 'year'){
+		if(timeFrame === 'MONTH' || timeFrame === 'YEAR'){
 			return `${hours}hr`
 		}
 		if(hours <= 0){
