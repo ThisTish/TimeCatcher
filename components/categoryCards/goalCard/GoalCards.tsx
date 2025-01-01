@@ -55,9 +55,12 @@ const GoalCards = ({ goals, color, categoryId }: GoalCardProps) => {
 			return (
 					<GoalDisplay
 						key={goal.id}
+						id={goal.id}
 						timeFrame={timeFrame}
 						timePassed={totalTimes[timeFrame] ?? 0}
 						targetTime={goal.targetTime}
+						reoccurring={goal.reoccurring}
+						categoryId={categoryId}
 					/>
 			);
 		}
@@ -68,11 +71,11 @@ const GoalCards = ({ goals, color, categoryId }: GoalCardProps) => {
 	});
 
 	return (
-		<Card className={`${backgrounds[color]} rounded-md size-64 flex flex-col justify-around relative`}>
+		<Card className={`${backgrounds[color]} rounded-md size-64 flex flex-col justify-around`}>
 			<CardHeader className="pt-2 pb-1 mb-1 text-lg font-bold text-center border border-b-2">
 				<h3>GOALS</h3>
 			</CardHeader>
-			<CardContent className="grid gap-1 tabular-nums">{slots}</CardContent>
+			<CardContent className="w-full px-2 flex flex-col items-center">{slots}</CardContent>
 		</Card>
 	);
 };

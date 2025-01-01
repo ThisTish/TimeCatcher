@@ -1,4 +1,5 @@
 
+import { TimeFrame } from '@prisma/client'
 import * as z from 'zod'
 // to register a user
 export const registerFormSchema = z.object({
@@ -103,7 +104,7 @@ export const TimeLogSchema = z.object({
 export const GoalFormSchema = z.object({
 	id: z.string().optional(),
 	categoryId: z.string(),
-	timeFrame: z.string(),
+	timeFrame: z.nativeEnum(TimeFrame),
 	targetTime: z.number(),
 	reoccurring: z.boolean(),
 	active: z.boolean().optional()

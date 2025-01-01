@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, CSSProperties } from "react"
+import { useState, CSSProperties, ForwardRefExoticComponent, RefAttributes, ReactNode } from "react"
 import { useMediaQuery } from "@/hooks/use-media-query"
 
 import { Button } from "@/components/ui/button"
@@ -26,11 +26,12 @@ import {
 } from "@/components/ui/drawer"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import { LucideProps } from "lucide-react"
 
 type FormContainerProps = {
-	openButtonLabel: string
+	openButtonLabel: ReactNode | string
 	title: 'Create a new category' | 'Update category details' | 'Add a new goal' | 'Update goal details'
-	description: string
+	description?: string
 	children: React.ReactNode
 	className?: string
 }

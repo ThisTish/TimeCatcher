@@ -9,11 +9,12 @@ import { TimeFrame } from "@prisma/client"
 
 export const createGoal = actionClient
 	.schema(GoalFormSchema)
-	.action(async ({ parsedInput: { id, categoryId, timeFrame, targetTime, reoccurring } }) => {
-		console.log('starting', id, categoryId, timeFrame, targetTime, reoccurring)
+	.action(async ({ parsedInput: { id, categoryId, timeFrame, targetTime, reoccurring, active } }) => {
+		console.log('starting', id, categoryId, timeFrame, targetTime, reoccurring, active)
 
 
 		if (id) {
+			console.log('starting')
 			try {
 				const updatedGoal = await db.goal.update({
 					where: {
@@ -23,7 +24,8 @@ export const createGoal = actionClient
 						categoryId,
 						timeFrame: timeFrame as TimeFrame,
 						targetTime,
-						reoccurring
+						reoccurring,
+						active
 					}
 				})
 				return { success: `${updatedGoal.timeFrame} goal updated!` }
