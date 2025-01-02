@@ -5,10 +5,15 @@ import CategoryTimerCard from "@/components/categoryCards/CategoryTimerCard"
 import { E_Colors } from "@/lib/types"
 import GoalCards from "@/components/categoryCards/goalCard/GoalCards"
 import CategoryCard from "@/components/categoryCards/CategoryCard"
+import checkAndUpdateGoal from "@/server/actions/goal/check-and-update-goal"
 
 const TimersPage = async () => {
 
 	const { success, error } = await getCategoryCardData()
+	if(success){
+		const categories = success
+		categories.map((category) => checkAndUpdateGoal(category.id))
+	}
 
 	if (error) throw new Error(error)
 

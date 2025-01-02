@@ -3,6 +3,7 @@ import GoalForm from "@/components/forms/goalForm/GoalForm"
 import { Progress } from "@/components/ui/progress"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { timeFormatString } from "@/lib/time-format"
+import { cn } from "@/lib/utils"
 import { TimeFrame } from "@prisma/client"
 import { Edit, RefreshCw } from "lucide-react"
 
@@ -13,10 +14,11 @@ type GoalDisplayProps = {
 	timePassed: number
 	targetTime: number
 	reoccurring: boolean
+	completed: boolean
 }
 
 
-const GoalDisplay = ({ id, timeFrame, timePassed, targetTime, reoccurring, categoryId }: GoalDisplayProps) => {
+const GoalDisplay = ({ id, timeFrame, timePassed, targetTime, reoccurring, categoryId, completed }: GoalDisplayProps) => {
 	const timeToGo = targetTime - timePassed
 	let progress = (timePassed / targetTime) * 100
 	if (progress > 100) progress = 100
@@ -40,7 +42,7 @@ const GoalDisplay = ({ id, timeFrame, timePassed, targetTime, reoccurring, categ
 					: null}
 			</header>
 
-			<div className="flex items-center justify-center text-xs gap-1">
+			<div className={cn("flex items-center justify-center text-xs gap-1", completed ? 'bg-white' : '')}>
 				<span className="text-nowrap">{timeFormatString({ time: timePassed, h: 'h', m: 'm', includeSeconds: false })}</span>
 				<Progress
 					className="border border-black"

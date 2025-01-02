@@ -9,7 +9,7 @@ import { useEffect, useState } from "react"
 
 import AddTimeLogForm from "@/components/categoryPage/timeLogTable/AddTimeLogForm"
 import TimeLogTable from "@/components/categoryPage/timeLogTable/TimeLogTable"
-import { backgrounds, textColor } from "@/components/providers/ThemeProvider"
+import { textColor } from "@/components/providers/ThemeProvider"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 

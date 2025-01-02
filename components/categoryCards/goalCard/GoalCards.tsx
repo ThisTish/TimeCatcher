@@ -45,6 +45,7 @@ const GoalCards = ({ goals, color, categoryId, timeLogs }: GoalCardProps) => {
 					targetTime={goal.targetTime}
 					reoccurring={goal.reoccurring}
 					categoryId={categoryId}
+					completed={goal.completed}
 				/>
 			)
 		}
