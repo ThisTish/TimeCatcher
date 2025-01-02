@@ -55,7 +55,9 @@ const getTotalTime = async (categoryId: string, timeFrame: TimeFrame | "ALLTIME"
 		if(totalTime.length === 0 || !totalTime[0]._sum.timePassed || !totalTime[0]._sum.timePassed){
 			return 0
 		}
+
 		const categoryTotalTime = totalTime.find((time) => time.categoryId === categoryId)
+		console.log('time',categoryTotalTime?._sum.timePassed)
 		return categoryTotalTime?._sum.timePassed || 0
 
 	}

@@ -1,5 +1,5 @@
 import { TimeFrame } from "@prisma/client"
-import { E_Colors } from "@/lib/types"
+import { E_Colors, GoalDisplayProps, TimeLog } from "@/lib/types"
 import { timeFormat } from "@/lib/time-format"
 
 import { backgrounds } from "@/components/providers/ThemeProvider"
@@ -23,15 +23,9 @@ type CategoryTimerCardProps = {
 	disabled: boolean
 	totalTime: number
 	startTime?: Date
-	timeLogId?: string
-	goals?:{
-		id: string
-		timeFrame: TimeFrame
-		active: boolean
-		reoccurring: boolean
-		targetTime: number
-		completed: boolean
-	}[]
+	runningTimeLogId?: string,
+	timeLogs?: TimeLog[] 
+	goals: GoalDisplayProps
 }
 
 
@@ -76,10 +70,10 @@ const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) =
 
 
 				{/* start/stop timer button */}
-				{category.running && category.timeLogId
+				{category.running && category.runningTimeLogId
 					? (
 						<>
-							<ResetTimerButton timeLogId={category.timeLogId} />
+							<ResetTimerButton timeLogId={category.runningTimeLogId} />
 
 							<StopButton categoryId={category.id} page={'timers'} />
 						</>)
@@ -96,7 +90,9 @@ const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) =
 				}
 			</CardFooter>
 		</Card>
-		<GoalCards goals={category.goals} categoryId={category.id} color={category.color} />
+		<GoalCards goals={category.goals}  categoryId={category.id} color={category.color} timeLogs={category.timeLogs} />
+
+		
 		</>
 	)
 }

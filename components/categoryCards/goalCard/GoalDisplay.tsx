@@ -20,6 +20,7 @@ const GoalDisplay = ({ id, timeFrame, timePassed, targetTime, reoccurring, categ
 	const timeToGo = targetTime - timePassed
 	let progress = (timePassed / targetTime) * 100
 	if (progress > 100) progress = 100
+	
 
 	return (
 		<div className="w-full -ml-1 relative">

@@ -92,6 +92,16 @@ export type TimeLog = {
     running: boolean
 } | undefined | null
 
+export type GoalDisplayProps = {
+    	id:string
+		timeFrame: TimeFrame
+		active: boolean
+		reoccurring: boolean
+		targetTime: number
+		completed: boolean
+	}[]
+
+
 export const TimeLogSchema = z.object({
 	id: z.string().optional(),
 	categoryId: z.string(),

@@ -48,7 +48,8 @@ const runningTimer = runningCategory?.timeLogs.find((log) => log.running)
 							disabled: runningCategory && runningCategory.id !== category.id ? true : false,
 							totalTime: category.timeLogs.reduce((acc, log) => acc + (log.timePassed ?? 0), 0),
 							startTime: runningTimer?.startTime,
-							timeLogId: runningTimer?.id,
+							runningTimeLogId: runningTimer?.id,
+							timeLogs: category.timeLogs,
 							goals: category.goals
 						}}
 					/>

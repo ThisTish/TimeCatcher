@@ -82,6 +82,7 @@ export const getCategoryCardData = async () => {
 					select: {
 						timePassed: true,
 						startTime: true,
+						endTime: true,
 						running: true,
 						id: true
 					}

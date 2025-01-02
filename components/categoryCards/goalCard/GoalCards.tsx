@@ -2,27 +2,22 @@
 
 import { backgrounds } from "@/components/providers/ThemeProvider";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { E_Colors } from "@/lib/types";
+import { E_Colors, GoalDisplayProps, TimeLog } from "@/lib/types";
 import { TimeFrame } from "@prisma/client";
 import GoalDisplay from "./GoalDisplay";
 import getTotalTime from "@/server/actions/timer/getTotalTime";
 import { useEffect, useState } from "react";
 import GoalDisplayEmpty from "./GoalDisplayEmpty";
+import getTotals from "@/lib/totals-by-timeFrame";
 
 type GoalCardProps = {
 	categoryId: string;
 	color: E_Colors;
-	goals?: {
-		id: string;
-		timeFrame: TimeFrame;
-		active: boolean;
-		reoccurring: boolean;
-		targetTime: number;
-		completed: boolean;
-	}[];
+	goals?: GoalDisplayProps
+	timeLogs?: TimeLog[]
 };
 
-const GoalCards = ({ goals, color, categoryId }: GoalCardProps) => {
+const GoalCards = ({ goals, color, categoryId, timeLogs }: GoalCardProps) => {
 	const [totalTimes, setTotalTimes] = useState<Record<TimeFrame, number>>({
 	[TimeFrame.DAY]: 0,
 	[TimeFrame.WEEK]: 0,
@@ -30,34 +25,23 @@ const GoalCards = ({ goals, color, categoryId }: GoalCardProps) => {
 	[TimeFrame.YEAR]: 0,
 	});
 
-	// Fetch total times for each active goal
-	useEffect(() => {
-		const fetchTimes = async () => {
-			if (!goals) return;
 
-			const times: Record<TimeFrame, number> = { ...totalTimes };
-			for (const timeFrame of Object.values(TimeFrame)) {
-				times[timeFrame] = (await getTotalTime(categoryId, timeFrame)) ?? 0;
-			}
-			setTotalTimes(times);
-		};
-
-		fetchTimes().catch(console.error);
-	}, [goals, categoryId]);
 
 	const activeGoals = goals?.filter((goal) => goal.active);
 
+	
 	// Generate goal display slots
 	const slots = Object.values(TimeFrame).map((timeFrame) => {
 		const goal = activeGoals?.find((g) => g.timeFrame === timeFrame);
-
+		
 		if (goal) {
+			const totalTimeByPeriod = getTotals(goal.timeFrame, timeLogs ?? [])
 			return (
 					<GoalDisplay
 						key={goal.id}
 						id={goal.id}
 						timeFrame={timeFrame}
-						timePassed={totalTimes[timeFrame] ?? 0}
+						timePassed={totalTimeByPeriod}
 						targetTime={goal.targetTime}
 						reoccurring={goal.reoccurring}
 						categoryId={categoryId}
@@ -81,3 +65,20 @@ const GoalCards = ({ goals, color, categoryId }: GoalCardProps) => {
 };
 
 export default GoalCards;
+
+
+
+	// Fetch total times for each active goal
+	// useEffect(() => {
+	// 	const fetchTimes = async () => {
+	// 		if (!goals) return;
+
+	// 		const times: Record<TimeFrame, number> = { ...totalTimes };
+	// 		for (const timeFrame of Object.values(TimeFrame)) {
+	// 			times[timeFrame] = (await getTotalTime(categoryId, timeFrame)) ?? 0;
+	// 		}
+	// 		setTotalTimes(times);
+	// 	};
+
+	// 	fetchTimes().catch(console.error);
+	// }, [goals, categoryId]);
