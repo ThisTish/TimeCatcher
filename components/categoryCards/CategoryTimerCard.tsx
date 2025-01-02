@@ -1,98 +1,44 @@
-import { TimeFrame } from "@prisma/client"
-import { E_Colors, GoalDisplayProps, TimeLog } from "@/lib/types"
-import { timeFormat } from "@/lib/time-format"
+import { CategoryTimerCardProps } from "@/lib/types"
 
-import { backgrounds } from "@/components/providers/ThemeProvider"
-import CategoryTimerCardDropDown from "./CategoryTimerCardDropDown"
 import StartButton from "./timer/StartButton"
 import StopButton from "./timer/StopButton"
 import TimerDisplay from "./timer/TimerDisplay"
 import ResetTimerButton from "./timer/ResetTimerButton"
-import GoalCards from "./goalCard/GoalCards"
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader } from "../ui/card"
-
-type Color = keyof typeof backgrounds
-
-type CategoryTimerCardProps = {
-	id: string
-	name: string
-	color: E_Colors
-	running: boolean
-	disabled: boolean
-	totalTime: number
-	startTime?: Date
-	runningTimeLogId?: string,
-	timeLogs?: TimeLog[] 
-	goals: GoalDisplayProps
-}
+import { CardContent, CardFooter} from "../ui/card"
 
 
-const CategoryTimerCard = ({ category }: { category: CategoryTimerCardProps }) => {
 
-	const { hours, minutes, seconds } = timeFormat(category.totalTime / 1000 || 0)
 
+
+const CategoryTimerCard = ({ categoryId, running, runningTimeLogId, disabled, startTime }: CategoryTimerCardProps) => {
 
 	return (
 		<>
-		<Card className={`${backgrounds[category.color]} rounded-md size-64 flex flex-col justify-around relative`}>
-
-			{/* category options */}
-			<div className="absolute right-0 top-0">
-				<CategoryTimerCardDropDown id={category.id} name={category.name} color={category.color} />
-			</div>
-
-			<CardHeader>
-				<h2 className="text-2xl font-bold tracking-wide text-center">{category.name}</h2>
-
-				{/* category TotalTime */}
-				<div className="text-center text-xs font-light">
-					<p>Total Time</p>
-					<time>{hours} h {minutes} m {seconds} s</time>
-				</div>
-			</CardHeader>
-
-			{/* running timer display */}
-			{category.running && category.startTime ? (
-				<CardContent className="flex gap-3 items-center justify-center h-10 tabular-nums">
-
-					<TimerDisplay startTime={category.startTime} />
-
-				</CardContent>
-
-			) : <CardContent className="flex gap-3 items-center justify-center h-10 tabular-nums"> </CardContent>
-
-			}
-
-			{/* edit category button*/}
-			<CardFooter className="flex justify-center gap-5">
-
-
-				{/* start/stop timer button */}
-				{category.running && category.runningTimeLogId
-					? (
-						<>
-							<ResetTimerButton timeLogId={category.runningTimeLogId} />
-
-							<StopButton categoryId={category.id} page={'timers'} />
-						</>)
-					: (
-						<>
-							<Button
-								variant={'ghost'}
-								className="border-white border">
-								Goals
-							</Button>
-							<StartButton categoryId={category.id} disabled={category.disabled} />
-						</>
-					)
+				{/* running timer display */}
+				{running && startTime ? (
+					<CardContent className="flex gap-3 items-center justify-center text-xl font-semibold h-20 tabular-nums">
+						<TimerDisplay startTime={startTime} />
+					</CardContent>
+				) : (<CardContent className="flex gap-3 items-center justify-center h-10 tabular-nums">
+								<StartButton categoryId={categoryId} disabled={disabled} />
+								</CardContent>)
 				}
-			</CardFooter>
-		</Card>
-		<GoalCards goals={category.goals}  categoryId={category.id} color={category.color} timeLogs={category.timeLogs} />
 
-		
+				<div className="inline-flex gap-5 mb-10 mx-auto ">
+
+					{/* start/stop timer button */}
+					{running && runningTimeLogId
+						? (
+							<>
+								<ResetTimerButton timeLogId={runningTimeLogId} />
+								<StopButton categoryId={categoryId} page={'timers'} />
+							</>
+						) : ( null
+								// <StartButton categoryId={categoryId} disabled={disabled} />
+						)
+					}
+				</div>
 		</>
 	)
 }

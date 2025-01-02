@@ -82,6 +82,14 @@ export const categoryFormSchema = z.object({
 	id: z.string().optional()
 })
 
+export type CategoryTimerCardProps = {
+	categoryId: string
+	running: boolean
+	disabled: boolean
+	startTime?: Date
+	runningTimeLogId?: string,
+}
+
 
 export type TimeLog = {
 	id: string
