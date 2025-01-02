@@ -24,10 +24,10 @@ type GoalCardProps = {
 
 const GoalCards = ({ goals, color, categoryId }: GoalCardProps) => {
 	const [totalTimes, setTotalTimes] = useState<Record<TimeFrame, number>>({
-		[TimeFrame.DAY]: 0,
-		[TimeFrame.WEEK]: 0,
-		[TimeFrame.MONTH]: 0,
-		[TimeFrame.YEAR]: 0,
+	[TimeFrame.DAY]: 0,
+	[TimeFrame.WEEK]: 0,
+	[TimeFrame.MONTH]: 0,
+	[TimeFrame.YEAR]: 0,
 	});
 
 	// Fetch total times for each active goal

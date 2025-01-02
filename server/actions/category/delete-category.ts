@@ -15,7 +15,6 @@ const deleteCategory = actionClient
 					id
 				}
 			})
-			console.log(data)
 			revalidatePath('/timers')
 			return { success: `Category ${data.name} deleted successfully` }
 

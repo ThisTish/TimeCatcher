@@ -49,25 +49,25 @@ const GoalDisplay = ({ id, timeFrame, timePassed, targetTime, reoccurring, categ
 				<span className="text-nowrap">{timeFormatString({ time: targetTime, h: 'h', m: 'm', includeSeconds: false, })}</span>
 
 
-				<TooltipProvider>
+				{/* <TooltipProvider>
 					<Tooltip>
-						<TooltipTrigger >
+						<TooltipTrigger asChild> */}
 							<FormContainer
 								className=" border-none -mr-1 p-0  h-fit z-10"
-								title="Update goal details"
+								title="Edit goal"
 								openButtonLabel={
-									<Edit className="" />
+									<Edit className="" aria-label="Edit"/>
 
 								}
 							>
 								<GoalForm id={id} timeFrame={timeFrame} targetTime={targetTime} reoccurring={reoccurring} categoryId={categoryId}/>
 							</FormContainer>
-						</TooltipTrigger>
+						{/* </TooltipTrigger>
 						<TooltipContent>
 							Edit
 						</TooltipContent>
 					</Tooltip>
-				</TooltipProvider>
+				</TooltipProvider> */}
 			</div>
 			<footer>
 				<p className="text-center text-xs tracking-tighter leading-none">

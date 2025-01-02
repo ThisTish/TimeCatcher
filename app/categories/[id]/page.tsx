@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 
 import { toast } from "sonner"
+import CategoryTotalTimes from "@/components/categoryPage/CategoryTotalTimes"
 
 type Category = {
 	id: string
@@ -30,7 +31,7 @@ type Category = {
 	}[]
 }
 
-type Color = keyof typeof backgrounds
+// type Color = keyof typeof backgrounds
 
 const CategoryPage = () => {
 	const router = useRouter()
@@ -60,7 +61,7 @@ const CategoryPage = () => {
 
 
 	return (
-		<main>
+		<main >
 			<header className="flex justify-between">
 				<h1 className={cn('text-7xl text-white font-bold', category?.color ? textColor[category.color] : 'text-primary ')}>{category?.name}</h1>
 
@@ -74,14 +75,24 @@ const CategoryPage = () => {
 				</Button>
 			</header>
 
-			{/* timeLogs */}
+			{/* TotalTimes */}
 			{category?.timeLogs.length === 0 || !category?.timeLogs
-				? (
-					<AddTimeLogForm categoryId={category?.id ?? ''} />
+				? (<div>
+					<p>No time caught yet. Check back for total times.</p>
+				</div>
 				) : (
-					<TimeLogTable timeLogs={category?.timeLogs} />
+						<CategoryTotalTimes timeLogs={category.timeLogs}  />
 				)
 			}
+
+			{/* timeLogs */}
+				{category?.timeLogs.length === 0 || !category?.timeLogs
+					? (
+						<AddTimeLogForm categoryId={category?.id ?? ''} />
+					) : (
+						<TimeLogTable timeLogs={category?.timeLogs} />
+					)
+				}
 
 		</main>
 	)

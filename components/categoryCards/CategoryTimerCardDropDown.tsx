@@ -39,16 +39,16 @@ const CategoryTimerCardDropDown = ({ id, name, color }: { id: string, name: stri
 					</Link>
 				</DropdownMenuItem>
 
-				{/* Add Goal */}
-				<DropdownMenuItem asChild>
-					<FormContainer 
-						title="Add a new goal"
-						description="Add a new goal to your list"
-						openButtonLabel="Add Goal"
-					>
-						<GoalForm categoryId={id} timeFrame="year"/>
-					</FormContainer>
-				</DropdownMenuItem>
+				{/* Add Goal
+				// <DropdownMenuItem asChild>
+				// 	<FormContainer 
+				// 		title="Add a new goal"
+				// 		description="Add a new goal to your list"
+				// 		openButtonLabel="Add Goal"
+				// 	>
+				// 		<GoalForm categoryId={id} timeFrame="YEAR"/>
+				// 	</FormContainer>
+				// </DropdownMenuItem> */}
 
 				{/* Delete */}
 				<DropdownMenuItem>

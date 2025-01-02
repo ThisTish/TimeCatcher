@@ -10,11 +10,9 @@ import { TimeFrame } from "@prisma/client"
 export const createGoal = actionClient
 	.schema(GoalFormSchema)
 	.action(async ({ parsedInput: { id, categoryId, timeFrame, targetTime, reoccurring, active } }) => {
-		console.log('starting', id, categoryId, timeFrame, targetTime, reoccurring, active)
 
 
 		if (id) {
-			console.log('starting')
 			try {
 				const updatedGoal = await db.goal.update({
 					where: {
@@ -40,7 +38,6 @@ export const createGoal = actionClient
 			if (!session) return { error: "You must be logged in to create a goal" }
 			const userId = session.user?.id?.toString()
 			if (!userId) return { error: "You must be logged in to create a goal" }
-		console.log('starting', id, categoryId, timeFrame, targetTime, reoccurring)
 
 			try {
 				const newGoal = await db.goal.create({

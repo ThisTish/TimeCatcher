@@ -15,7 +15,6 @@ const deleteTimeLog = actionClient
 					id
 				}
 			})
-			console.log(data)
 			revalidatePath(`/category/${categoryId}`)
 			return { success: `Timelog deleted successfully` }
 

@@ -20,6 +20,7 @@ export const getCategory = async (id: string) => {
 			},
 			
 		})
+		if(!categoryData) return { error: "Category not found" }
 
 		return { success: categoryData }
 

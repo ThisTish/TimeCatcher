@@ -105,7 +105,6 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring }: GoalFo
 	const { execute, isExecuting, result, hasErrored, hasSucceeded } = useAction(createGoal, {
 		onSuccess: (data) => {
 			if (data.data?.success) {
-				console.log('executed')
 				router.push('/timers')
 
 				if (id) {
@@ -150,7 +149,6 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring }: GoalFo
 	})
 
 	const onSubmit = (values: z.infer<typeof GoalFormSchema>) => {
-		console.log('submitting',values)
 		execute(values)
 	}
 
