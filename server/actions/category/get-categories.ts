@@ -11,7 +11,14 @@ export const getCategory = async (id: string) => {
 				id
 			},
 			include:{
-				// goals: true,
+				goals: {select: {
+					id: true,
+					timeFrame: true,
+					active: true,
+					reoccurring: true,
+					targetTime: true,
+					completed: true
+				}},
 				timeLogs: {
 					orderBy: {
 						startTime: 'desc'

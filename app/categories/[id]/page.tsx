@@ -15,6 +15,8 @@ import { ArrowLeft } from "lucide-react"
 
 import { toast } from "sonner"
 import CategoryTotalTimes from "@/components/categoryPage/CategoryTotalTimes"
+import checkAndUpdateGoal from "@/server/actions/goal/check-and-update-goal"
+import { GoalDisplayProps } from "@/lib/types"
 
 type Category = {
 	id: string
@@ -29,6 +31,7 @@ type Category = {
 		timePassed: number
 		running: boolean
 	}[]
+	goals: GoalDisplayProps
 }
 
 // type Color = keyof typeof backgrounds
@@ -49,6 +52,7 @@ const CategoryPage = () => {
 		}
 		if (data.success) {
 			const categoryData = data.success
+			checkAndUpdateGoal(categoryData.id)
 			setCategory(categoryData)
 		}
 	}
@@ -58,6 +62,8 @@ const CategoryPage = () => {
 			detailedCategory(categoryId.toString())
 		}
 	}, [])
+
+	const activeGoals = category?.goals.filter((goal) => goal.active)
 
 
 	return (
@@ -81,18 +87,28 @@ const CategoryPage = () => {
 					<p>No time caught yet. Check back for total times.</p>
 				</div>
 				) : (
-						<CategoryTotalTimes timeLogs={category.timeLogs}  />
+					<CategoryTotalTimes timeLogs={category.timeLogs} />
 				)
 			}
 
 			{/* timeLogs */}
-				{category?.timeLogs.length === 0 || !category?.timeLogs
-					? (
-						<AddTimeLogForm categoryId={category?.id ?? ''} />
-					) : (
-						<TimeLogTable timeLogs={category?.timeLogs} />
-					)
-				}
+			{category?.timeLogs.length === 0 || !category?.timeLogs
+				? (
+					<AddTimeLogForm categoryId={category?.id ?? ''} />
+				) : (
+					<TimeLogTable timeLogs={category?.timeLogs} />
+				)
+			}
+
+			{activeGoals && activeGoals.length > 0 && activeGoals.map((activeGoal) => (
+				<div key={activeGoal.id}>
+					<p>{activeGoal.timeFrame}</p>
+					{activeGoal.completed ? <p>Completed!</p> : <p>Not completed</p>}
+
+				</div>
+
+			))}
+			
 
 		</main>
 	)

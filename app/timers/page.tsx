@@ -1,16 +1,14 @@
 import CategoryForm from "@/components/forms/CategoryForm"
 import FormContainer from "@/components/forms/FormContainer"
 import { getCategoryCardData } from "@/server/actions/category/get-categories"
-import CategoryTimerCard from "@/components/categoryCards/CategoryTimerCard"
 import { E_Colors } from "@/lib/types"
-import GoalCards from "@/components/categoryCards/goalCard/GoalCards"
 import CategoryCard from "@/components/categoryCards/CategoryCard"
 import checkAndUpdateGoal from "@/server/actions/goal/check-and-update-goal"
 
 const TimersPage = async () => {
 
 	const { success, error } = await getCategoryCardData()
-	if(success){
+	if (success) {
 		const categories = success
 		categories.map((category) => checkAndUpdateGoal(category.id))
 	}
@@ -57,14 +55,8 @@ const TimersPage = async () => {
 								runningTimeLogId: runningTimer?.id,
 								goals: category.goals,
 								timeLogs: category.timeLogs
-								}}
+							}}
 						/>
-						{/* <GoalCards
-							goals={category.goals}
-							categoryId={category.id}
-							color={category.color as E_Colors}
-							timeLogs={category.timeLogs}
-						/> */}
 					</div>
 				)}
 

@@ -11,7 +11,6 @@ export const createGoal = actionClient
 	.schema(GoalFormSchema)
 	.action(async ({ parsedInput: { id, categoryId, timeFrame, targetTime, reoccurring, active } }) => {
 
-
 		if (id) {
 			try {
 				const updatedGoal = await db.goal.update({
@@ -51,12 +50,11 @@ export const createGoal = actionClient
 						active: true
 					}
 				})
-				return { success: `${newGoal.timeFrame.slice(0,1).toUpperCase() + newGoal.timeFrame.slice(1).toLowerCase()} goal created!` } 
+				return { success: `${newGoal.timeFrame.slice(0, 1).toUpperCase() + newGoal.timeFrame.slice(1).toLowerCase()} goal created!` }
 
 			} catch (error) {
 				console.log(error)
 				return { error: `There was an error creating the goal` }
 			}
 		}
-
 	})
