@@ -102,12 +102,18 @@ model Goal {
   completed Boolean
   reoccurring Boolean
   active Boolean
+
+  startDate DateTime
+  endDate DateTime
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
   category Category @relation(fields: [categoryId], references: [id])
   @@index([userId])
   @@index([categoryId])
+  
+  @@unique([categoryId, timeFrame, active], name: "unique_active_goal_per_category_timeFrame")
 }
 
 model TimeLog {

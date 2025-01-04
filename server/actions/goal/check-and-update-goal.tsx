@@ -55,3 +55,4 @@ const checkAndUpdateGoal = async (categoryId: string) => {
 }
 
 export default checkAndUpdateGoal
+

@@ -63,9 +63,6 @@ const CategoryPage = () => {
 		}
 	}, [])
 
-	const activeGoals = category?.goals.filter((goal) => goal.active)
-
-
 	return (
 		<main >
 			<header className="flex justify-between">
@@ -100,10 +97,10 @@ const CategoryPage = () => {
 				)
 			}
 
-			{activeGoals && activeGoals.length > 0 && activeGoals.map((activeGoal) => (
-				<div key={activeGoal.id}>
-					<p>{activeGoal.timeFrame}</p>
-					{activeGoal.completed ? <p>Completed!</p> : <p>Not completed</p>}
+			{category?.goals && category.goals.length > 0 && category.goals.map((goal) => (
+				<div key={goal.id}>
+					<p>{goal.timeFrame}</p>
+					{goal.completed ? <p>Completed!</p> : <p>Not completed</p>}
 
 				</div>
 

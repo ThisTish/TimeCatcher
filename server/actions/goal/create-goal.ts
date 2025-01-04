@@ -6,6 +6,9 @@ import { db } from "@/prisma/db"
 import { auth } from "@/server/actions/auth/auth"
 import { TimeFrame } from "@prisma/client"
 
+// ! adding startTime & endTime to Goal Model, need to add these to the creation using timeFrameDates,
+// ! also adding logic to warn that only one active goal for timeFrame is allowed.
+// ! then will write logic to create new, if reoccurring at the endTime of timeFrame.
 
 export const createGoal = actionClient
 	.schema(GoalFormSchema)

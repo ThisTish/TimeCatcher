@@ -8,7 +8,6 @@ export function timeFormat(time: number) {
 }
 
  export const timeFormatString = ({ time, h, m, includeSeconds, s }: { time: number, h: string, m: string, includeSeconds: boolean, s?: string }) => {
-	console.log(timeFormat(time / 1000))
 	if (time === 0) {
 		if (includeSeconds) return `0${h} 0${m} 0${s}`
 		return `0${h} 0${m}`

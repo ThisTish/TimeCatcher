@@ -18,6 +18,8 @@ export const getCategory = async (id: string) => {
 					reoccurring: true,
 					targetTime: true,
 					completed: true
+				}, orderBy: {
+					updatedAt: 'desc'
 				}},
 				timeLogs: {
 					orderBy: {

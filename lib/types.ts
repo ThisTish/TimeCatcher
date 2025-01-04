@@ -125,5 +125,8 @@ export const GoalFormSchema = z.object({
 	timeFrame: z.nativeEnum(TimeFrame),
 	targetTime: z.number(),
 	reoccurring: z.boolean(),
-	active: z.boolean().optional()
+	active: z.boolean().optional(),
+	
+	startTime: z.date().optional(),
+	endTime: z.date().optional()
 })
