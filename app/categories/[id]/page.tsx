@@ -17,6 +17,8 @@ import { toast } from "sonner"
 import CategoryTotalTimes from "@/components/categoryPage/CategoryTotalTimes"
 import checkAndUpdateGoal from "@/server/actions/goal/check-and-update-goal"
 import { GoalDisplayProps } from "@/lib/types"
+import FormContainer from "@/components/forms/FormContainer"
+import GoalForm from "@/components/forms/goalForm/GoalForm"
 
 type Category = {
 	id: string
@@ -105,7 +107,7 @@ const CategoryPage = () => {
 				</div>
 
 			))}
-			
+				
 
 		</main>
 	)

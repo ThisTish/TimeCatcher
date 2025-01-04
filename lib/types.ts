@@ -1,4 +1,5 @@
 
+import { db } from '@/prisma/db'
 import { TimeFrame } from '@prisma/client'
 import * as z from 'zod'
 // to register a user
@@ -6,9 +7,9 @@ export const registerFormSchema = z.object({
 	name: z.string().min(3, {
 		message: 'More than 3 characters for a name, please',
 	})
-	.max(20, {
-		message: 'Less than 20 characters for name, please'
-	}),
+		.max(20, {
+			message: 'Less than 20 characters for name, please'
+		}),
 
 	email: z.string().email({
 		message: 'Not an actual email address. Please try again'
@@ -24,9 +25,9 @@ export const registerFormSchema = z.object({
 	}),
 	code: z.optional(z.string())
 })
-.refine((data) => data.password === data.confirm, {
-	message: 'One password is not like the other, try again'
-})
+	.refine((data) => data.password === data.confirm, {
+		message: 'One password is not like the other, try again'
+	})
 
 
 // to login a user
@@ -39,9 +40,9 @@ export const loginFormSchema = z.object({
 	password: z.string().min(8, {
 		message: "A password should be more than 8 characters, yeah"
 	})
-	.regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, {
-		message: 'Use at lease one of each, Uppercase, LowerCase, and Number. Special characters are not welcome.'
-	}),
+		.regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, {
+			message: 'Use at lease one of each, Uppercase, LowerCase, and Number. Special characters are not welcome.'
+		}),
 
 	code: z.optional(z.string())
 })
@@ -93,21 +94,21 @@ export type CategoryTimerCardProps = {
 
 export type TimeLog = {
 	id: string
-    categoryId?: string
-    startTime: Date
-    endTime: Date | null
-    timePassed: number
-    running: boolean
+	categoryId?: string
+	startTime: Date
+	endTime: Date | null
+	timePassed: number
+	running: boolean
 } | undefined | null
 
 export type GoalDisplayProps = {
-    	id:string
-		timeFrame: TimeFrame
-		active: boolean
-		reoccurring: boolean
-		targetTime: number
-		completed: boolean
-	}[]
+	id: string
+	timeFrame: TimeFrame
+	active: boolean
+	reoccurring: boolean
+	targetTime: number
+	completed: boolean
+}[]
 
 
 export const TimeLogSchema = z.object({
@@ -126,7 +127,7 @@ export const GoalFormSchema = z.object({
 	targetTime: z.number(),
 	reoccurring: z.boolean(),
 	active: z.boolean().optional(),
-	
 	startTime: z.date().optional(),
-	endTime: z.date().optional()
+	endTime: z.date().optional(),
+
 })

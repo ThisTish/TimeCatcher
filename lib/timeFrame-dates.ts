@@ -22,7 +22,7 @@ const timeFrameDates = (timeFrame: TimeFrame | "ALLTIME") =>{
 			break
 		case TimeFrame.MONTH:
 			startDate = new Date(currentYear, currentMonth, 1)
-			endDate = new Date(new Date(currentYear, currentMonth + 1, 0).setHours(23, 59, 59, 999))
+			endDate = new Date(new Date(currentYear, currentMonth + 1, 1).setHours(23, 59, 59, 999))
 			break
 		case TimeFrame.YEAR:
 			startDate = new Date(currentYear, 0, 1)

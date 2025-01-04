@@ -5,10 +5,11 @@ import { actionClient } from "@/lib/safe-action"
 import { db } from "@/prisma/db"
 import { auth } from "@/server/actions/auth/auth"
 import { TimeFrame } from "@prisma/client"
+import timeFrameDates from "@/lib/timeFrame-dates"
 
-// ! adding startTime & endTime to Goal Model, need to add these to the creation using timeFrameDates,
-// ! also adding logic to warn that only one active goal for timeFrame is allowed.
 // ! then will write logic to create new, if reoccurring at the endTime of timeFrame.
+// ! if editing, mark active, or delete button instead?
+// ! add pause
 
 export const createGoal = actionClient
 	.schema(GoalFormSchema)
@@ -25,7 +26,9 @@ export const createGoal = actionClient
 						timeFrame: timeFrame as TimeFrame,
 						targetTime,
 						reoccurring,
-						active
+						active,
+						startDate: timeFrameDates(timeFrame).startDate,
+						endDate: timeFrameDates(timeFrame).endDate
 					}
 				})
 				return { success: `${updatedGoal.timeFrame} goal updated!` }
@@ -50,9 +53,12 @@ export const createGoal = actionClient
 						targetTime,
 						completed: false,
 						reoccurring,
-						active: true
+						active: true,
+						startDate: timeFrameDates(timeFrame).startDate,
+						endDate: timeFrameDates(timeFrame).endDate
 					}
 				})
+				console.dir(newGoal)
 				return { success: `${newGoal.timeFrame.slice(0, 1).toUpperCase() + newGoal.timeFrame.slice(1).toLowerCase()} goal created!` }
 
 			} catch (error) {
