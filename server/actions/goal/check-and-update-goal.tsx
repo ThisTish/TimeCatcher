@@ -1,5 +1,7 @@
 import { db } from "@/prisma/db"
 import getTotals from "@/lib/totals-by-timeFrame"
+import { createGoal } from "./create-goal"
+import timeFrameDates from "@/lib/timeFrame-dates"
 
 const checkAndUpdateGoal = async (categoryId: string) => {
 	try {
@@ -12,6 +14,7 @@ const checkAndUpdateGoal = async (categoryId: string) => {
 				category: {
 					select: {
 						timeLogs: true
+
 					}
 				}
 			}
@@ -52,6 +55,43 @@ const checkAndUpdateGoal = async (categoryId: string) => {
 		return { error: `There was an error updating the goal` }
 	}
 
+}
+
+export const checkDateAndUpdate = async (categoryId: string) =>{
+	const reoccurringGoals = await db.goal.findMany({
+		where: {
+			categoryId,
+			reoccurring: true,
+			active: true,
+			endDate: {
+				lte: new Date()
+			}
+		}
+	})
+	if(!reoccurringGoals.length && reoccurringGoals.length === 0) return
+	console.log('reoccurringGoals', reoccurringGoals)
+	for(const goal of reoccurringGoals){
+		const deactivatedGoal = await db.goal.update({
+			where: {
+				id: goal.id
+			},
+			data: {
+				active: false,			}
+		})
+
+			const newGoal = await createGoal({
+				categoryId: goal.categoryId,
+				timeFrame: goal.timeFrame,
+				targetTime: goal.targetTime,
+				reoccurring: goal.reoccurring,
+				active: true,
+				startTime: timeFrameDates(goal.timeFrame).startDate,
+				endTime: timeFrameDates(goal.timeFrame).endDate
+			})
+
+			console.log('deactivatedGoal', deactivatedGoal)
+			console.log('newGoal', newGoal)
+	}
 }
 
 export default checkAndUpdateGoal
