@@ -7,7 +7,6 @@ import { auth } from "@/server/actions/auth/auth"
 import { TimeFrame } from "@prisma/client"
 import timeFrameDates from "@/lib/timeFrame-dates"
 
-// ! then will write logic to create new, if reoccurring at the endTime of timeFrame.
 // ! if editing, mark active, or delete button instead?
 // ! add pause
 
@@ -26,12 +25,14 @@ export const createGoal = actionClient
 						timeFrame: timeFrame as TimeFrame,
 						targetTime,
 						reoccurring,
-						active,
 						startDate: timeFrameDates(timeFrame).startDate,
 						endDate: timeFrameDates(timeFrame).endDate
 					}
 				})
-				return { success: `${updatedGoal.timeFrame} goal updated!` }
+
+				if(!updatedGoal) return { error: `There was an error updating the goal` }
+
+				return { success: `${updatedGoal.timeFrame} goal updated!`, updatedGoal }
 			} catch (error) {
 				console.log(error)
 				return { error: `There was an error updating the goal` }
@@ -59,7 +60,7 @@ export const createGoal = actionClient
 					}
 				})
 				console.dir(newGoal)
-				return { success: `${newGoal.timeFrame.slice(0, 1).toUpperCase() + newGoal.timeFrame.slice(1).toLowerCase()} goal created!` }
+				return { success: `${newGoal.timeFrame.slice(0, 1).toUpperCase() + newGoal.timeFrame.slice(1).toLowerCase()} goal created!`, newGoal }
 
 			} catch (error) {
 				console.log(error)

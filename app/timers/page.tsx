@@ -3,7 +3,7 @@ import FormContainer from "@/components/forms/FormContainer"
 import { getCategoryCardData } from "@/server/actions/category/get-categories"
 import { E_Colors } from "@/lib/types"
 import CategoryCard from "@/components/categoryCards/CategoryCard"
-import checkAndUpdateGoal, { checkDateAndUpdate } from "@/server/actions/goal/check-and-update-goal"
+import { checkDateAndUpdateGoal } from "@/server/actions/goal/check-and-update-goal"
 
 const TimersPage = async () => {
 
@@ -11,8 +11,7 @@ const TimersPage = async () => {
 	if (success) {
 		const categories = success
 		categories.map((category) => {
-			checkAndUpdateGoal(category.id)
-			checkDateAndUpdate(category.id)
+			checkDateAndUpdateGoal(category.id)
 		})
 	}
 

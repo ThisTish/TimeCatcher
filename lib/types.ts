@@ -108,6 +108,8 @@ export type GoalDisplayProps = {
 	reoccurring: boolean
 	targetTime: number
 	completed: boolean
+	startDate: Date
+	endDate: Date
 }[]
 
 

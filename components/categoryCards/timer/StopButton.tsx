@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { checkCompletionAndUpdateGoal } from "@/server/actions/goal/check-and-update-goal"
 import { stopTimer } from "@/server/actions/timer/stop-timer"
 import { useAction } from "next-safe-action/hooks"
 import { toast } from "sonner"
@@ -13,7 +14,7 @@ const StopButton = ({ categoryId, page }: { categoryId: string, page: string }) 
 		// }),
 		onSuccess: ((data) => {
 			if (data.data?.success) {
-				console.log(data.data.success)
+				checkCompletionAndUpdateGoal(categoryId)
 				toast.success(data.data.success)
 			}
 			if (data.data?.error) {

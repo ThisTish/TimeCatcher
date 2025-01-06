@@ -3,18 +3,16 @@ import getTotals from "@/lib/totals-by-timeFrame"
 import { createGoal } from "./create-goal"
 import timeFrameDates from "@/lib/timeFrame-dates"
 
-const checkAndUpdateGoal = async (categoryId: string) => {
+export const checkCompletionAndUpdateGoal = async (categoryId: string) => {
 	try {
 		const goals = await db.goal.findMany({
 			where: {
 				categoryId,
-				active: true
 			},
 			include: {
 				category: {
 					select: {
 						timeLogs: true
-
 					}
 				}
 			}
@@ -24,19 +22,19 @@ const checkAndUpdateGoal = async (categoryId: string) => {
 
 		for (const goal of goals) {
 			const totalTime = getTotals(goal.timeFrame, goal.category.timeLogs)
-			if(goal.completed && totalTime < goal.targetTime){
-					const updatedGoal = await db.goal.update({
-						where: {
-							id: goal.id
-						},
-						data: {
-							completed: false
-						}
-					})
-			console.log(updatedGoal)
+			if (goal.completed && totalTime < goal.targetTime) {
+				const updatedGoal = await db.goal.update({
+					where: {
+						id: goal.id
+					},
+					data: {
+						completed: false
+					}
+				})
+				console.log(updatedGoal)
 			}
 
-			if(!goal.completed && totalTime >= goal.targetTime){
+			if (!goal.completed && totalTime >= goal.targetTime) {
 				const updatedGoal = await db.goal.update({
 					where: {
 						id: goal.id
@@ -45,11 +43,14 @@ const checkAndUpdateGoal = async (categoryId: string) => {
 						completed: true
 					}
 				})
-			console.log(updatedGoal)
+				
+				console.log(updatedGoal)
 
 			}
 		}
-		return { success: 'Goals updated.'}
+		
+		return { success: 'Goals updated.' }
+
 	} catch (error) {
 		console.log(error)
 		return { error: `There was an error updating the goal` }
@@ -57,42 +58,71 @@ const checkAndUpdateGoal = async (categoryId: string) => {
 
 }
 
-export const checkDateAndUpdate = async (categoryId: string) =>{
-	const reoccurringGoals = await db.goal.findMany({
-		where: {
-			categoryId,
-			reoccurring: true,
-			active: true,
-			endDate: {
-				lte: new Date()
-			}
-		}
-	})
-	if(!reoccurringGoals.length && reoccurringGoals.length === 0) return
-	console.log('reoccurringGoals', reoccurringGoals)
-	for(const goal of reoccurringGoals){
-		const deactivatedGoal = await db.goal.update({
+// *also needs to be called on dashboard just in case
+export const checkDateAndUpdateGoal = async (categoryId: string) => {
+	try {
+
+		const passedGoals = await db.goal.findMany({
 			where: {
-				id: goal.id
+				categoryId,
+				active: true,
+				endDate: {
+					lte: new Date()
+				}
 			},
-			data: {
-				active: false,			}
+			select: {
+				id: true,
+				categoryId: true,
+				timeFrame: true,
+				targetTime: true,
+				reoccurring: true,
+			}
 		})
 
-			const newGoal = await createGoal({
-				categoryId: goal.categoryId,
-				timeFrame: goal.timeFrame,
-				targetTime: goal.targetTime,
-				reoccurring: goal.reoccurring,
-				active: true,
-				startTime: timeFrameDates(goal.timeFrame).startDate,
-				endTime: timeFrameDates(goal.timeFrame).endDate
+		if (!passedGoals.length && passedGoals.length === 0) return
+
+		console.log('passedGoals', passedGoals)
+
+		for (const goal of passedGoals) {
+			const deactivatedGoal = await db.goal.update({
+				where: {
+					id: goal.id
+				},
+				data: {
+					active: false,
+				}
 			})
 
+			if (goal.reoccurring) {
+				const newGoal = await createGoal({
+					categoryId: goal.categoryId,
+					timeFrame: goal.timeFrame,
+					targetTime: goal.targetTime,
+					reoccurring: goal.reoccurring,
+					active: true,
+					startTime: timeFrameDates(goal.timeFrame).startDate,
+					endTime: timeFrameDates(goal.timeFrame).endDate
+				})
+				console.log('newGoal', newGoal)
+			}
 			console.log('deactivatedGoal', deactivatedGoal)
-			console.log('newGoal', newGoal)
+		}
+	} catch (error) {
+		console.log(error)
+		return { error: `There was an error updating the goal` }
 	}
 }
 
-export default checkAndUpdateGoal
 
+
+
+
+
+// when app loads, check if if today is past the end date of a goal
+//  if it is
+// deactivate old goal,
+//and if it is also reoccurring,
+// create new goal with same props, but new id, startDate, and endDate
+
+// when timer is stopped, or a timelog is updated, or a goal is created/updated- check if timePassed is >= targetTime
+// if it is, mark goal as completed

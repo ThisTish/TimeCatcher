@@ -23,6 +23,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { DualRangeSlider } from '@/components/ui/DualRangeSlider'
 import { timeFormat } from '@/lib/time-format'
 import { TimeFrame } from '@prisma/client'
+import { checkCompletionAndUpdateGoal } from '@/server/actions/goal/check-and-update-goal'
 
 
 type GoalFormProps = {
@@ -106,15 +107,17 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring }: GoalFo
 		onSuccess: (data) => {
 			if (data.data?.success) {
 				router.push('/timers')
-
-				if (id) {
+				
+				if (id && data.data.updatedGoal) {
+					checkCompletionAndUpdateGoal(data.data.updatedGoal.categoryId)
 					toast.success(data.data.success, {
 						description: 'Update successful! If you are finished, click Done to close the form'
 					})
 
 					setButtonLabel('Save new updates')
 				}
-				if (!id) {
+				if (!id && data.data.newGoal) {
+					checkCompletionAndUpdateGoal(data.data.newGoal.categoryId)
 					toast.success(data.data.success, {
 						description: 'Continue to add more, or click Done to close the form'
 					})

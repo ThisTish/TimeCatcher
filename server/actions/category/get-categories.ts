@@ -17,7 +17,9 @@ export const getCategory = async (id: string) => {
 					active: true,
 					reoccurring: true,
 					targetTime: true,
-					completed: true
+					completed: true,
+					startDate: true,
+					endDate: true
 				}, orderBy: {
 					updatedAt: 'desc'
 				}},
@@ -103,7 +105,9 @@ export const getCategoryCardData = async () => {
 						active: true,
 						reoccurring: true,
 						targetTime: true,
-						completed: true
+						completed: true,
+						startDate: true,
+						endDate: true
 					}
 				}
 			}

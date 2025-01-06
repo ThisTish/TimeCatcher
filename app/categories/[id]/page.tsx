@@ -15,10 +15,9 @@ import { ArrowLeft } from "lucide-react"
 
 import { toast } from "sonner"
 import CategoryTotalTimes from "@/components/categoryPage/CategoryTotalTimes"
-import checkAndUpdateGoal from "@/server/actions/goal/check-and-update-goal"
+import {checkCompletionAndUpdateGoal, checkDateAndUpdateGoal} from "@/server/actions/goal/check-and-update-goal"
 import { GoalDisplayProps } from "@/lib/types"
-import FormContainer from "@/components/forms/FormContainer"
-import GoalForm from "@/components/forms/goalForm/GoalForm"
+
 
 type Category = {
 	id: string
@@ -36,7 +35,6 @@ type Category = {
 	goals: GoalDisplayProps
 }
 
-// type Color = keyof typeof backgrounds
 
 const CategoryPage = () => {
 	const router = useRouter()
@@ -52,9 +50,11 @@ const CategoryPage = () => {
 			router.push('/timers')
 			return
 		}
+		
 		if (data.success) {
 			const categoryData = data.success
-			checkAndUpdateGoal(categoryData.id)
+			checkDateAndUpdateGoal(categoryData.id)
+			checkCompletionAndUpdateGoal(categoryData.id)
 			setCategory(categoryData)
 		}
 	}
@@ -101,8 +101,15 @@ const CategoryPage = () => {
 
 			{category?.goals && category.goals.length > 0 && category.goals.map((goal) => (
 				<div key={goal.id}>
-					<p>{goal.timeFrame}</p>
-					{goal.completed ? <p>Completed!</p> : <p>Not completed</p>}
+					<p className="text-xl font-bold">{goal.timeFrame}</p>
+					
+					{goal.completed 
+					? (
+						<p className="grid">
+						<span className="text-sm">{goal.startDate.toDateString()} - {goal.endDate.toDateString()}</span>
+						<span className="font-semibold tracking-widest">Completed!</span>
+						</p>
+					)  : <p>Not completed</p>}
 
 				</div>
 
@@ -112,6 +119,7 @@ const CategoryPage = () => {
 		</main>
 	)
 }
+
 
 export default CategoryPage
 
