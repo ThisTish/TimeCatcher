@@ -6,6 +6,7 @@ import * as z from 'zod'
 import { auth } from "../auth/auth"
 import { revalidatePath } from "next/cache"
 import { TimeLogSchema } from "@/lib/types"
+import { checkCompletionAndUpdateGoal } from "../goal/check-and-update-goal"
 
 
 export const addTimelog = actionClient
@@ -31,6 +32,7 @@ export const addTimelog = actionClient
 					userId
 				}
 			})
+			checkCompletionAndUpdateGoal(categoryId)
 			revalidatePath(`/categories/${categoryId}`)
 			return { success: 'Timelog added', newTimeLog }
 		}

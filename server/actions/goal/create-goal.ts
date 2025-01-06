@@ -6,6 +6,7 @@ import { db } from "@/prisma/db"
 import { auth } from "@/server/actions/auth/auth"
 import { TimeFrame } from "@prisma/client"
 import timeFrameDates from "@/lib/timeFrame-dates"
+import { checkCompletionAndUpdateGoal } from "./check-and-update-goal"
 
 // ! if editing, mark active, or delete button instead?
 // ! add pause
@@ -25,13 +26,14 @@ export const createGoal = actionClient
 						timeFrame: timeFrame as TimeFrame,
 						targetTime,
 						reoccurring,
+						active,
 						startDate: timeFrameDates(timeFrame).startDate,
 						endDate: timeFrameDates(timeFrame).endDate
 					}
 				})
 
-				if(!updatedGoal) return { error: `There was an error updating the goal` }
-
+				if (!updatedGoal) return { error: `There was an error updating the goal` }
+				checkCompletionAndUpdateGoal(categoryId)
 				return { success: `${updatedGoal.timeFrame} goal updated!`, updatedGoal }
 			} catch (error) {
 				console.log(error)
@@ -59,6 +61,7 @@ export const createGoal = actionClient
 						endDate: timeFrameDates(timeFrame).endDate
 					}
 				})
+				checkCompletionAndUpdateGoal(categoryId)
 				console.dir(newGoal)
 				return { success: `${newGoal.timeFrame.slice(0, 1).toUpperCase() + newGoal.timeFrame.slice(1).toLowerCase()} goal created!`, newGoal }
 

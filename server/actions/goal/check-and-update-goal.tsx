@@ -4,6 +4,8 @@ import { createGoal } from "./create-goal"
 import timeFrameDates from "@/lib/timeFrame-dates"
 
 export const checkCompletionAndUpdateGoal = async (categoryId: string) => {
+
+	console.log('checking goal completion')
 	try {
 		const goals = await db.goal.findMany({
 			where: {
@@ -22,6 +24,7 @@ export const checkCompletionAndUpdateGoal = async (categoryId: string) => {
 
 		for (const goal of goals) {
 			const totalTime = getTotals(goal.timeFrame, goal.category.timeLogs)
+
 			if (goal.completed && totalTime < goal.targetTime) {
 				const updatedGoal = await db.goal.update({
 					where: {

@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react"
 import { Input } from "./input"
+import { Tooltip, TooltipProvider } from "./tooltip"
+import { TooltipContent, TooltipTrigger } from "@radix-ui/react-tooltip"
 
 const EditableCell = ({ getValue, row, column, table }: any) => {
 
@@ -41,14 +43,24 @@ const EditableCell = ({ getValue, row, column, table }: any) => {
 		<>
 			{column.id === 'startTime' || column.id === 'endTime'
 				? (
-					<Input
-						type={isEditing ? "datetime-local" : "text"}
-						value={value || ''}
-						onClick={onClick}
-						onChange={(e) => setValue(e.target.value)}
-						onBlur={onBlur}
-						disabled={value === null}
-					/>
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger>
+						<Input
+							type={isEditing ? "datetime-local" : "text"}
+							value={value || ''}
+							onClick={onClick}
+							onChange={(e) => setValue(e.target.value)}
+							onBlur={onBlur}
+							disabled={value === null}
+						/>
+
+							</TooltipTrigger>
+							<TooltipContent>
+								<p>Click to edit</p>
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
 				) : (
 					null
 				)

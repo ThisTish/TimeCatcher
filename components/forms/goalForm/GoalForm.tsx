@@ -23,14 +23,14 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { DualRangeSlider } from '@/components/ui/DualRangeSlider'
 import { timeFormat } from '@/lib/time-format'
 import { TimeFrame } from '@prisma/client'
-import { checkCompletionAndUpdateGoal } from '@/server/actions/goal/check-and-update-goal'
+import deleteGoal from '@/server/actions/goal/delete-goal'
 
 
 type GoalFormProps = {
 	id?: string
-	categoryId?: string
+	categoryId: string
 	timeFrame: TimeFrame
-	targetTime?: number
+	targetTime: number
 	reoccurring?: boolean
 }
 
@@ -106,18 +106,17 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring }: GoalFo
 	const { execute, isExecuting, result, hasErrored, hasSucceeded } = useAction(createGoal, {
 		onSuccess: (data) => {
 			if (data.data?.success) {
-				router.push('/timers')
+				// router.push('/timers')
+				// checkCompletionAndUpdateGoal(categoryId)
 				
-				if (id && data.data.updatedGoal) {
-					checkCompletionAndUpdateGoal(data.data.updatedGoal.categoryId)
+				if (id ) {
 					toast.success(data.data.success, {
 						description: 'Update successful! If you are finished, click Done to close the form'
 					})
 
 					setButtonLabel('Save new updates')
 				}
-				if (!id && data.data.newGoal) {
-					checkCompletionAndUpdateGoal(data.data.newGoal.categoryId)
+				if (!id ) {
 					toast.success(data.data.success, {
 						description: 'Continue to add more, or click Done to close the form'
 					})
@@ -155,8 +154,11 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring }: GoalFo
 		execute(values)
 	}
 
-	
+	const onDelete = (id: string) =>{
+		deleteGoal({id})
+	}
 
+	
 	return (
 		<Form {...goalForm}>
 			<form onSubmit={goalForm.handleSubmit(onSubmit)} className="space-y-8">
@@ -214,8 +216,18 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring }: GoalFo
 				) : (
 					<Button type="submit" >{id ? 'Save' : 'Add'}</Button>
 				)} 
+				{id ? (
+					<Button
+						id='delete'
+						type="button"
+						variant={'destructive'}
+						onClick={() => onDelete(id)}
+						>
+						Delete
+						</Button>
 
-
+				): null
+				}
 			</form>
 		</Form >
 	)
