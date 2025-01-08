@@ -91,6 +91,22 @@ export type CategoryTimerCardProps = {
 	runningTimeLogId?: string,
 }
 
+export type Category = {
+	id: string
+	name: string
+	color: E_Colors
+	timeLogs: {
+		id: string
+		userId: string
+		categoryId: string
+		startTime: Date
+		endTime: Date | null
+		timePassed: number
+		running: boolean
+	}[]
+	goals: GoalDisplayProps
+}
+
 
 export type TimeLog = {
 	id: string

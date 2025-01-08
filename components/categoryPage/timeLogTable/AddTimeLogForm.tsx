@@ -42,7 +42,6 @@ const AddTimeLogForm = ({ categoryId }: { categoryId: string }) => {
 	const { execute, status } = useAction(addTimelog, {
 		onSuccess(data) {
 			if (data.data?.success) {
-				checkCompletionAndUpdateGoal(categoryId)
 				toast.success(data.data.success)
 			}
 			if (data.data?.error) {

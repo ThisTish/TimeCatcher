@@ -84,7 +84,7 @@ export const checkDateAndUpdateGoal = async (categoryId: string) => {
 
 		if (!passedGoals.length && passedGoals.length === 0) return
 
-		console.log('passedGoals', passedGoals)
+		console.log('passedGoals & reoccurring', passedGoals)
 
 		for (const goal of passedGoals) {
 			const deactivatedGoal = await db.goal.update({
@@ -106,7 +106,7 @@ export const checkDateAndUpdateGoal = async (categoryId: string) => {
 					startTime: timeFrameDates(goal.timeFrame).startDate,
 					endTime: timeFrameDates(goal.timeFrame).endDate
 				})
-				console.log('newGoal', newGoal)
+				console.log('new reoccurring Goal', newGoal)
 			}
 			console.log('deactivatedGoal', deactivatedGoal)
 		}

@@ -11,11 +11,9 @@ const StartButton = ({ categoryId, disabled }: { categoryId: string, disabled: b
 	const { execute, status } = useAction(startTimer, {
 		onSuccess: ((data) => {
 			if (data.data?.success) {
-				console.log(data.data.success)
 				toast.success(data.data.success)
 			}
 			if (data.data?.error) {
-				console.log(data.data.error)
 				toast.error(data.data.error)
 			}
 		}),
