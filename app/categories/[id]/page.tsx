@@ -17,6 +17,7 @@ import { toast } from "sonner"
 import CategoryTotalTimes from "@/components/categoryPage/CategoryTotalTimes"
 import { checkCompletionAndUpdateGoal, checkDateAndUpdateGoal } from "@/server/actions/goal/check-and-update-goal"
 import { GoalDisplayProps } from "@/lib/types"
+import CompletedGoals from "@/components/categoryPage/CompletedGoals"
 
 
 type Category = {
@@ -65,6 +66,7 @@ const CategoryPage = () => {
 		}
 	}, [])
 
+
 	return (
 		<main >
 			<header className="flex justify-between">
@@ -99,7 +101,13 @@ const CategoryPage = () => {
 				)
 			}
 
-			{category?.goals && category.goals.length > 0 && category.goals.map((goal) => (
+			{category?.goals && category.goals.length > 0 && (
+				<div>
+					<CompletedGoals category={category} />
+				</div>
+			)}
+
+			{/* {category?.goals && category.goals.length > 0 && category.goals.map((goal) => (
 				<div key={goal.id}>
 					<p className="text-xl font-bold">{goal.timeFrame}</p>
 
@@ -113,7 +121,7 @@ const CategoryPage = () => {
 
 				</div>
 
-			))}
+			))} */}
 
 
 		</main>
