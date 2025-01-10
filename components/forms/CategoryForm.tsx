@@ -4,7 +4,7 @@ import * as z from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useAction } from 'next-safe-action/hooks'
-import { categoryFormSchema, E_Colors } from '@/lib/types'
+import { categoryFormSchema, } from '@/lib/types'
 import { createCategory } from '@/server/actions/category/create-category'
 
 import { Button } from "@/components/ui/button"
@@ -30,13 +30,13 @@ import { useEffect, useState } from 'react'
 import { Color } from '@prisma/client'
 import { backgrounds } from '../providers/ThemeProvider'
 
-const colorItems = Object.values(E_Colors).filter(color => color !== E_Colors.WHITE)
+const colorItems = Object.values(Color).filter(color => color !== Color.WHITE)
 
 
 type CategoryFormProps = {
 	id?: string
 	categoryName?: string
-	categoryColor?: E_Colors
+	categoryColor?: Color
 }
 
 const CategoryForm = ({ id, categoryName, categoryColor }: CategoryFormProps) => {
@@ -47,7 +47,7 @@ const CategoryForm = ({ id, categoryName, categoryColor }: CategoryFormProps) =>
 		defaultValues: {
 			id: id ? id : undefined,
 			name: id ? categoryName : '',
-			color: id ? categoryColor : E_Colors.WHITE
+			color: id ? categoryColor : Color.WHITE
 		},
 		mode: 'onChange'
 	})
@@ -149,9 +149,9 @@ const CategoryForm = ({ id, categoryName, categoryColor }: CategoryFormProps) =>
 										<SelectValue placeholder={<WhiteSelectItem label={'white'} />} />
 									</SelectTrigger>
 									<SelectContent>
-										<SelectItem defaultValue={E_Colors.WHITE} value={E_Colors.WHITE}>
+										<SelectItem defaultValue={Color.WHITE} value={Color.WHITE}>
 											<div className={`size-5 bg-WHITE border-gray border inline-block mr-3 -mb-1 rounded-sm`}></div>
-											{E_Colors.WHITE.toLowerCase()}
+											{Color.WHITE.toLowerCase()}
 										</SelectItem>
 										{colorItems.map((color) => (
 											<SelectItem key={color} value={color}>

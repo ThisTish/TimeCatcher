@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react"
 
-import { E_Colors, GoalDisplayProps, TimeLog } from "@/lib/types"
+import { GoalDisplayProps, TimeLog } from "@/lib/types"
 import { timeFormatString } from "@/lib/time-format"
 
 import { backgrounds } from "@/components/providers/ThemeProvider"
@@ -12,11 +12,12 @@ import CategoryTimerCard from "./CategoryTimerCard"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader } from "../ui/card"
 import { CornerDownLeft, CornerDownRight } from "lucide-react"
+import { Color } from "@prisma/client"
 
 type CategoryCardProps = {
 	id: string
 	name: string
-	color: E_Colors
+	color: Color
 	running: boolean
 	disabled: boolean
 	totalTime: number
@@ -69,7 +70,7 @@ const CategoryCard = ({ category }: { category: CategoryCardProps }) => {
 						<GoalCards
 							goals={category.goals}
 							categoryId={category.id}
-							color={category.color as E_Colors}
+							color={category.color as Color}
 							timeLogs={category.timeLogs}
 						/>
 							<Button

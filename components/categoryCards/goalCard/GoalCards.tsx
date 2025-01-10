@@ -2,8 +2,8 @@
 
 import { backgrounds } from "@/components/providers/ThemeProvider"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { E_Colors, GoalDisplayProps, TimeLog } from "@/lib/types"
-import { TimeFrame } from "@prisma/client"
+import {  GoalDisplayProps, TimeLog } from "@/lib/types"
+import { Color, TimeFrame } from "@prisma/client"
 import GoalDisplay from "./GoalDisplay"
 import getTotalTime from "@/server/actions/timer/getTotalTime"
 import { useEffect, useState } from "react"
@@ -12,7 +12,7 @@ import getTotals from "@/lib/totals-by-timeFrame"
 
 type GoalCardProps = {
 	categoryId: string
-	color: E_Colors
+	color: Color
 	goals?: GoalDisplayProps
 	timeLogs?: TimeLog[]
 }

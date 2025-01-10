@@ -1,6 +1,6 @@
 
 import { db } from '@/prisma/db'
-import { TimeFrame } from '@prisma/client'
+import { Color, TimeFrame } from '@prisma/client'
 import * as z from 'zod'
 // to register a user
 export const registerFormSchema = z.object({
@@ -62,24 +62,24 @@ export const newPasswordFormSchema = z.object({
 	token: z.string().nullable().optional()
 })
 
-export enum E_Colors {
-	BLUE = 'BLUE',
-	GREEN = 'GREEN',
-	YELLOW = 'YELLOW',
-	ORANGE = 'ORANGE',
-	RED = 'RED',
-	PINK = 'PINK',
-	PURPLE = 'PURPLE',
-	BLACK = 'BLACK',
-	WHITE = 'WHITE',
-	GREY = 'GREY',
-}
+// export enum E_Colors {
+// 	BLUE = 'BLUE',
+// 	GREEN = 'GREEN',
+// 	YELLOW = 'YELLOW',
+// 	ORANGE = 'ORANGE',
+// 	RED = 'RED',
+// 	PINK = 'PINK',
+// 	PURPLE = 'PURPLE',
+// 	BLACK = 'BLACK',
+// 	WHITE = 'WHITE',
+// 	GREY = 'GREY',
+// }
 
 export const categoryFormSchema = z.object({
 	name: z.string().min(3, {
 		message: "Please use at least 3 characters.",
 	}),
-	color: z.nativeEnum(E_Colors),
+	color: z.nativeEnum(Color),
 	id: z.string().optional()
 })
 
@@ -94,7 +94,7 @@ export type CategoryTimerCardProps = {
 export type Category = {
 	id: string
 	name: string
-	color: E_Colors
+	color: Color
 	timeLogs: {
 		id: string
 		userId: string

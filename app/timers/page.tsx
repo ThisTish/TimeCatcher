@@ -1,9 +1,9 @@
 import CategoryForm from "@/components/forms/CategoryForm"
 import FormContainer from "@/components/forms/FormContainer"
 import { getCategoryCardData } from "@/server/actions/category/get-categories"
-import { E_Colors } from "@/lib/types"
 import CategoryCard from "@/components/categoryCards/CategoryCard"
 import { checkDateAndUpdateGoal } from "@/server/actions/goal/check-and-update-goal"
+import { Color } from "@prisma/client"
 
 const TimersPage = async () => {
 
@@ -49,7 +49,7 @@ const TimersPage = async () => {
 							category={{
 								id: category.id,
 								name: category.name,
-								color: category.color as E_Colors,
+								color: category.color as Color,
 								running: runningCategory?.id === category.id ? true : false,
 								disabled: runningCategory && runningCategory.id !== category.id ? true : false,
 								totalTime: category.timeLogs.reduce((acc, log) => acc + (log.timePassed ?? 0), 0),

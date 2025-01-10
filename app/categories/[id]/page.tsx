@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils"
 import { getCategory } from "@/server/actions/category/get-categories"
-import { $Enums } from "@prisma/client"
+import { $Enums, Color } from "@prisma/client"
 import Link from "next/link"
 import { notFound, useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"

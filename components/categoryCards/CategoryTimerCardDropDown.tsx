@@ -8,12 +8,11 @@ import { MoreVertical } from "lucide-react"
 import DeleteCategoryButton from "./DeleteCategoryButton"
 import FormContainer from "../forms/FormContainer"
 import CategoryForm from "../forms/CategoryForm"
-import { E_Colors } from "@/lib/types"
 import Link from "next/link"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip"
-import GoalForm from "../forms/goalForm/GoalForm"
+import { Color } from "@prisma/client"
 
-const CategoryTimerCardDropDown = ({ id, name, color }: { id: string, name: string, color: E_Colors }) => {
+const CategoryTimerCardDropDown = ({ id, name, color }: { id: string, name: string, color: Color }) => {
 	return (
 		<DropdownMenu>
 			{/* dropdown button */}
@@ -37,23 +36,7 @@ const CategoryTimerCardDropDown = ({ id, name, color }: { id: string, name: stri
 					<Link href={`/categories/${id}`}>
 						More Details
 					</Link>
-				</DropdownMenuItem>
-
-				{/* Add Goal
-				// <DropdownMenuItem asChild>
-				// 	<FormContainer 
-				// 		title="Add a new goal"
-				// 		description="Add a new goal to your list"
-				// 		openButtonLabel="Add Goal"
-				// 	>
-				// 		<GoalForm categoryId={id} timeFrame="YEAR"/>
-				// 	</FormContainer>
-				// </DropdownMenuItem> */}
-
-				{/* Delete */}
-				<DropdownMenuItem>
-					<DeleteCategoryButton id={id} />
-				</DropdownMenuItem>
+				</DropdownMenuItem>				
 
 				{/* Edit */}
 				<DropdownMenuItem asChild>
@@ -62,9 +45,15 @@ const CategoryTimerCardDropDown = ({ id, name, color }: { id: string, name: stri
 						description="Change the name or color of the category"
 						openButtonLabel="Edit"
 					>
-						<CategoryForm id={id} categoryName={name} categoryColor={color as E_Colors} />
+						<CategoryForm id={id} categoryName={name} categoryColor={color as Color} />
 					</FormContainer>
 				</DropdownMenuItem>
+
+				{/* Delete */}
+				<DropdownMenuItem>
+					<DeleteCategoryButton id={id} />
+				</DropdownMenuItem>
+
 			</DropdownMenuContent>
 
 		</DropdownMenu>
