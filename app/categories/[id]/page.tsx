@@ -20,23 +20,6 @@ import { Category, GoalDisplayProps } from "@/lib/types"
 import CompletedGoals from "@/components/categoryPage/CompletedGoals"
 
 
-// type Category = {
-// 	id: string
-// 	name: string
-// 	color: $Enums.Color
-// 	userId: string
-// 	timeLogs: {
-// 		id: string
-// 		userId: string
-// 		categoryId: string
-// 		startTime: Date
-// 		endTime: Date | null
-// 		timePassed: number
-// 		running: boolean
-// 	}[]
-// 	goals: GoalDisplayProps
-// }
-
 
 const CategoryPage = () => {
 	const router = useRouter()
@@ -103,11 +86,12 @@ const CategoryPage = () => {
 				)
 			}
 
-			{category?.goals && category.goals.length > 0 && (
+			{/* completed goals */}
+			{/* {category.goals && category.goals.length > 0 && ( */}
 				<div>
-					<CompletedGoals category={category} />
+					<CompletedGoals goals={category.goals} categoryId={category.id} />
 				</div>
-			)}
+			{/* )} */}
 
 			{/* {category?.goals && category.goals.length > 0 && category.goals.map((goal) => (
 				<div key={goal.id}>

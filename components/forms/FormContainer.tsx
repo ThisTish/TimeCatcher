@@ -30,7 +30,7 @@ import { LucideProps } from "lucide-react"
 
 type FormContainerProps = {
 	openButtonLabel: ReactNode | string
-	title: 'Create a new category' | 'Update category details' | 'Add a new goal' | 'Edit goal'
+	title: string
 	description?: string
 	children: React.ReactNode
 	className?: string
