@@ -2,6 +2,7 @@
 import { db } from '@/prisma/db'
 import { Color, TimeFrame } from '@prisma/client'
 import * as z from 'zod'
+
 // to register a user
 export const registerFormSchema = z.object({
 	name: z.string().min(3, {
@@ -29,7 +30,6 @@ export const registerFormSchema = z.object({
 		message: 'One password is not like the other, try again'
 	})
 
-
 // to login a user
 export const loginFormSchema = z.object({
 
@@ -47,6 +47,7 @@ export const loginFormSchema = z.object({
 	code: z.optional(z.string())
 })
 
+// forgot password
 export const forgotPasswordFormSchema = z.object({
 
 	email: z.string().email({
@@ -62,19 +63,7 @@ export const newPasswordFormSchema = z.object({
 	token: z.string().nullable().optional()
 })
 
-// export enum E_Colors {
-// 	BLUE = 'BLUE',
-// 	GREEN = 'GREEN',
-// 	YELLOW = 'YELLOW',
-// 	ORANGE = 'ORANGE',
-// 	RED = 'RED',
-// 	PINK = 'PINK',
-// 	PURPLE = 'PURPLE',
-// 	BLACK = 'BLACK',
-// 	WHITE = 'WHITE',
-// 	GREY = 'GREY',
-// }
-
+// add/edit a category
 export const categoryFormSchema = z.object({
 	name: z.string().min(3, {
 		message: "Please use at least 3 characters.",
@@ -83,6 +72,30 @@ export const categoryFormSchema = z.object({
 	id: z.string().optional()
 })
 
+// add/edit timelog
+export const TimeLogSchema = z.object({
+	id: z.string().optional(),
+	categoryId: z.string(),
+	startTime: z.date(),
+	endTime: z.date().nullable(),
+	timePassed: z.number().optional(),
+	userId: z.string().optional()
+})
+
+// add/edit goal
+export const GoalFormSchema = z.object({
+	id: z.string().optional(),
+	categoryId: z.string(),
+	timeFrame: z.nativeEnum(TimeFrame),
+	targetTime: z.number(),
+	reoccurring: z.boolean(),
+	active: z.boolean().optional(),
+	startTime: z.date().optional(),
+	endTime: z.date().optional(),
+})
+
+
+// types
 export type CategoryTimerCardProps = {
 	categoryId: string
 	running: boolean
@@ -95,18 +108,10 @@ export type Category = {
 	id: string
 	name: string
 	color: Color
-	timeLogs: {
-		id: string
-		userId: string
-		categoryId: string
-		startTime: Date
-		endTime: Date | null
-		timePassed: number
-		running: boolean
-	}[]
+	userId: string
+	timeLogs: TimeLog[]
 	goals: GoalDisplayProps
 }
-
 
 export type TimeLog = {
 	id: string
@@ -129,23 +134,16 @@ export type GoalDisplayProps = {
 }[]
 
 
-export const TimeLogSchema = z.object({
-	id: z.string().optional(),
-	categoryId: z.string(),
-	startTime: z.date(),
-	endTime: z.date().nullable(),
-	timePassed: z.number().optional(),
-	userId: z.string().optional()
-})
 
-export const GoalFormSchema = z.object({
-	id: z.string().optional(),
-	categoryId: z.string(),
-	timeFrame: z.nativeEnum(TimeFrame),
-	targetTime: z.number(),
-	reoccurring: z.boolean(),
-	active: z.boolean().optional(),
-	startTime: z.date().optional(),
-	endTime: z.date().optional(),
-
-})
+// export enum E_Colors {
+// 	BLUE = 'BLUE',
+// 	GREEN = 'GREEN',
+// 	YELLOW = 'YELLOW',
+// 	ORANGE = 'ORANGE',
+// 	RED = 'RED',
+// 	PINK = 'PINK',
+// 	PURPLE = 'PURPLE',
+// 	BLACK = 'BLACK',
+// 	WHITE = 'WHITE',
+// 	GREY = 'GREY',
+// }

@@ -16,25 +16,26 @@ import { ArrowLeft } from "lucide-react"
 import { toast } from "sonner"
 import CategoryTotalTimes from "@/components/categoryPage/CategoryTotalTimes"
 import { checkCompletionAndUpdateGoal, checkDateAndUpdateGoal } from "@/server/actions/goal/check-and-update-goal"
-import { GoalDisplayProps } from "@/lib/types"
+import { Category, GoalDisplayProps } from "@/lib/types"
 import CompletedGoals from "@/components/categoryPage/CompletedGoals"
 
 
-type Category = {
-	id: string
-	name: string
-	color: $Enums.Color
-	timeLogs: {
-		id: string
-		userId: string
-		categoryId: string
-		startTime: Date
-		endTime: Date | null
-		timePassed: number
-		running: boolean
-	}[]
-	goals: GoalDisplayProps
-}
+// type Category = {
+// 	id: string
+// 	name: string
+// 	color: $Enums.Color
+// 	userId: string
+// 	timeLogs: {
+// 		id: string
+// 		userId: string
+// 		categoryId: string
+// 		startTime: Date
+// 		endTime: Date | null
+// 		timePassed: number
+// 		running: boolean
+// 	}[]
+// 	goals: GoalDisplayProps
+// }
 
 
 const CategoryPage = () => {
@@ -42,7 +43,7 @@ const CategoryPage = () => {
 	const categoryId = useParams().id
 	const [category, setCategory] = useState<Category>()
 
-	if (!categoryId) throw notFound
+	if (!categoryId) return notFound()
 
 	const detailedCategory = async (categoryId: string) => {
 		const data = await getCategory(categoryId)
@@ -66,6 +67,7 @@ const CategoryPage = () => {
 		}
 	}, [])
 
+	if(!detailedCategory || !category) return <div>Loading...</div>
 
 	return (
 		<main >
@@ -83,7 +85,7 @@ const CategoryPage = () => {
 			</header>
 
 			{/* TotalTimes */}
-			{category?.timeLogs.length === 0 || !category?.timeLogs
+			{category.timeLogs.length === 0 || !category.timeLogs
 				? (<div>
 					<p>No time caught yet. Check back for total times.</p>
 				</div>
@@ -93,11 +95,11 @@ const CategoryPage = () => {
 			}
 
 			{/* timeLogs */}
-			{category?.timeLogs.length === 0 || !category?.timeLogs
+			{category.timeLogs.length === 0 || !category.timeLogs
 				? (
-					<AddTimeLogForm categoryId={category?.id ?? ''} />
+					<AddTimeLogForm categoryId={category.id} />
 				) : (
-					<TimeLogTable timeLogs={category?.timeLogs} />
+					<TimeLogTable timeLogs={category.timeLogs} />
 				)
 			}
 
