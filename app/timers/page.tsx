@@ -2,18 +2,18 @@ import CategoryForm from "@/components/forms/CategoryForm"
 import FormContainer from "@/components/forms/FormContainer"
 import { getCategoryCardData } from "@/server/actions/category/get-categories"
 import CategoryCard from "@/components/categoryCards/CategoryCard"
-// import { checkDateAndUpdateGoal } from "@/server/actions/goal/check-and-update-goal"
+import { checkDateAndUpdateGoal } from "@/server/actions/goal/check-and-update-goal"
 import { Color } from "@prisma/client"
 
 const TimersPage = async () => {
 
 	const { success, error } = await getCategoryCardData()
-	// if (success) {
-	// 	const categories = success
-	// 	categories.map((category) => {
-	// 		checkDateAndUpdateGoal(category.id)
-	// 	})
-	// }
+	if (success) {
+		const categories = success
+		categories.map((category) => {
+			checkDateAndUpdateGoal(category.id)
+		})
+	}
 
 	if (error) throw new Error(error)
 

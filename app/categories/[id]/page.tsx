@@ -2,7 +2,6 @@
 
 import { cn } from "@/lib/utils"
 import { getCategory } from "@/server/actions/category/get-categories"
-import { $Enums, Color } from "@prisma/client"
 import Link from "next/link"
 import { notFound, useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -16,7 +15,7 @@ import { ArrowLeft } from "lucide-react"
 import { toast } from "sonner"
 import CategoryTotalTimes from "@/components/categoryPage/CategoryTotalTimes"
 import { checkCompletionAndUpdateGoal, checkDateAndUpdateGoal } from "@/server/actions/goal/check-and-update-goal"
-import { Category, GoalDisplayProps } from "@/lib/types"
+import { Category } from "@/lib/types"
 import CompletedGoals from "@/components/categoryPage/CompletedGoals"
 
 
@@ -38,8 +37,8 @@ const CategoryPage = () => {
 
 		if (data.success) {
 			const categoryData = data.success
-			checkDateAndUpdateGoal(categoryData.id)
 			checkCompletionAndUpdateGoal(categoryData.id)
+			checkDateAndUpdateGoal(categoryData.id)
 			setCategory(categoryData)
 		}
 	}
@@ -50,7 +49,7 @@ const CategoryPage = () => {
 		}
 	}, [])
 
-	if(!detailedCategory || !category) return <div>Loading...</div>
+	if (!detailedCategory || !category) return <div>Loading...</div>
 
 	return (
 		<main >
@@ -77,6 +76,12 @@ const CategoryPage = () => {
 				)
 			}
 
+			{/* completed goals */}
+			<div>
+				<CompletedGoals goals={category.goals} categoryId={category.id} />
+			</div>
+
+
 			{/* timeLogs */}
 			{category.timeLogs.length === 0 || !category.timeLogs
 				? (
@@ -85,29 +90,6 @@ const CategoryPage = () => {
 					<TimeLogTable timeLogs={category.timeLogs} />
 				)
 			}
-
-			{/* completed goals */}
-			{/* {category.goals && category.goals.length > 0 && ( */}
-				<div>
-					<CompletedGoals goals={category.goals} categoryId={category.id} />
-				</div>
-			{/* )} */}
-
-			{/* {category?.goals && category.goals.length > 0 && category.goals.map((goal) => (
-				<div key={goal.id}>
-					<p className="text-xl font-bold">{goal.timeFrame}</p>
-
-					{goal.completed
-						? (
-							<p className="grid">
-								<span className="text-sm">{goal.startDate.toDateString()} - {goal.endDate.toDateString()}</span>
-								<span className="font-semibold tracking-widest">Completed!</span>
-							</p>
-						) : <p>Not completed</p>}
-
-				</div>
-
-			))} */}
 
 
 		</main>

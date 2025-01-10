@@ -4,8 +4,7 @@ import { createGoal } from "./create-goal"
 import timeFrameDates from "@/lib/timeFrame-dates"
 
 export const checkCompletionAndUpdateGoal = async (categoryId: string) => {
-
-	console.log('checking goal completion')
+console.log('checking goal completion')
 	try {
 		const goals = await db.goal.findMany({
 			where: {
@@ -24,7 +23,6 @@ export const checkCompletionAndUpdateGoal = async (categoryId: string) => {
 
 		for (const goal of goals) {
 			const totalTime = getTotals(goal.timeFrame, goal.category.timeLogs)
-
 			if (goal.completed && totalTime < goal.targetTime) {
 				const updatedGoal = await db.goal.update({
 					where: {
@@ -46,31 +44,27 @@ export const checkCompletionAndUpdateGoal = async (categoryId: string) => {
 						completed: true
 					}
 				})
-				
-				console.log(updatedGoal)
 
+				console.log(updatedGoal)
 			}
 		}
-		
 		return { success: 'Goals updated.' }
-
 	} catch (error) {
 		console.log(error)
 		return { error: `There was an error updating the goal` }
 	}
-
 }
 
 // *also needs to be called on dashboard just in case
 export const checkDateAndUpdateGoal = async (categoryId: string) => {
+	console.log('checking date')
 	try {
-
 		const passedGoals = await db.goal.findMany({
 			where: {
 				categoryId,
 				active: true,
 				endDate: {
-					lte: new Date()
+					lte: new Date()		
 				}
 			},
 			select: {
@@ -82,8 +76,7 @@ export const checkDateAndUpdateGoal = async (categoryId: string) => {
 			}
 		})
 
-		if (!passedGoals.length && passedGoals.length === 0) return
-
+		if (passedGoals.length === 0) return
 		console.log('passedGoals & reoccurring', passedGoals)
 
 		for (const goal of passedGoals) {
@@ -94,21 +87,23 @@ export const checkDateAndUpdateGoal = async (categoryId: string) => {
 				data: {
 					active: false,
 				}
+			}).then(async(goal) => {
+				console.log('deactivatedGoal', goal)
+				if(goal.reoccurring){
+					console.log('reoccurring, attemting to create new', goal)
+					const newGoal = await createGoal({
+						categoryId: goal.categoryId,
+						timeFrame: goal.timeFrame,
+						targetTime: goal.targetTime,
+						reoccurring: goal.reoccurring,
+						active: true,
+						startTime: timeFrameDates(goal.timeFrame).startDate,
+						endTime: timeFrameDates(goal.timeFrame).endDate
+					})
+					console.log('created new goal', newGoal)
+				}
 			})
-
-			if (goal.reoccurring) {
-				const newGoal = await createGoal({
-					categoryId: goal.categoryId,
-					timeFrame: goal.timeFrame,
-					targetTime: goal.targetTime,
-					reoccurring: goal.reoccurring,
-					active: true,
-					startTime: timeFrameDates(goal.timeFrame).startDate,
-					endTime: timeFrameDates(goal.timeFrame).endDate
-				})
-				console.log('new reoccurring Goal', newGoal)
-			}
-			console.log('deactivatedGoal', deactivatedGoal)
+			// console.log('deactivatedGoal', deactivatedGoal)
 		}
 	} catch (error) {
 		console.log(error)
