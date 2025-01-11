@@ -3,26 +3,17 @@ import GoalForm from "@/components/forms/goalForm/GoalForm"
 import { Progress } from "@/components/ui/progress"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { timeFormatString } from "@/lib/time-format"
+import { GoalDisplayProps } from "@/lib/types"
 import { cn } from "@/lib/utils"
-import { TimeFrame } from "@prisma/client"
 import { Edit, RefreshCw } from "lucide-react"
-
-type GoalDisplayProps = {
-	id: string
-	categoryId: string
-	timeFrame: TimeFrame
-	timePassed: number
-	targetTime: number
-	reoccurring: boolean
-	completed: boolean
-}
 
 
 const GoalDisplay = ({ id, timeFrame, timePassed, targetTime, reoccurring, categoryId, completed }: GoalDisplayProps) => {
+	if (!timePassed) timePassed = 0
 	const timeToGo = targetTime - timePassed
 	let progress = (timePassed / targetTime) * 100
 	if (progress > 100) progress = 100
-	
+
 
 	return (
 		<div className="w-full -ml-1 relative">
@@ -55,17 +46,17 @@ const GoalDisplay = ({ id, timeFrame, timePassed, targetTime, reoccurring, categ
 				{/* <TooltipProvider>
 					<Tooltip>
 						<TooltipTrigger asChild> */}
-							<FormContainer
-								className=" border-none -mr-1 p-0  h-fit z-10"
-								title="Edit goal"
-								openButtonLabel={
-									<Edit className="" aria-label="Edit"/>
+				<FormContainer
+					className=" border-none -mr-1 p-0  h-fit z-10"
+					title="Edit goal"
+					openButtonLabel={
+						<Edit className="" aria-label="Edit" />
 
-								}
-							>
-								<GoalForm id={id} timeFrame={timeFrame} targetTime={targetTime} reoccurring={reoccurring} categoryId={categoryId}/>
-							</FormContainer>
-						{/* </TooltipTrigger>
+					}
+				>
+					<GoalForm id={id} timeFrame={timeFrame} targetTime={targetTime} reoccurring={reoccurring} categoryId={categoryId} />
+				</FormContainer>
+				{/* </TooltipTrigger>
 						<TooltipContent>
 							Edit
 						</TooltipContent>

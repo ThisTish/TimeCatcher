@@ -55,7 +55,7 @@ console.log('checking goal completion')
 	}
 }
 
-// *also needs to be called on dashboard just in case
+// *also needs to be called on dashboard just in case OR make middleware
 export const checkDateAndUpdateGoal = async (categoryId: string) => {
 	console.log('checking date')
 	try {
@@ -77,34 +77,59 @@ export const checkDateAndUpdateGoal = async (categoryId: string) => {
 		})
 
 		if (passedGoals.length === 0) return
+
 		console.log('passedGoals & reoccurring', passedGoals)
 
-		for (const goal of passedGoals) {
-			const deactivatedGoal = await db.goal.update({
-				where: {
-					id: goal.id
-				},
-				data: {
-					active: false,
-				}
-			}).then(async(goal) => {
-				console.log('deactivatedGoal', goal)
-				if(goal.reoccurring){
-					console.log('reoccurring, attemting to create new', goal)
-					const newGoal = await createGoal({
-						categoryId: goal.categoryId,
-						timeFrame: goal.timeFrame,
-						targetTime: goal.targetTime,
-						reoccurring: goal.reoccurring,
-						active: true,
-						startTime: timeFrameDates(goal.timeFrame).startDate,
-						endTime: timeFrameDates(goal.timeFrame).endDate
-					})
-					console.log('created new goal', newGoal)
-				}
+		await Promise.all(passedGoals.map(async(goal) =>{
+			return db.$transaction(async(tx) =>{
+				const deactivatedGoal = await tx.goal.update({
+					where:{
+						id: goal.id
+					},
+					data:{
+						active: false
+					}
+				})
+				if(!deactivatedGoal.reoccurring) return
+				const newGoal = await createGoal({
+					categoryId: goal.categoryId,
+					timeFrame: goal.timeFrame,
+					targetTime: goal.targetTime,
+					reoccurring: goal.reoccurring,
+					active: true,
+					completed: false,
+					startTime: timeFrameDates(goal.timeFrame).startDate,
+					endTime: timeFrameDates(goal.timeFrame).endDate
+				})
 			})
-			// console.log('deactivatedGoal', deactivatedGoal)
-		}
+		}))
+		// for(const goal of passedGoals) {
+		// 	const deactivatedGoal = await db.goal.update({
+		// 		where: {
+		// 			id: goal.id
+		// 		},
+		// 		data: {
+		// 			active: false,
+		// 		}
+		// 	}).then(async(goal) => {
+		// 		console.log('deactivatedGoal', goal)
+		// 		if(goal.reoccurring){
+		// 			console.log('reoccurring, attempting to create new', goal)
+		// 			const newGoal = await createGoal({
+		// 				categoryId: goal.categoryId,
+		// 				timeFrame: goal.timeFrame,
+		// 				targetTime: goal.targetTime,
+		// 				reoccurring: goal.reoccurring,
+		// 				active: true,
+		// 				completed: false,
+		// 				startTime: timeFrameDates(goal.timeFrame).startDate,
+		// 				endTime: timeFrameDates(goal.timeFrame).endDate
+		// 			})
+		// 			console.log('created new goal', newGoal)
+		// 		}
+		// 	})
+		// 	// console.log('deactivatedGoal', deactivatedGoal)
+		// }
 	} catch (error) {
 		console.log(error)
 		return { error: `There was an error updating the goal` }

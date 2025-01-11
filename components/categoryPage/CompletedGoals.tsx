@@ -2,7 +2,7 @@ import {  GoalDisplayProps } from "@/lib/types";
 import FormContainer from "../forms/FormContainer";
 import GoalForm from "../forms/goalForm/GoalForm";
 
-const CompletedGoals = ({ goals, categoryId }: { goals: GoalDisplayProps, categoryId: string }) => {
+const CompletedGoals = ({ goals, categoryId }: { goals: GoalDisplayProps[], categoryId: string }) => {
 
 	console.dir(goals)
 	if(!goals || goals.length === 0) return(
@@ -40,12 +40,13 @@ const CompletedGoals = ({ goals, categoryId }: { goals: GoalDisplayProps, catego
 	return (
 		<section>
 			{completedGoals.map((goal) => (
+			
 				<div
 					key={goal.id}
 				>
 					<p className="text-xl font-bold">{goal.timeFrame}</p>
 					<p className="grid">
-						<span className="text-sm">{goal.startDate.toDateString()} - {goal.endDate.toDateString()}</span>
+						<span className="text-sm">{goal.startDate?.toDateString()} - {goal.endDate?.toDateString()}</span>
 						<span className="font-semibold tracking-widest">Completed!</span>
 					</p>
 				</div>

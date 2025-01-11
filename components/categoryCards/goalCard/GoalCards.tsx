@@ -13,7 +13,7 @@ import getTotals from "@/lib/totals-by-timeFrame"
 type GoalCardProps = {
 	categoryId: string
 	color: Color
-	goals?: GoalDisplayProps
+	goals: GoalDisplayProps[]
 	timeLogs?: TimeLog[]
 }
 
@@ -27,12 +27,12 @@ const GoalCards = ({ goals, color, categoryId, timeLogs }: GoalCardProps) => {
 
 
 
-	const activeGoals = goals?.filter((goal) => goal.active)
+	const activeGoals = goals.filter((goal) => goal.active)
 
 
 	// Generate goal display slots
 	const slots = Object.values(TimeFrame).map((timeFrame) => {
-		const goal = activeGoals?.find((g) => g.timeFrame === timeFrame)
+		const goal = activeGoals.find((goal) => goal.timeFrame === timeFrame)
 
 		if (goal) {
 			const totalTimeByPeriod = getTotals(goal.timeFrame, timeLogs ?? [])
@@ -40,11 +40,12 @@ const GoalCards = ({ goals, color, categoryId, timeLogs }: GoalCardProps) => {
 				<GoalDisplay
 					key={goal.id}
 					id={goal.id}
+					categoryId={categoryId}
 					timeFrame={timeFrame}
 					timePassed={totalTimeByPeriod}
 					targetTime={goal.targetTime}
+					active={goal.active}
 					reoccurring={goal.reoccurring}
-					categoryId={categoryId}
 					completed={goal.completed}
 				/>
 			)

@@ -8,12 +8,9 @@ import { TimeFrame } from "@prisma/client"
 import timeFrameDates from "@/lib/timeFrame-dates"
 import { checkCompletionAndUpdateGoal } from "./check-and-update-goal"
 
-// ! if editing, mark active, or delete button instead?
-// ! add pause
-
 export const createGoal = actionClient
 	.schema(GoalFormSchema)
-	.action(async ({ parsedInput: { id, categoryId, timeFrame, targetTime, reoccurring, active } }) => {
+	.action(async ({ parsedInput: { id, categoryId, timeFrame, targetTime, reoccurring, active, completed } }) => {
 
 		if (id) {
 			try {
@@ -33,7 +30,7 @@ export const createGoal = actionClient
 				})
 
 				if (!updatedGoal) return { error: `There was an error updating the goal` }
-				checkCompletionAndUpdateGoal(categoryId)
+				await checkCompletionAndUpdateGoal(categoryId)
 				return { success: `${updatedGoal.timeFrame} goal updated!`, updatedGoal }
 			} catch (error) {
 				console.log(error)
@@ -61,7 +58,7 @@ export const createGoal = actionClient
 						endDate: timeFrameDates(timeFrame).endDate
 					}
 				})
-				checkCompletionAndUpdateGoal(categoryId)
+				await checkCompletionAndUpdateGoal(categoryId)
 				console.dir(newGoal)
 				return { success: `${newGoal.timeFrame.slice(0, 1).toUpperCase() + newGoal.timeFrame.slice(1).toLowerCase()} goal created!`, newGoal }
 

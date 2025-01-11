@@ -23,7 +23,7 @@ type CategoryCardProps = {
 	totalTime: number
 	startTime?: Date
 	runningTimeLogId?: string
-	goals: GoalDisplayProps
+	goals: GoalDisplayProps[]
 	timeLogs: TimeLog[]
 }
 

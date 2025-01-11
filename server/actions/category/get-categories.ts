@@ -10,28 +10,18 @@ export const getCategory = async (id: string) => {
 			where: {
 				id
 			},
-			include:{
-				goals: {select: {
-					id: true,
-					timeFrame: true,
-					active: true,
-					reoccurring: true,
-					targetTime: true,
-					completed: true,
-					startDate: true,
-					endDate: true
-				}, orderBy: {
-					updatedAt: 'desc'
-				}},
+			include: {
+				goals: true,
 				timeLogs: {
 					orderBy: {
 						startTime: 'desc'
 					}
 				}
-			},
-			
-		})
-		if(!categoryData) return { error: "Category not found" }
+			}
+		}
+
+		)
+		if (!categoryData) return { error: "Category not found" }
 
 		return { success: categoryData }
 
@@ -98,25 +88,14 @@ export const getCategoryCardData = async () => {
 						id: true
 					}
 				},
-				goals:{
-					select:{
-						id: true,
-						timeFrame: true,
-						active: true,
-						reoccurring: true,
-						targetTime: true,
-						completed: true,
-						startDate: true,
-						endDate: true
-					}
-				}
+				goals: true
 			}
 		})
 		if (categories.length === 0 || !categories) return { success: [] }
 
-	
-		return {success: categories}
-		
+
+		return { success: categories }
+
 	} catch (error) {
 		console.log(error)
 		return { error: "Error finding category card data" }

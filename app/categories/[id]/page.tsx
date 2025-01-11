@@ -39,7 +39,7 @@ const CategoryPage = () => {
 			const categoryData = data.success
 			checkCompletionAndUpdateGoal(categoryData.id)
 			checkDateAndUpdateGoal(categoryData.id)
-			setCategory(categoryData)
+			setCategory(categoryData)//!new problem, in the middle of validating if active goal rn.
 		}
 	}
 

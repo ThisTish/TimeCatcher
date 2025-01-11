@@ -110,7 +110,7 @@ model Goal {
   category Category @relation(fields: [categoryId], references: [id])
   @@index([userId])
   @@index([categoryId])
-  @@unique([categoryId, timeFrame, active], name: "unique_active_goal_per_category_timeFrame")
+  @@index([categoryId, timeFrame])
 }
 
 model TimeLog {

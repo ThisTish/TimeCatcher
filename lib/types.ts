@@ -1,5 +1,6 @@
 
 import { db } from '@/prisma/db'
+import validateActiveGoal from '@/server/actions/goal/validate-active-goal'
 import { Color, TimeFrame } from '@prisma/client'
 import * as z from 'zod'
 
@@ -90,9 +91,14 @@ export const GoalFormSchema = z.object({
 	targetTime: z.number(),
 	reoccurring: z.boolean(),
 	active: z.boolean().optional(),
+	completed: z.boolean().optional(),
 	startTime: z.date().optional(),
 	endTime: z.date().optional(),
-})
+}).refine((data) => !data.active || validateActiveGoal(db, data.categoryId, data.timeFrame), {
+	message: "Error occurred, another goal is already active for this category and time frame",
+	path:['active']
+}
+)
 
 
 // types
@@ -110,7 +116,7 @@ export type Category = {
 	color: Color
 	userId: string
 	timeLogs: TimeLog[]
-	goals: GoalDisplayProps
+	goals: GoalDisplayProps[]
 }
 
 export type TimeLog = {
@@ -124,14 +130,16 @@ export type TimeLog = {
 
 export type GoalDisplayProps = {
 	id: string
+	categoryId: string
 	timeFrame: TimeFrame
 	active: boolean
 	reoccurring: boolean
 	targetTime: number
+	timePassed?: number
 	completed: boolean
-	startDate: Date
-	endDate: Date
-}[]
+	startDate?: Date
+	endDate?: Date
+}
 
 
 
