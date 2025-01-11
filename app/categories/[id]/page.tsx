@@ -10,13 +10,15 @@ import AddTimeLogForm from "@/components/categoryPage/timeLogTable/AddTimeLogFor
 import TimeLogTable from "@/components/categoryPage/timeLogTable/TimeLogTable"
 import { textColor } from "@/components/providers/ThemeProvider"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, Edit } from "lucide-react"
 
 import { toast } from "sonner"
 import CategoryTotalTimes from "@/components/categoryPage/CategoryTotalTimes"
 import { checkCompletionAndUpdateGoal, checkDateAndUpdateGoal } from "@/server/actions/goal/check-and-update-goal"
 import { Category } from "@/lib/types"
 import CompletedGoals from "@/components/categoryPage/CompletedGoals"
+import FormContainer from "@/components/forms/FormContainer"
+import GoalForm from "@/components/forms/goalForm/GoalForm"
 
 
 
@@ -37,9 +39,8 @@ const CategoryPage = () => {
 
 		if (data.success) {
 			const categoryData = data.success
-			checkCompletionAndUpdateGoal(categoryData.id)
-			checkDateAndUpdateGoal(categoryData.id)
-			setCategory(categoryData)//!new problem, in the middle of validating if active goal rn.
+			
+			setCategory(categoryData)
 		}
 	}
 
@@ -65,6 +66,7 @@ const CategoryPage = () => {
 					</Link>
 				</Button>
 			</header>
+		
 
 			{/* TotalTimes */}
 			{category.timeLogs.length === 0 || !category.timeLogs
@@ -105,3 +107,16 @@ export default CategoryPage
 // const startTime = category?.timeLogs.find((timelog) => timelog.running)?.startTime
 // need timer context i suppose for re-rendering & making sure it is the only category timer running
 // <CategoryPageTimer startTime={startTime ?? null} categoryId={category?.id ?? categoryId[0]}/>
+
+
+{/* For testing purposes*/}
+{/* <FormContainer
+		className=" border-none -mr-1 p-0  h-fit z-10"
+		title="Edit goal"
+		openButtonLabel={
+			<Edit className="" aria-label="Edit" />
+
+		}
+	>
+		<GoalForm timeFrame={"DAY"} targetTime={900000} reoccurring={false} categoryId={categoryId[0]} />
+	</FormContainer> */}

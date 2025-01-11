@@ -2,6 +2,7 @@
 
 import { db } from "@/prisma/db"
 import { auth } from "@/server/actions/auth/auth"
+import { checkCompletionAndUpdateGoal, checkDateAndUpdateGoal } from "../goal/check-and-update-goal"
 
 
 export const getCategory = async (id: string) => {
@@ -22,7 +23,8 @@ export const getCategory = async (id: string) => {
 
 		)
 		if (!categoryData) return { error: "Category not found" }
-
+		checkCompletionAndUpdateGoal(categoryData.id)
+		checkDateAndUpdateGoal(categoryData.id)
 		return { success: categoryData }
 
 	} catch (error) {

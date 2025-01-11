@@ -33,7 +33,7 @@ export const createGoal = actionClient
 				await checkCompletionAndUpdateGoal(categoryId)
 				return { success: `${updatedGoal.timeFrame} goal updated!`, updatedGoal }
 			} catch (error) {
-				console.log(error)
+				console.error(error)
 				return { error: `There was an error updating the goal` }
 			}
 		}
@@ -58,12 +58,11 @@ export const createGoal = actionClient
 						endDate: timeFrameDates(timeFrame).endDate
 					}
 				})
-				await checkCompletionAndUpdateGoal(categoryId)
 				console.dir(newGoal)
 				return { success: `${newGoal.timeFrame.slice(0, 1).toUpperCase() + newGoal.timeFrame.slice(1).toLowerCase()} goal created!`, newGoal }
 
 			} catch (error) {
-				console.log(error)
+				console.error(error)
 				return { error: `There was an error creating the goal` }
 			}
 		}

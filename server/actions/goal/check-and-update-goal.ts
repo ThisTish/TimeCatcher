@@ -1,6 +1,5 @@
 import { db } from "@/prisma/db"
 import getTotals from "@/lib/totals-by-timeFrame"
-import { createGoal } from "./create-goal"
 import timeFrameDates from "@/lib/timeFrame-dates"
 
 export const checkCompletionAndUpdateGoal = async (categoryId: string) => {
@@ -19,10 +18,11 @@ console.log('checking goal completion')
 			}
 		})
 
-		if (!goals.length) return
+		if (goals.length === 0) return
 
 		for (const goal of goals) {
 			const totalTime = getTotals(goal.timeFrame, goal.category.timeLogs)
+
 			if (goal.completed && totalTime < goal.targetTime) {
 				const updatedGoal = await db.goal.update({
 					where: {
@@ -32,7 +32,7 @@ console.log('checking goal completion')
 						completed: false
 					}
 				})
-				console.log(updatedGoal)
+				console.log('changed uncompleted goal',updatedGoal)
 			}
 
 			if (!goal.completed && totalTime >= goal.targetTime) {
@@ -45,7 +45,7 @@ console.log('checking goal completion')
 					}
 				})
 
-				console.log(updatedGoal)
+				console.log('changed completed goal', updatedGoal)
 			}
 		}
 		return { success: 'Goals updated.' }
@@ -78,7 +78,7 @@ export const checkDateAndUpdateGoal = async (categoryId: string) => {
 
 		if (passedGoals.length === 0) return
 
-		console.log('passedGoals & reoccurring', passedGoals)
+		console.log('passedGoals', passedGoals)
 
 		await Promise.all(passedGoals.map(async(goal) =>{
 			return db.$transaction(async(tx) =>{
@@ -90,46 +90,22 @@ export const checkDateAndUpdateGoal = async (categoryId: string) => {
 						active: false
 					}
 				})
+				console.log('deactivated goal', deactivatedGoal)
 				if(!deactivatedGoal.reoccurring) return
-				const newGoal = await createGoal({
-					categoryId: goal.categoryId,
-					timeFrame: goal.timeFrame,
-					targetTime: goal.targetTime,
-					reoccurring: goal.reoccurring,
-					active: true,
-					completed: false,
-					startTime: timeFrameDates(goal.timeFrame).startDate,
-					endTime: timeFrameDates(goal.timeFrame).endDate
-				})
+
+				const newGoal = await tx.goal.create({
+					data: {
+						...deactivatedGoal,
+						id: undefined,
+						active: true,
+						completed: false,
+						startDate: timeFrameDates(goal.timeFrame).startDate,
+						endDate: timeFrameDates(goal.timeFrame).endDate
+					}
+					}) 
+				console.log('created new goal', newGoal)
 			})
 		}))
-		// for(const goal of passedGoals) {
-		// 	const deactivatedGoal = await db.goal.update({
-		// 		where: {
-		// 			id: goal.id
-		// 		},
-		// 		data: {
-		// 			active: false,
-		// 		}
-		// 	}).then(async(goal) => {
-		// 		console.log('deactivatedGoal', goal)
-		// 		if(goal.reoccurring){
-		// 			console.log('reoccurring, attempting to create new', goal)
-		// 			const newGoal = await createGoal({
-		// 				categoryId: goal.categoryId,
-		// 				timeFrame: goal.timeFrame,
-		// 				targetTime: goal.targetTime,
-		// 				reoccurring: goal.reoccurring,
-		// 				active: true,
-		// 				completed: false,
-		// 				startTime: timeFrameDates(goal.timeFrame).startDate,
-		// 				endTime: timeFrameDates(goal.timeFrame).endDate
-		// 			})
-		// 			console.log('created new goal', newGoal)
-		// 		}
-		// 	})
-		// 	// console.log('deactivatedGoal', deactivatedGoal)
-		// }
 	} catch (error) {
 		console.log(error)
 		return { error: `There was an error updating the goal` }
@@ -138,14 +114,3 @@ export const checkDateAndUpdateGoal = async (categoryId: string) => {
 
 
 
-
-
-
-// when app loads, check if if today is past the end date of a goal
-//  if it is
-// deactivate old goal,
-//and if it is also reoccurring,
-// create new goal with same props, but new id, startDate, and endDate
-
-// when timer is stopped, or a timelog is updated, or a goal is created/updated- check if timePassed is >= targetTime
-// if it is, mark goal as completed
