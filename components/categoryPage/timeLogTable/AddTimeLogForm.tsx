@@ -24,7 +24,6 @@ import { useAction } from "next-safe-action/hooks"
 import addTimelog from "@/server/actions/timer/add-timeLog"
 import { toast } from "sonner"
 import toLocalIsoString from "@/lib/to-Local-ISO-String"
-import { checkCompletionAndUpdateGoal } from "@/server/actions/goal/check-and-update-goal"
 
 
 const AddTimeLogForm = ({ categoryId }: { categoryId: string }) => {

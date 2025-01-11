@@ -4,6 +4,7 @@ import { actionClient } from "@/lib/safe-action"
 import { db } from "@/prisma/db"
 import { revalidatePath } from "next/cache"
 import { TimeLogSchema } from "@/lib/types"
+import { checkCompletionAndUpdateGoal } from "../goal/check-and-update-goal"
 
 
 export const editTimeLog = actionClient
@@ -29,6 +30,10 @@ export const editTimeLog = actionClient
 					timePassed
 				}
 			})
+			if(!updatedTimer) return { error: 'There was an error updating the timelog' }
+
+			checkCompletionAndUpdateGoal(categoryId)
+
 			revalidatePath(`/categories/${categoryId}`)
 			return { success: 'Timelog updated!', updatedTimer }
 		}

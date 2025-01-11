@@ -21,7 +21,7 @@ console.log('checking goal completion')
 		if (goals.length === 0) return
 
 		for (const goal of goals) {
-			const totalTime = getTotals(goal.timeFrame, goal.category.timeLogs)
+			const totalTime = getTotals(goal.timeFrame, goal.category.timeLogs, goal.startDate)
 
 			if (goal.completed && totalTime < goal.targetTime) {
 				const updatedGoal = await db.goal.update({

@@ -24,7 +24,7 @@ import { DualRangeSlider } from '@/components/ui/DualRangeSlider'
 import { timeFormat } from '@/lib/time-format'
 import { TimeFrame } from '@prisma/client'
 import deleteGoal from '@/server/actions/goal/delete-goal'
-import { checkCompletionAndUpdateGoal } from '@/server/actions/goal/check-and-update-goal'
+
 
 
 type GoalFormProps = {
@@ -108,7 +108,6 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring }: GoalFo
 		onSuccess: (data) => {
 			if (data.data?.success) {
 				// router.push('/timers')
-				checkCompletionAndUpdateGoal(categoryId)
 				
 				if (id ) {
 					toast.success(data.data.success, {

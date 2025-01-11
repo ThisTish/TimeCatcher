@@ -18,6 +18,7 @@ type GoalCardProps = {
 }
 
 const GoalCards = ({ goals, color, categoryId, timeLogs }: GoalCardProps) => {
+	// ? do i need this?
 	const [totalTimes, setTotalTimes] = useState<Record<TimeFrame, number>>({
 		[TimeFrame.DAY]: 0,
 		[TimeFrame.WEEK]: 0,

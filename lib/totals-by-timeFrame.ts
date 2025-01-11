@@ -2,9 +2,9 @@ import { TimeFrame } from "@prisma/client"
 import { TimeLog } from "./types"
 import timeFrameDates from "./timeFrame-dates"
 
-	const getTotals = (timeFrame: TimeFrame | "ALLTIME", timeLogs: TimeLog[]) => {
+	const getTotals = (timeFrame: TimeFrame | "ALLTIME", timeLogs: TimeLog[], date: Date = new Date()) => {
 	
-		const {startDate, endDate } = timeFrameDates(timeFrame)  
+		const {startDate, endDate } = timeFrameDates(timeFrame,  date)  
 
 		const timeLogsByTimeFrame = timeLogs.filter((timelog) => timelog?.startTime && timelog.endTime && (timelog.startTime >= startDate) && (timelog?.endTime <= endDate))
 

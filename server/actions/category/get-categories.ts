@@ -23,7 +23,7 @@ export const getCategory = async (id: string) => {
 
 		)
 		if (!categoryData) return { error: "Category not found" }
-		checkCompletionAndUpdateGoal(categoryData.id)
+		await checkCompletionAndUpdateGoal(categoryData.id)
 		checkDateAndUpdateGoal(categoryData.id)
 		return { success: categoryData }
 

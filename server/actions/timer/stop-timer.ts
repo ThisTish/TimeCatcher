@@ -5,6 +5,7 @@ import { timeFormat } from "@/lib/time-format"
 import { db } from "@/prisma/db"
 import { revalidatePath } from "next/cache"
 import * as z from 'zod'
+import { checkCompletionAndUpdateGoal } from "../goal/check-and-update-goal"
 
 
 export const stopTimer = actionClient
@@ -38,6 +39,7 @@ export const stopTimer = actionClient
 				})
 
 				if (!updatedTimeLog) return
+				checkCompletionAndUpdateGoal(categoryId)
 
 				revalidatePath(`/${page}`)
 

@@ -14,7 +14,6 @@ import { ArrowLeft, Edit } from "lucide-react"
 
 import { toast } from "sonner"
 import CategoryTotalTimes from "@/components/categoryPage/CategoryTotalTimes"
-import { checkCompletionAndUpdateGoal, checkDateAndUpdateGoal } from "@/server/actions/goal/check-and-update-goal"
 import { Category } from "@/lib/types"
 import CompletedGoals from "@/components/categoryPage/CompletedGoals"
 import FormContainer from "@/components/forms/FormContainer"

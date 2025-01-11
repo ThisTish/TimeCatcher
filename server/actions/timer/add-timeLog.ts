@@ -40,7 +40,7 @@ export const addTimelog = actionClient
 				}
 			})
 
-			checkCompletionAndUpdateGoal(categoryId)
+			await checkCompletionAndUpdateGoal(categoryId)
 			revalidatePath(`/categories/${categoryId}`)
 			console.log(newTimeLog, categoryId)
 			return { success: 'Timelog added', newTimeLog }

@@ -15,7 +15,6 @@ const EditTimeLogButton = ({ row }: { row: Row<TimeLog> }) => {
 	const { execute, status } = useAction(editTimeLog, {
 		onSuccess(data) {
 			if (data.data?.success) {
-				checkCompletionAndUpdateGoal(data.data.updatedTimer.categoryId)
 				toast.success(data.data.success)
 			}
 			if (data.data?.error) {
