@@ -10,7 +10,7 @@ import { checkCompletionAndUpdateGoal } from "./check-and-update-goal"
 
 export const createGoal = actionClient
 	.schema(GoalFormSchema)
-	.action(async ({ parsedInput: { id, categoryId, timeFrame, targetTime, reoccurring, active, completed } }) => {
+	.action(async ({ parsedInput: { id, categoryId, timeFrame, targetTime, reoccurring, active } }) => {
 
 		if (id) {
 			try {
@@ -33,6 +33,7 @@ export const createGoal = actionClient
 
 				await checkCompletionAndUpdateGoal(categoryId)
 
+				console.log('updatedGoal', updatedGoal)
 				return { success: `${updatedGoal.timeFrame} goal updated!`, updatedGoal }
 			} catch (error) {
 				console.error(error)
@@ -61,10 +62,11 @@ export const createGoal = actionClient
 					}
 				})
 
-				if(!newGoal) return { error: `There was an error creating the goal` }
+				if (!newGoal) return { error: `There was an error creating the goal` }
+
 				await checkCompletionAndUpdateGoal(categoryId)
 
-				console.dir(newGoal)
+				console.log('newgoal', newGoal)
 				return { success: `${newGoal.timeFrame.slice(0, 1).toUpperCase() + newGoal.timeFrame.slice(1).toLowerCase()} goal created!`, newGoal }
 
 			} catch (error) {

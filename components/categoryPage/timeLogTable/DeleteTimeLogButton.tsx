@@ -7,9 +7,13 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { TimeLog } from "@/lib/types"
 import { Trash } from "lucide-react"
 import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 
 const DeleteTimeLogButton = ({ row }: { row: Row<TimeLog> }) => {
+
+	const router = useRouter()
+
 	const { execute, status } = useAction(deleteTimeLog, {
 		onSuccess(data) {
 			if (data.data?.success) {

@@ -26,7 +26,6 @@ import { TimeFrame } from '@prisma/client'
 import deleteGoal from '@/server/actions/goal/delete-goal'
 
 
-
 type GoalFormProps = {
 	id?: string
 	categoryId: string
@@ -35,45 +34,44 @@ type GoalFormProps = {
 	reoccurring?: boolean
 }
 
-const setSliderOptions = (timeFrame: string ) => {
-	const sliderOptions = useMemo(() =>{
+const setSliderOptions = (timeFrame: string) => {
+	const sliderOptions = useMemo(() => {
 
-	switch (timeFrame) {
-		case 'DAY':
-			return {
-				min: 15*60*1000,
-				max: 12*60*60*1000,
-				steps: 12*60*60*1000 / 48
-			}
-		case 'WEEK':
-			return {
-				min: 30*60*1000,
-				max: 7*12*60*60*1000,
-				steps: 7*12*60*60*1000 / 168
-			}
-		case 'MONTH':
-			return {
-				min: 60*60*1000,
-				max: 31*12*60*60*1000,
-				steps: 31*12*60*60*1000 / 372
-			}
-		case 'YEAR':
-			return {
-				min: 10*60*60*1000,
-				max: 365*12*60*60*1000,
-				steps: 365*12*60*60*1000 / 876
-			}		
+		switch (timeFrame) {
+			case 'DAY':
+				return {
+					min: 15 * 60 * 1000,
+					max: 12 * 60 * 60 * 1000,
+					steps: 12 * 60 * 60 * 1000 / 48
+				}
+			case 'WEEK':
+				return {
+					min: 30 * 60 * 1000,
+					max: 7 * 12 * 60 * 60 * 1000,
+					steps: 7 * 12 * 60 * 60 * 1000 / 168
+				}
+			case 'MONTH':
+				return {
+					min: 60 * 60 * 1000,
+					max: 31 * 12 * 60 * 60 * 1000,
+					steps: 31 * 12 * 60 * 60 * 1000 / 372
+				}
+			case 'YEAR':
+				return {
+					min: 10 * 60 * 60 * 1000,
+					max: 365 * 12 * 60 * 60 * 1000,
+					steps: 365 * 12 * 60 * 60 * 1000 / 876
+				}
 			default:
 				return {
-					min: 10*60*60*1000,
-					max: 365*12*60*60*1000,
-					steps: 365*12*60*60*1000 / 4380
+					min: 10 * 60 * 60 * 1000,
+					max: 365 * 12 * 60 * 60 * 1000,
+					steps: 365 * 12 * 60 * 60 * 1000 / 4380
 				}
-	}
-}, [timeFrame])
-return sliderOptions
+		}
+	}, [timeFrame])
+	return sliderOptions
 }
-
 
 
 const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring }: GoalFormProps) => {
@@ -90,33 +88,32 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring }: GoalFo
 		mode: 'onChange'
 	})
 
-	const sliderTargetTimeLabel = () =>{
+	const sliderTargetTimeLabel = () => {
 		const { hours, minutes } = timeFormat(goalForm.getValues('targetTime') / 1000)
-		if(timeFrame === 'MONTH' || timeFrame === 'YEAR'){
+		if (timeFrame === 'MONTH' || timeFrame === 'YEAR') {
 			return `${hours}hr`
 		}
-		if(hours <= 0){
+		if (hours <= 0) {
 			return `${minutes}min`
 		}
 		return `${hours}hr ${minutes}min`
 	}
-
 
 	const router = useRouter()
 
 	const { execute, isExecuting, result, hasErrored, hasSucceeded } = useAction(createGoal, {
 		onSuccess: (data) => {
 			if (data.data?.success) {
-				// router.push('/timers')
-				
-				if (id ) {
+				router.push('/timers')
+
+				if (id) {
 					toast.success(data.data.success, {
 						description: 'Update successful! If you are finished, click Done to close the form'
 					})
 
 					setButtonLabel('Save new updates')
 				}
-				if (!id ) {
+				if (!id) {
 					toast.success(data.data.success, {
 						description: 'Continue to add more, or click Done to close the form'
 					})
@@ -154,11 +151,11 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring }: GoalFo
 		execute(values)
 	}
 
-	const onDelete = (id: string) =>{
-		deleteGoal({id})
+	const onDelete = (id: string) => {
+		deleteGoal({ id })
 	}
 
-	
+
 	return (
 		<Form {...goalForm}>
 			<form onSubmit={goalForm.handleSubmit(onSubmit)} className="space-y-8">
@@ -181,7 +178,6 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring }: GoalFo
 									step={setSliderOptions(timeFrame).steps}
 									onValueChange={(value) => field.onChange(value[0])}
 								/>
-								
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -215,18 +211,18 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring }: GoalFo
 					</>
 				) : (
 					<Button type="submit" >{id ? 'Save' : 'Add'}</Button>
-				)} 
+				)}
 				{id ? (
 					<Button
 						id='delete'
 						type="button"
 						variant={'destructive'}
 						onClick={() => onDelete(id)}
-						>
+					>
 						Delete
-						</Button>
+					</Button>
 
-				): null
+				) : null
 				}
 			</form>
 		</Form >

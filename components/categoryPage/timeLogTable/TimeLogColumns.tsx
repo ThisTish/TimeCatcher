@@ -54,10 +54,6 @@ export const TimeLogColumns: ColumnDef<TimeLog>[] =
 			},
 			sortingFn: 'basic'
 		},
-		// {
-		// 	accessorKey: 'running',
-		// 	header: 'Running'
-		// },
 		{
 			accessorKey: 'edit',
 			header: 'Save',

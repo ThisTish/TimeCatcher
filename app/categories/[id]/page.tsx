@@ -18,6 +18,7 @@ import { Category } from "@/lib/types"
 import CompletedGoals from "@/components/categoryPage/CompletedGoals"
 import FormContainer from "@/components/forms/FormContainer"
 import GoalForm from "@/components/forms/goalForm/GoalForm"
+import { TimeLogColumns } from "@/components/categoryPage/timeLogTable/TimeLogColumns"
 
 
 
@@ -38,7 +39,6 @@ const CategoryPage = () => {
 
 		if (data.success) {
 			const categoryData = data.success
-			
 			setCategory(categoryData)
 		}
 	}
@@ -49,6 +49,7 @@ const CategoryPage = () => {
 		}
 	}, [])
 
+	// * suspense
 	if (!detailedCategory || !category) return <div>Loading...</div>
 
 	return (
@@ -65,7 +66,7 @@ const CategoryPage = () => {
 					</Link>
 				</Button>
 			</header>
-		
+
 
 			{/* TotalTimes */}
 			{category.timeLogs.length === 0 || !category.timeLogs
@@ -91,8 +92,6 @@ const CategoryPage = () => {
 					<TimeLogTable timeLogs={category.timeLogs} />
 				)
 			}
-
-
 		</main>
 	)
 }
@@ -108,13 +107,12 @@ export default CategoryPage
 // <CategoryPageTimer startTime={startTime ?? null} categoryId={category?.id ?? categoryId[0]}/>
 
 
-{/* For testing purposes*/}
+{/* For testing editing goals purposes*/ }
 {/* <FormContainer
 		className=" border-none -mr-1 p-0  h-fit z-10"
 		title="Edit goal"
 		openButtonLabel={
 			<Edit className="" aria-label="Edit" />
-
 		}
 	>
 		<GoalForm timeFrame={"DAY"} targetTime={900000} reoccurring={false} categoryId={categoryId[0]} />

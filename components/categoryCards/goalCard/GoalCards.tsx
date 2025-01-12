@@ -2,7 +2,7 @@
 
 import { backgrounds } from "@/components/providers/ThemeProvider"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import {  GoalDisplayProps, TimeLog } from "@/lib/types"
+import { GoalDisplayProps, TimeLog } from "@/lib/types"
 import { Color, TimeFrame } from "@prisma/client"
 import GoalDisplay from "./GoalDisplay"
 import getTotalTime from "@/server/actions/timer/getTotalTime"
@@ -26,10 +26,7 @@ const GoalCards = ({ goals, color, categoryId, timeLogs }: GoalCardProps) => {
 		[TimeFrame.YEAR]: 0,
 	})
 
-
-
 	const activeGoals = goals.filter((goal) => goal.active)
-
 
 	// Generate goal display slots
 	const slots = Object.values(TimeFrame).map((timeFrame) => {

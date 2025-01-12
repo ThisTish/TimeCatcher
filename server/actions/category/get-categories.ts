@@ -24,50 +24,13 @@ export const getCategory = async (id: string) => {
 		)
 		if (!categoryData) return { error: "Category not found" }
 		await checkCompletionAndUpdateGoal(categoryData.id)
-		checkDateAndUpdateGoal(categoryData.id)
+		await checkDateAndUpdateGoal(categoryData.id)
 		return { success: categoryData }
 
 	} catch (error) {
 		return { error: "Category not found" }
 	}
 }
-
-
-// export const getActiveCategory = async () => {
-
-// // todo useCallBack or add into following function ('getCategoryCardData')
-
-// 	try {
-// 		const session = await auth()
-// 		if (!session) return
-// 		const userId = session.user.id.toString()
-
-// 		const activeCategory = await db.category.findFirst({
-// 			where: {
-// 				userId,
-// 				timeLogs: {
-// 					some: {
-// 						running: true
-// 					}
-// 				}
-// 			},
-// 			include: {
-// 				timeLogs: {
-// 					where: {
-// 						running: true
-// 					}
-// 				}
-// 			}
-// 		})
-
-// 		if (!activeCategory) return
-
-// 		return activeCategory
-// 	}
-// 	catch (error) {
-// 		return { error: "Error finding active category" }
-// 	}
-// }
 
 export const getCategoryCardData = async () => {
 	try {
@@ -94,7 +57,6 @@ export const getCategoryCardData = async () => {
 			}
 		})
 		if (categories.length === 0 || !categories) return { success: [] }
-
 
 		return { success: categories }
 

@@ -30,6 +30,8 @@ const EditTimeLogButton = ({ row }: { row: Row<TimeLog> }) => {
 	if (!editButton) {
 		return null
 	}
+
+
 	return (
 		<TooltipProvider>
 			<Tooltip>

@@ -13,7 +13,6 @@ export const addTimelog = actionClient
 	.schema(TimeLogSchema)
 	.action(async ({ parsedInput: { startTime, endTime, categoryId } }) => {
 
-		console.log(categoryId)
 		try {
 			const session = await auth()
 			if (!session) return { error: "You must be logged in to catch time" }
@@ -23,7 +22,7 @@ export const addTimelog = actionClient
 			const category = await db.category.findUnique({
 				where: { id: categoryId }
 			})
-			if(!category) return { error: "Category not found" }
+			if (!category) return { error: "Category not found" }
 
 			if (!startTime || !endTime) return { error: "You must provide a start and end time" }
 			if (startTime > endTime || startTime === endTime) return { error: "The start time must be before the end time" }
@@ -42,7 +41,7 @@ export const addTimelog = actionClient
 
 			await checkCompletionAndUpdateGoal(categoryId)
 			revalidatePath(`/categories/${categoryId}`)
-			console.log(newTimeLog, categoryId)
+			console.log('newtimelog', newTimeLog, categoryId)
 			return { success: 'Timelog added', newTimeLog }
 		}
 		catch (error) {

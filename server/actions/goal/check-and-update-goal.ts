@@ -3,7 +3,7 @@ import getTotals from "@/lib/totals-by-timeFrame"
 import timeFrameDates from "@/lib/timeFrame-dates"
 
 export const checkCompletionAndUpdateGoal = async (categoryId: string) => {
-console.log('checking goal completion')
+	console.log('checking goal completion')
 	try {
 		const goals = await db.goal.findMany({
 			where: {
@@ -32,7 +32,7 @@ console.log('checking goal completion')
 						completed: false
 					}
 				})
-				console.log('changed uncompleted goal',updatedGoal)
+				console.log('changed uncompleted goal', updatedGoal)
 			}
 
 			if (!goal.completed && totalTime >= goal.targetTime) {
@@ -64,7 +64,7 @@ export const checkDateAndUpdateGoal = async (categoryId: string) => {
 				categoryId,
 				active: true,
 				endDate: {
-					lte: new Date()		
+					lte: new Date()
 				}
 			},
 			select: {
@@ -80,18 +80,18 @@ export const checkDateAndUpdateGoal = async (categoryId: string) => {
 
 		console.log('passedGoals', passedGoals)
 
-		await Promise.all(passedGoals.map(async(goal) =>{
-			return db.$transaction(async(tx) =>{
+		await Promise.all(passedGoals.map(async (goal) => {
+			return db.$transaction(async (tx) => {
 				const deactivatedGoal = await tx.goal.update({
-					where:{
+					where: {
 						id: goal.id
 					},
-					data:{
+					data: {
 						active: false
 					}
 				})
 				console.log('deactivated goal', deactivatedGoal)
-				if(!deactivatedGoal.reoccurring) return
+				if (!deactivatedGoal.reoccurring) return
 
 				const newGoal = await tx.goal.create({
 					data: {
@@ -102,7 +102,7 @@ export const checkDateAndUpdateGoal = async (categoryId: string) => {
 						startDate: timeFrameDates(goal.timeFrame).startDate,
 						endDate: timeFrameDates(goal.timeFrame).endDate
 					}
-					}) 
+				})
 				console.log('created new goal', newGoal)
 			})
 		}))
