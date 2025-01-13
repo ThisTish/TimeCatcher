@@ -77,21 +77,21 @@ const CategoryPage = () => {
 					<CategoryTotalTimes timeLogs={category.timeLogs} />
 				)
 			}
+			<div
+				className="flex">
 
-			{/* completed goals */}
-			<div>
+
+				{/* timeLogs */}
+				{category.timeLogs.length === 0 || !category.timeLogs
+					? (
+						<AddTimeLogForm categoryId={category.id} />
+					) : (
+						<TimeLogTable timeLogs={category.timeLogs} />
+					)
+				}
+				{/* completed goals */}
 				<CompletedGoals goals={category.goals} categoryId={category.id} />
 			</div>
-
-
-			{/* timeLogs */}
-			{category.timeLogs.length === 0 || !category.timeLogs
-				? (
-					<AddTimeLogForm categoryId={category.id} />
-				) : (
-					<TimeLogTable timeLogs={category.timeLogs} />
-				)
-			}
 		</main>
 	)
 }

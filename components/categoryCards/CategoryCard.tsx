@@ -43,7 +43,7 @@ const CategoryCard = ({ category }: { category: CategoryCardProps }) => {
 				{/* category TotalTime */}
 				<div className="text-center text-xs font-light">
 					<p>Total Time</p>
-					<time>{timeFormatString({ time: category.totalTime, h: 'h', m: 'm', s: 's', includeSeconds: true })}</time>
+					<time>{timeFormatString(category.totalTime, 'h', 'm', true, 's')}</time>
 				</div>
 			</CardHeader>
 
@@ -73,13 +73,13 @@ const CategoryCard = ({ category }: { category: CategoryCardProps }) => {
 							color={category.color as Color}
 							timeLogs={category.timeLogs}
 						/>
-							<Button
-								className="absolute bottom-0 right-0"
-								onClick={() => setIsGoalsOpen(false)}
-								variant={'link'}
-							>
-								<span className="inline-flex text-sm gap-1 items-center">Timer<CornerDownRight /></span>
-							</Button>
+						<Button
+							className="absolute bottom-0 right-0"
+							onClick={() => setIsGoalsOpen(false)}
+							variant={'link'}
+						>
+							<span className="inline-flex text-sm gap-1 items-center">Timer<CornerDownRight /></span>
+						</Button>
 					</>
 				)}
 		</Card>

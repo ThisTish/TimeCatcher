@@ -7,14 +7,14 @@ import { useMemo } from "react"
 
 const CategoryTotalTimes = ({ timeLogs }: { timeLogs: TimeLog[] }) => {
 
-		const totalsByTimeFrame = useMemo(() => (timeFrame: TimeFrame, timeLogs: TimeLog[]) => {
-			const totals = getTotals(timeFrame, timeLogs)
-			if (!totals) return '0 hours 0 minutes'
+	const totalsByTimeFrame = useMemo(() => (timeFrame: TimeFrame, timeLogs: TimeLog[]) => {
+		const totals = getTotals(timeFrame, timeLogs)
+		if (!totals) return '0 hours 0 minutes'
 
-			const strings = timeFormatString({ time: totals, h: ' hours', m: ' minutes', includeSeconds: false })
+		const strings = timeFormatString(totals, ' hours', ' minutes', false)
 
-			return strings
-		}, [timeLogs])
+		return strings
+	}, [timeLogs])
 
 
 	return (
@@ -32,7 +32,7 @@ const CategoryTotalTimes = ({ timeLogs }: { timeLogs: TimeLog[] }) => {
 				<p className="flex gap-2"><b>This Week</b>{totalsByTimeFrame('WEEK', timeLogs)}</p>
 				<p className="flex gap-2"><b>This Month</b>{totalsByTimeFrame('MONTH', timeLogs)}</p>
 				<p className="flex gap-2"><b>For the Year</b>{totalsByTimeFrame('YEAR', timeLogs)}</p>
-				
+
 			</CardContent>
 		</Card>
 	)

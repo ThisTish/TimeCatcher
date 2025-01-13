@@ -7,7 +7,7 @@ export function timeFormat(time: number) {
 	return { hours, minutes, seconds }
 }
 
- export const timeFormatString = ({ time, h, m, includeSeconds, s }: { time: number, h: string, m: string, includeSeconds: boolean, s?: string }) => {
+export const timeFormatString = (time: number, h: string, m: string, includeSeconds: boolean, s?: string) => {
 	if (time === 0) {
 		if (includeSeconds) return `0${h} 0${m} 0${s}`
 		return `0${h} 0${m}`
@@ -19,17 +19,17 @@ export function timeFormat(time: number) {
 		return `0${h} 0${m}`
 	}
 
-	if(hours === 0){
-		if(includeSeconds) return `${minutes}${m} ${seconds}${s}`
+	if (hours === 0) {
+		if (includeSeconds) return `${minutes}${m} ${seconds}${s}`
 		return `${minutes}${m} `
-	} 
+	}
 
-	if (minutes === 0){
-		if(includeSeconds) return `${hours}${h} ${minutes}${m} ${seconds}${s}`
+	if (minutes === 0) {
+		if (includeSeconds) return `${hours}${h} ${minutes}${m} ${seconds}${s}`
 		return `${hours}${h}`
 	}
 
 	if (includeSeconds) return `${hours}${h} ${minutes}${m} ${seconds}${s}`
-	
+
 	return `${hours}${h} ${minutes}${m}`
 }

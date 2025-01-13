@@ -1,10 +1,12 @@
-import { GoalDisplayProps } from "@/lib/types";
-import FormContainer from "../forms/FormContainer";
-import GoalForm from "../forms/goalForm/GoalForm";
+import { GoalDisplayProps } from "@/lib/types"
+import FormContainer from "../forms/FormContainer"
+import GoalForm from "../forms/goalForm/GoalForm"
+import { Card, CardContent, CardHeader } from "../ui/card"
+import CompletedGoalsSections from "./CompletedGoalsSections"
 
 const CompletedGoals = ({ goals, categoryId }: { goals: GoalDisplayProps[], categoryId: string }) => {
 
-	console.dir(goals)
+	// if no goal created yet
 	if (!goals || goals.length === 0) return (
 		<div>
 			<p className="text-xl font-bold">No goals yet</p>
@@ -26,7 +28,15 @@ const CompletedGoals = ({ goals, categoryId }: { goals: GoalDisplayProps[], cate
 		</div>
 	)
 
+
+	// if no completed goals
 	const completedGoals = goals.filter((goal) => goal.completed === true)
+	const completedDayGoals = completedGoals.filter((goal) => goal.timeFrame === "DAY")
+	const completedWeekGoals = completedGoals.filter((goal) => goal.timeFrame === "WEEK")
+	const completedMonthGoals = completedGoals.filter((goal) => goal.timeFrame === "MONTH")
+	const completedYearGoals = completedGoals.filter((goal) => goal.timeFrame === "YEAR")
+
+
 
 	if (!completedGoals || completedGoals.length === 0) return (
 		<div>
@@ -37,21 +47,37 @@ const CompletedGoals = ({ goals, categoryId }: { goals: GoalDisplayProps[], cate
 		</div>
 	)
 
+	// display completed goals
 	return (
 		<section>
-			{completedGoals.map((goal) => (
-				<div
-					key={goal.id}
-				>
-					<p className="text-xl font-bold">{goal.timeFrame}</p>
-					<p className="grid">
-						<span className="text-sm">{goal.startDate?.toDateString()} - {goal.endDate?.toDateString()}</span>
-						<span className="font-semibold tracking-widest">Completed!</span>
-					</p>
-				</div>
-			))}
+			<Card className="bg-gray-300">
+				<CardHeader>
+					<h2>Caught Goals</h2>
+				</CardHeader>
+				<CardContent>
+					{completedDayGoals.length > 0
+						? (
+							<CompletedGoalsSections goals={completedDayGoals} title="DAY" />
+						) : null}
+					{completedWeekGoals.length > 0
+						? (
+							<CompletedGoalsSections goals={completedWeekGoals} title="WEEK" />
+						) : null}
+					{completedMonthGoals.length > 0
+						? (
+							<CompletedGoalsSections goals={completedMonthGoals} title="MONTH" />
+						) : null}
+					{completedYearGoals.length > 0
+						? (
+							<CompletedGoalsSections goals={completedYearGoals} title="YEAR" />
+						) : null}
+
+
+				</CardContent>
+			</Card>
+
 		</section>
-	);
+	)
 }
 
-export default CompletedGoals;
+export default CompletedGoals

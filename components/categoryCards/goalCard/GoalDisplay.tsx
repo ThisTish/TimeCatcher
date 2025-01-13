@@ -34,13 +34,13 @@ const GoalDisplay = ({ id, timeFrame, timePassed, targetTime, reoccurring, categ
 			</header>
 
 			<div className={cn("flex items-center justify-center text-xs gap-1", completed ? 'bg-white' : '')}>
-				<span className="text-nowrap">{timeFormatString({ time: timePassed, h: 'h', m: 'm', includeSeconds: false })}</span>
+				<span className="text-nowrap">{timeFormatString(timePassed, 'h', 'm', false)}</span>
 				<Progress
 					className="border border-black"
 					value={progress}
 				/>
 
-				<span className="text-nowrap">{timeFormatString({ time: targetTime, h: 'h', m: 'm', includeSeconds: false, })}</span>
+				<span className="text-nowrap">{timeFormatString(targetTime, 'h', 'm', false)}</span>
 
 
 				{/* <TooltipProvider>
@@ -66,7 +66,7 @@ const GoalDisplay = ({ id, timeFrame, timePassed, targetTime, reoccurring, categ
 			<footer>
 				<p className="text-center text-xs tracking-tighter leading-none">
 					{progress === 100 ? `Goal completed!` :
-						`${timeFormatString({ time: timeToGo, h: ` hours`, m: ` minutes`, includeSeconds: false })} to go!`
+						`${timeFormatString(timeToGo, ` hours`, ` minutes`, false)} to go!`
 					}
 
 				</p>
