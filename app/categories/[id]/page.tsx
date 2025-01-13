@@ -10,15 +10,13 @@ import AddTimeLogForm from "@/components/categoryPage/timeLogTable/AddTimeLogFor
 import TimeLogTable from "@/components/categoryPage/timeLogTable/TimeLogTable"
 import { textColor } from "@/components/providers/ThemeProvider"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Edit } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 
 import { toast } from "sonner"
 import CategoryTotalTimes from "@/components/categoryPage/CategoryTotalTimes"
 import { Category } from "@/lib/types"
 import CompletedGoals from "@/components/categoryPage/CompletedGoals"
-import FormContainer from "@/components/forms/FormContainer"
-import GoalForm from "@/components/forms/goalForm/GoalForm"
-import { TimeLogColumns } from "@/components/categoryPage/timeLogTable/TimeLogColumns"
+import ActivityChart from "@/components/categoryPage/ActivityChart"
 
 
 
@@ -52,6 +50,11 @@ const CategoryPage = () => {
 	// * suspense
 	if (!detailedCategory || !category) return <div>Loading...</div>
 
+	// category.timeLogs.map((log) =>{
+	// 	console.log('date', log?.startTime.toISOString().split('T')[0])
+	// 	console.log('timePassed', log?.timePassed)
+	// })
+
 	return (
 		<main >
 			<header className="flex justify-between">
@@ -77,11 +80,15 @@ const CategoryPage = () => {
 					<CategoryTotalTimes timeLogs={category.timeLogs} />
 				)
 			}
+
+			<div>
+				<ActivityChart timeLogs={category.timeLogs}/>
+			</div>
+
+
+			{/* timeLogs */}
 			<div
 				className="flex">
-
-
-				{/* timeLogs */}
 				{category.timeLogs.length === 0 || !category.timeLogs
 					? (
 						<AddTimeLogForm categoryId={category.id} />
