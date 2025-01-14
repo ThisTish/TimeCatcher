@@ -2,12 +2,15 @@ import { TimeLog } from "@/lib/types"
 import { Card, CardContent, CardHeader } from "../ui/card"
 import { ActivityCalendar } from 'react-activity-calendar'
 import { Color } from "@prisma/client"
+import { timeFormatString } from "@/lib/time-format"
+import { cloneElement } from "react"
+import { Tooltip } from 'react-tooltip'
 
 const ActivityChart = ({ timeLogs, color }: { timeLogs: TimeLog[], color: Color }) => {
 
 	const milliseconds = 8 * 60 * 60 * 1000
 	const timeSegment = milliseconds / 3
-	
+
 	const level = (time: number) => {
 		if (time > milliseconds) return 3
 		if (time === 0) return 0
@@ -57,7 +60,15 @@ const ActivityChart = ({ timeLogs, color }: { timeLogs: TimeLog[], color: Color 
 					theme={{
 						light: [`var(--secondary)`, `var(--${color.toLocaleLowerCase()})`],
 					}}
+					renderBlock={(block, activity) =>
+						cloneElement(block, {
+							'data-tooltip-id': 'react-tooltip',
+							'data-tooltip-html': `${timeFormatString(activity.count, 'h', 'm', false)} on ${new Date(activity.date).toLocaleDateString('en-US', {day: 'numeric', month: 'short'})}`,
+						})
+					}
+
 				/>
+				<Tooltip id="react-tooltip" />
 			</CardContent>
 		</Card>
 	)
