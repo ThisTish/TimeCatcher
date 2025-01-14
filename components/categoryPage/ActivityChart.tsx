@@ -36,7 +36,6 @@ const ActivityChart = ({ timeLogs, color }: { timeLogs: TimeLog[], color: Color 
 
 
 	// ! add hours & minutes to completedGoals instead of h & m
-	// !pass color of category to ActivityCalendar colorscheme
 	// ! sort goals by date
 	// ! completed goals to show how much total timepassed with goal in parenthesis?
 	// ! !isDesktop, show small calendar, else show large calendar
@@ -59,10 +58,10 @@ const ActivityChart = ({ timeLogs, color }: { timeLogs: TimeLog[], color: Color 
 					blockMargin={3}
 					colorScheme="light"
 					labels={{ totalCount: `${timeLogs.length} timelogs added in ${(new Date()).getFullYear()}` }}
-					// theme={{
-					// 	"light": ['var(--black)', `var(--${color.toLowerCase()})`],
-					// 	"dark": ['var(--white)',`var(--${color.toLowerCase()})`]
-					// }}
+					theme={{
+						light: [`var(--white)`, `var(--${color.toLocaleLowerCase()})`],
+						dark: [`var(--black)`, `var(--${color.toLocaleLowerCase()})`]
+					}}
 				/>
 			</CardContent>
 		</Card>
