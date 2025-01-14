@@ -5,11 +5,13 @@ import { Color } from "@prisma/client"
 
 const ActivityChart = ({ timeLogs, color }: { timeLogs: TimeLog[], color: Color }) => {
 
-	const milliseconds = 12 * 60 * 60 * 1000
+	const milliseconds = 8 * 60 * 60 * 1000
 	const timeSegment = milliseconds / 3
-
+	
 	const level = (time: number) => {
 		if (time > milliseconds) return 3
+		if (time === 0) return 0
+		if (time < timeSegment) return 1
 		return Math.min(Math.floor(time / timeSegment), 3)
 	}
 
@@ -59,8 +61,7 @@ const ActivityChart = ({ timeLogs, color }: { timeLogs: TimeLog[], color: Color 
 					colorScheme="light"
 					labels={{ totalCount: `${timeLogs.length} timelogs added in ${(new Date()).getFullYear()}` }}
 					theme={{
-						light: [`var(--white)`, `var(--${color.toLocaleLowerCase()})`],
-						dark: [`var(--black)`, `var(--${color.toLocaleLowerCase()})`]
+						light: [`var(--secondary)`, `var(--${color.toLocaleLowerCase()})`],
 					}}
 				/>
 			</CardContent>
