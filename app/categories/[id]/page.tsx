@@ -82,7 +82,7 @@ const CategoryPage = () => {
 			}
 
 			<div>
-				<ActivityChart timeLogs={category.timeLogs}/>
+				<ActivityChart timeLogs={category.timeLogs} color={category?.color }/>
 			</div>
 
 
