@@ -37,14 +37,8 @@ const ActivityChart = ({ timeLogs, color }: { timeLogs: TimeLog[], color: Color 
 	]
 
 
-	// ! add hours & minutes to completedGoals instead of h & m
-	// ! sort goals by date
-	// ! completed goals to show how much total timepassed with goal in parenthesis?
-	// ! !isDesktop, show small calendar, else show large calendar
-
-
 	return (
-		<Card className="bg-gray-400">
+		<Card className="bg-gray-400 min-w-96 max-w-fit overflow-y-auto" >
 			<CardHeader>
 				<h3>
 					Daily Activity
