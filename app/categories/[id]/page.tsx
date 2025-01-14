@@ -57,38 +57,41 @@ const CategoryPage = () => {
 
 	return (
 		<main >
-			<header className="flex justify-between">
-				<h1 className={cn('text-7xl text-white font-bold', category?.color ? textColor[category.color] : 'text-primary ')}>{category?.name}</h1>
+			<h1 className={cn('text-7xl text-white font-bold', category?.color ? textColor[category.color] : 'text-primary ')}>{category?.name}</h1>
 
-				{/* Back Button to timers*/}
-				<Button
-					variant={'outline'}>
-					<Link href="/timers" className="inline-flex gap-1 items-center">
-						<ArrowLeft />
-						<span className="text-sm">Back to timers</span>
-					</Link>
-				</Button>
-			</header>
+			{/* Back Button to timers*/}
+			<Button
+				className="sticky top-0 z-10 opacity-80 backdrop-blur-sm"
+				variant={'outline'}>
+				<Link href="/timers" className="inline-flex gap-1 items-center">
+					<ArrowLeft />
+					<span className="text-sm">Back to timers</span>
+				</Link>
+			</Button>
 
 
 			{/* TotalTimes */}
-			{category.timeLogs.length === 0 || !category.timeLogs
-				? (<div>
-					<p>No time caught yet. Check back for total times.</p>
-				</div>
-				) : (
-					<CategoryTotalTimes timeLogs={category.timeLogs} />
-				)
-			}
+			<div className="flex flex-wrap">
+				{category.timeLogs.length === 0 || !category.timeLogs
+					? (<div>
+						<p>No time caught yet. Check back for total times.</p>
+					</div>
+					) : (
+						<CategoryTotalTimes timeLogs={category.timeLogs} />
+					)
+				}
 
-			<div>
-				<ActivityChart timeLogs={category.timeLogs} color={category?.color }/>
+				{/* completed goals */}
+				<CompletedGoals goals={category.goals} categoryId={category.id} timeLogs={category.timeLogs} />
+
 			</div>
 
 
-			{/* timeLogs */}
 			<div
-				className="flex">
+				className="flex flex-wrap">
+				<ActivityChart timeLogs={category.timeLogs} color={category?.color} />
+
+				{/* timeLogs */}
 				{category.timeLogs.length === 0 || !category.timeLogs
 					? (
 						<AddTimeLogForm categoryId={category.id} />
@@ -96,8 +99,6 @@ const CategoryPage = () => {
 						<TimeLogTable timeLogs={category.timeLogs} />
 					)
 				}
-				{/* completed goals */}
-				<CompletedGoals goals={category.goals} categoryId={category.id} />
 			</div>
 		</main>
 	)

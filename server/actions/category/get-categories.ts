@@ -12,7 +12,11 @@ export const getCategory = async (id: string) => {
 				id
 			},
 			include: {
-				goals: true,
+				goals: {
+					orderBy: {
+						startDate: 'desc'
+					}
+				},
 				timeLogs: {
 					orderBy: {
 						startTime: 'desc'
@@ -23,7 +27,8 @@ export const getCategory = async (id: string) => {
 
 		)
 		if (!categoryData) return { error: "Category not found" }
-		await checkCompletionAndUpdateGoal(categoryData.id)
+		//*turned off for styling
+		// await checkCompletionAndUpdateGoal(categoryData.id)
 		await checkDateAndUpdateGoal(categoryData.id)
 		return { success: categoryData }
 
