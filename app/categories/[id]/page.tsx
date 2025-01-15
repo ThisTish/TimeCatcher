@@ -17,6 +17,8 @@ import CategoryTotalTimes from "@/components/categoryPage/CategoryTotalTimes"
 import { Category } from "@/lib/types"
 import CompletedGoals from "@/components/categoryPage/CompletedGoals"
 import ActivityChart from "@/components/categoryPage/ActivityChart"
+import GoalDisplay from "@/components/categoryCards/goalCard/GoalDisplay"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 
 
 
@@ -50,10 +52,7 @@ const CategoryPage = () => {
 	// * suspense
 	if (!detailedCategory || !category) return <div>Loading...</div>
 
-	// category.timeLogs.map((log) =>{
-	// 	console.log('date', log?.startTime.toISOString().split('T')[0])
-	// 	console.log('timePassed', log?.timePassed)
-	// })
+	const activeGoals = category.goals.filter((goal) => goal.active)
 
 	return (
 		<main >
@@ -83,6 +82,29 @@ const CategoryPage = () => {
 
 				{/* completed goals */}
 				<CompletedGoals goals={category.goals} categoryId={category.id} timeLogs={category.timeLogs} />
+
+				{/* active goals */}
+				<Card>
+					<CardHeader>
+						<h2>Active Goals</h2>
+					</CardHeader>
+					<CardContent>
+						{activeGoals.length === 0 || !activeGoals
+							? (
+								<p>No active goals</p>
+							) : (
+								activeGoals.map((goal) =>
+									<GoalDisplay
+										key={goal.id}
+										{...goal}
+									/>
+								)
+							)}
+
+
+					</CardContent>
+				</Card>
+
 
 			</div>
 

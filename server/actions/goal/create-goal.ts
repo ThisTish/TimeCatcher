@@ -7,6 +7,7 @@ import { auth } from "@/server/actions/auth/auth"
 import { TimeFrame } from "@prisma/client"
 import timeFrameDates from "@/lib/timeFrame-dates"
 import { checkCompletionAndUpdateGoal } from "./check-and-update-goal"
+import { revalidatePath } from "next/cache"
 
 export const createGoal = actionClient
 	.schema(GoalFormSchema)
@@ -32,7 +33,7 @@ export const createGoal = actionClient
 				if (!updatedGoal) return { error: `There was an error updating the goal` }
 
 				await checkCompletionAndUpdateGoal(categoryId)
-
+				revalidatePath(`/categories/${categoryId}`)
 				console.log('updatedGoal', updatedGoal)
 				return { success: `${updatedGoal.timeFrame} goal updated!`, updatedGoal }
 			} catch (error) {

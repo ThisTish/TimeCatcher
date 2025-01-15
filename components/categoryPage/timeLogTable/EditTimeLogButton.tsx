@@ -7,7 +7,6 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { TimeLog } from "@/lib/types"
 import { Save } from "lucide-react"
 import { toast } from "sonner"
-import { checkCompletionAndUpdateGoal } from "@/server/actions/goal/check-and-update-goal"
 
 // todo disabled until row is in editable mode
 // todo useOptimistic on update

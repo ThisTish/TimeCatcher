@@ -5,12 +5,8 @@ import { Card, CardContent, CardHeader } from "../ui/card"
 import CompletedGoalsSections from "./CompletedGoalsSections"
 import CompletedGoalsModal from "./CompletedGoalsModal"
 
-// ! add hours & minutes to completedGoals instead of h & m
-// ! completed goals to show how much total timepassed with goal in parenthesis?
-
 
 const CompletedGoals = ({ goals, categoryId, timeLogs }: { goals: GoalDisplayProps[], categoryId: string, timeLogs: TimeLog[] }) => {
-
 	// if no goal created yet
 	if (!goals || goals.length === 0) return (
 		<div>
@@ -34,15 +30,15 @@ const CompletedGoals = ({ goals, categoryId, timeLogs }: { goals: GoalDisplayPro
 	)
 
 
-	// if no completed goals
 	const completedGoals = goals.filter((goal) => goal.completed === true)
 	const completedDayGoals = completedGoals.filter((goal) => goal.timeFrame === "DAY")
 	const completedWeekGoals = completedGoals.filter((goal) => goal.timeFrame === "WEEK")
 	const completedMonthGoals = completedGoals.filter((goal) => goal.timeFrame === "MONTH")
 	const completedYearGoals = completedGoals.filter((goal) => goal.timeFrame === "YEAR")
+	console.log(goals)
 
 
-
+	// if no completed goals
 	if (!completedGoals || completedGoals.length === 0) return (
 		<div>
 			<p className="text-xl font-bold">You haven't completed any goals yet</p>

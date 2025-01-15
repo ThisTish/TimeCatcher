@@ -5,6 +5,7 @@ import { Color } from "@prisma/client"
 import { timeFormatString } from "@/lib/time-format"
 import { cloneElement } from "react"
 import { Tooltip } from 'react-tooltip'
+import getTotals from "@/lib/totals-by-timeFrame"
 
 const ActivityChart = ({ timeLogs, color }: { timeLogs: TimeLog[], color: Color }) => {
 
@@ -14,17 +15,49 @@ const ActivityChart = ({ timeLogs, color }: { timeLogs: TimeLog[], color: Color 
 	const level = (time: number) => {
 		if (time > milliseconds) return 3
 		if (time === 0) return 0
-		if (time < timeSegment) return 1
+		if (time < timeSegment) return 1//MIGHT NOT NEED
 		return Math.min(Math.floor(time / timeSegment), 3)
 	}
 
-	const data = timeLogs.map((log) => ({
-		date: log?.startTime?.toISOString().split('T')[0] ?? '',
-		count: log?.timePassed ?? 0,
-		level: level(log?.timePassed ?? 0)
-	}))
+	const data = Array.from(
+		new Set(timeLogs.map((log) => log?.startTime?.toISOString().split('T')[0] ?? ''))
+	).map((date) =>{
+		const timeLogsOnDate = timeLogs.filter((log) => log?.startTime?.toISOString().split('T')[0] === date)
+		console.log(timeLogsOnDate.map((log) => log?.timePassed ), date )
+		const totals = getTotals("DAY", timeLogsOnDate, new Date(date))
+		return {
+			date,
+			count: totals,
+			level: level(totals)
+		}
+	})
+	console.dir(data)
 
-	//todo if statement if timelog for 2025-01-01 exists, then don't add it && same with 2025-12-31
+	// let data:{
+	// 	date:string,
+	// 	count:number,
+	// 	level:number
+	// }[] = []
+
+	// const findingObject = (timelogs: TimeLog[]) =>{
+	// 	const dateArray = new Set(timeLogs.map((log) => log?.startTime?.toISOString().split('T')[0] ?? ''))
+	// 	const objectifying = dateArray.forEach((date)=>{
+	// 		const timeLogsOnDate = timeLogs.filter((log) => log?.startTime?.toISOString().split('T')[0] === date)
+	// 		const totals = getTotals("DAY", timeLogsOnDate)
+	// 		data.push({
+	// 			date: date,
+	// 			count: totals,
+	// 			level: level(totals)
+	// 		})
+	// 	})
+	// }
+
+	// const data = timeLogs.map((log) => ({
+	// 	date: log?.startTime?.toISOString().split('T')[0] ?? '',
+	// 	count: getTotals("DAY", log ) ?? 0,
+	// 	level: level(log?.timePassed ?? 0)
+	// }))
+
 	const paddedData = [
 		{
 			date: '2025-01-01',

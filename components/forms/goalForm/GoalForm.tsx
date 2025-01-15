@@ -76,6 +76,7 @@ const setSliderOptions = (timeFrame: string) => {
 
 const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring }: GoalFormProps) => {
 	const [buttonLabel, setButtonLabel] = useState('Save')
+	const [isDisabled, setIsDisabled] = useState(false)
 	const goalForm = useForm<z.infer<typeof GoalFormSchema>>({
 		resolver: zodResolver(GoalFormSchema),
 		defaultValues: {
@@ -104,7 +105,6 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring }: GoalFo
 	const { execute, isExecuting, result, hasErrored, hasSucceeded } = useAction(createGoal, {
 		onSuccess: (data) => {
 			if (data.data?.success) {
-				router.push('/timers')
 
 				if (id) {
 					toast.success(data.data.success, {
@@ -112,14 +112,15 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring }: GoalFo
 					})
 
 					setButtonLabel('Save new updates')
+					setIsDisabled(true)
 				}
 				if (!id) {
 					toast.success(data.data.success, {
 						description: 'Continue to add more, or click Done to close the form'
 					})
-					goalForm.reset()
+					// goalForm.reset()
 				}
-
+				router.refresh()
 			}
 
 			if (data.data?.error) {
@@ -144,6 +145,7 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring }: GoalFo
 					toast.dismiss(creatingToast)
 				}, 3000)
 			}
+			setIsDisabled(true)
 		}
 	})
 
@@ -176,7 +178,10 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring }: GoalFo
 									min={setSliderOptions(timeFrame).min}
 									max={setSliderOptions(timeFrame).max}
 									step={setSliderOptions(timeFrame).steps}
-									onValueChange={(value) => field.onChange(value[0])}
+									onValueChange={(value) => {
+										field.onChange(value[0])
+										setIsDisabled(false)
+									}}
 								/>
 							</FormControl>
 							<FormMessage />
@@ -205,7 +210,7 @@ const GoalForm = ({ id, categoryId, timeFrame, targetTime, reoccurring }: GoalFo
 							<Button type="submit" disabled={isExecuting}>Try Again</Button>
 						}
 						{hasSucceeded && result.data?.success &&
-							<Button type="submit" disabled={isExecuting}>{buttonLabel}</Button>
+							<Button type="submit" disabled={isExecuting || isDisabled}>{buttonLabel}</Button>
 
 						}
 					</>

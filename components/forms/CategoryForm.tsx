@@ -41,6 +41,7 @@ type CategoryFormProps = {
 
 const CategoryForm = ({ id, categoryName, categoryColor }: CategoryFormProps) => {
 	const [buttonLabel, setButtonLabel] = useState('Add another')
+	const [isDisabled, setIsDisabled] = useState(false)
 
 	const categoryForm = useForm<z.infer<typeof categoryFormSchema>>({
 		resolver: zodResolver(categoryFormSchema),
@@ -62,17 +63,18 @@ const CategoryForm = ({ id, categoryName, categoryColor }: CategoryFormProps) =>
 			if (data.data?.success) {
 				router.push('/timers')
 
-
 				if (id) {
 					toast.success(data.data.success, {
 						description: 'Update successful! If you are finished, click Done to close the form'
 					})
+					setIsDisabled(true)
 					setButtonLabel('Save new updates')
 				}
 				if (!id) {
 					toast.success(data.data.success, {
 						description: 'Continue to add more, or click Done to close the form'
 					})
+					setIsDisabled(true)
 					categoryForm.reset()
 				}
 
@@ -119,9 +121,14 @@ const CategoryForm = ({ id, categoryName, categoryColor }: CategoryFormProps) =>
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Category Name</FormLabel>
-							<FormControl>
+							<FormControl
+								onChange={() => setIsDisabled(false)}
+							>
 								<div>
-									<Input list='categories' placeholder="Name your category whatever you want" {...field} />
+									<Input
+										list='categories'
+										placeholder="Name your category whatever you want"
+										{...field} />
 									<datalist id="categories">
 										<option value="Sleep" />
 										<option value="Work" />
@@ -173,7 +180,7 @@ const CategoryForm = ({ id, categoryName, categoryColor }: CategoryFormProps) =>
 							<Button type="submit" disabled={isExecuting}>Try Again</Button>
 						}
 						{hasSucceeded && result.data?.success &&
-							<Button type="submit" disabled={isExecuting}>{buttonLabel}</Button>
+							<Button type="submit" disabled={isExecuting || isDisabled}>{buttonLabel}</Button>
 
 						}
 					</>
