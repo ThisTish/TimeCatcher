@@ -1,12 +1,14 @@
 import { GoalDisplayProps, TimeLog } from "@/lib/types"
 import FormContainer from "../forms/FormContainer"
 import GoalForm from "../forms/goalForm/GoalForm"
-import { Card, CardContent, CardHeader } from "../ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
 import CompletedGoalsSections from "./CompletedGoalsSections"
 import CompletedGoalsModal from "./CompletedGoalsModal"
+import { shadowColor } from "../providers/ThemeProvider"
+import { Color } from "@prisma/client"
 
 
-const CompletedGoals = ({ goals, categoryId, timeLogs }: { goals: GoalDisplayProps[], categoryId: string, timeLogs: TimeLog[] }) => {
+const CompletedGoals = ({ goals, categoryId, timeLogs, color }: { goals: GoalDisplayProps[], categoryId: string, timeLogs: TimeLog[], color: Color }) => {
 	// if no goal created yet
 	if (!goals || goals.length === 0) return (
 		<div>
@@ -49,20 +51,23 @@ const CompletedGoals = ({ goals, categoryId, timeLogs }: { goals: GoalDisplayPro
 
 	// display completed goals
 	return (
-		<Card className="bg-gray-300">
+		<Card className={`p-4 ${shadowColor[color]}`}>
 			<CardHeader>
+				<CardTitle>
 				<h2>Caught Goals</h2>
+
+				</CardTitle>
 			</CardHeader>
 			<CardContent className="grid sm:flex">
 				{/* Days */}
 				{completedDayGoals.length > 0 ? (
 					completedDayGoals.length > 5 ? (
-						<div className="grid">
-							<CompletedGoalsSections goals={completedDayGoals.slice(0, 5)} title="DAY" timeLogs={timeLogs} />
+						<div className="grid gap-2">
+							<CompletedGoalsSections goals={completedDayGoals.slice(0, 5)} title="DAY" timeLogs={timeLogs} color={color} />
 							<CompletedGoalsModal goals={completedDayGoals} title="DAY" timeLogs={timeLogs} />
 						</div>
 					) : (
-						<CompletedGoalsSections goals={completedDayGoals} title="DAY" timeLogs={timeLogs} />
+						<CompletedGoalsSections goals={completedDayGoals} title="DAY" timeLogs={timeLogs} color={color}/>
 					)
 				) : null}
 
@@ -70,11 +75,11 @@ const CompletedGoals = ({ goals, categoryId, timeLogs }: { goals: GoalDisplayPro
 				{completedWeekGoals.length > 0 ? (
 					completedWeekGoals.length > 5 ? (
 						<div className="grid">
-							<CompletedGoalsSections goals={completedWeekGoals.slice(0, 5)} title="WEEK" timeLogs={timeLogs} />
+							<CompletedGoalsSections goals={completedWeekGoals.slice(0, 5)} title="WEEK" timeLogs={timeLogs} color={color}/>
 							<CompletedGoalsModal goals={completedWeekGoals} title="WEEK" timeLogs={timeLogs} />
 						</div>
 					) : (
-						<CompletedGoalsSections goals={completedWeekGoals} title="WEEK" timeLogs={timeLogs} />
+						<CompletedGoalsSections goals={completedWeekGoals} title="WEEK" timeLogs={timeLogs} color={color}/>
 					)
 				) : null}
 
@@ -82,18 +87,18 @@ const CompletedGoals = ({ goals, categoryId, timeLogs }: { goals: GoalDisplayPro
 				{completedMonthGoals.length > 0 ? (
 					completedMonthGoals.length > 5 ? (
 						<div className="grid">
-							<CompletedGoalsSections goals={completedMonthGoals.slice(0, 5)} title="MONTH" timeLogs={timeLogs} />
+							<CompletedGoalsSections goals={completedMonthGoals.slice(0, 5)} title="MONTH" timeLogs={timeLogs} color={color}/>
 							<CompletedGoalsModal goals={completedMonthGoals} title="MONTH" timeLogs={timeLogs} />
 						</div>
 					) : (
-						<CompletedGoalsSections goals={completedMonthGoals} title="MONTH" timeLogs={timeLogs} />
+						<CompletedGoalsSections goals={completedMonthGoals} title="MONTH" timeLogs={timeLogs} color={color}/>
 					)
 				) : null}
 
 				{/* Years */}
 				{completedYearGoals.length > 0
 					? (
-						<CompletedGoalsSections goals={completedYearGoals} title="YEAR" timeLogs={timeLogs} />
+						<CompletedGoalsSections goals={completedYearGoals} title="YEAR" timeLogs={timeLogs} color={color}/>
 					) : null}
 
 

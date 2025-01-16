@@ -1,12 +1,12 @@
 import { TimeLog, TimeLogSchema } from "@/lib/types"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card"
 import { Color, TimeFrame } from "@prisma/client"
 import { timeFormatString } from "@/lib/time-format"
 import getTotals from "@/lib/totals-by-timeFrame"
 import { useMemo } from "react"
 import { backgrounds, shadowColor } from "../providers/ThemeProvider"
 
-const CategoryTotalTimes = ({ timeLogs, color }: { timeLogs: TimeLog[], color: Color }) => {
+const CategoryTotalTimes = ({ timeLogs, color, name }: { timeLogs: TimeLog[], color: Color, name: string }) => {
 
 	const totalsByTimeFrame = useMemo(() => (timeFrame: TimeFrame, timeLogs: TimeLog[]) => {
 		const totals = getTotals(timeFrame, timeLogs)
@@ -19,25 +19,52 @@ const CategoryTotalTimes = ({ timeLogs, color }: { timeLogs: TimeLog[], color: C
 
 
 	return (
-		<Card className={`p-10 shadow-md ${shadowColor[color]}`} >
-			<CardHeader>
-				<CardTitle>
-					<h2>Time Caught </h2>
-				</CardTitle>
-				
-			</CardHeader>
-			<CardContent className="flex flex-col gap-2">
-				<p className="flex gap-2"><b>Today</b></p>
-				<span className={`px-5 ${backgrounds[color]} rounded-md py-2`}>{totalsByTimeFrame('DAY', timeLogs)}</span>
-				<p className="flex gap-2"><b>This Week</b></p>
-				<span className={`px-5 ${backgrounds[color]} rounded-md py-2`}>{totalsByTimeFrame('WEEK', timeLogs)}</span>
-				<p className="flex gap-2"><b>This Month</b></p>
-				<span className={`px-5 ${backgrounds[color]} rounded-md py-2`}>{totalsByTimeFrame('MONTH', timeLogs)}</span>
-				<p className="flex gap-2"><b>For the Year</b></p>
-				<span className={`px-5 ${backgrounds[color]} rounded-md py-2`}>{totalsByTimeFrame('YEAR', timeLogs)}</span>
-
-			</CardContent>
-		</Card>
+		<>
+			{timeLogs.length === 0 || !timeLogs
+				? (
+					<Card className={`p-5 ${shadowColor[color]} `}>
+						<CardHeader>
+							<CardTitle>
+								<h2>Time Caught </h2>
+							</CardTitle>
+						</CardHeader>
+						<CardContent>
+							<p className="text-xl py-10">No time caught yet</p>
+						</CardContent>
+						<CardFooter>
+							<p>Go catch some time in {name}!</p>
+						</CardFooter>
+					</Card>
+				) : (
+					<Card className={`p-10 shadow-md ${shadowColor[color]}`} >
+						<CardHeader>
+							<CardTitle>
+								<h2>Time Caught </h2>
+							</CardTitle>
+						</CardHeader>
+						<CardContent >
+							<ul className="grid gap-3">
+							<li>
+								<p className="mb-1"><b>Today</b></p>
+								<span className={`px-5 ${backgrounds[color]} rounded-md py-2`}>{totalsByTimeFrame('DAY', timeLogs)}</span>
+							</li>
+							<li>
+								<p className="mb-1"><b>This Week</b></p>
+								<span className={`px-5 ${backgrounds[color]} rounded-md py-2`}>{totalsByTimeFrame('WEEK', timeLogs)}</span>
+								</li>
+								<li>
+								<p className="mb-1"><b>This Month</b></p>
+								<span className={`px-5 ${backgrounds[color]} rounded-md py-2`}>{totalsByTimeFrame('MONTH', timeLogs)}</span>
+								</li>
+								<li>
+								<p className="mb-1"><b>For the Year</b></p>
+								<span className={`px-5 ${backgrounds[color]} rounded-md py-2`}>{totalsByTimeFrame('YEAR', timeLogs)}</span>
+							</li>
+							</ul>
+						</CardContent>
+					</Card>
+				)}
+		</>
 	)
 }
 

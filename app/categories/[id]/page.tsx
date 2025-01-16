@@ -67,28 +67,11 @@ const CategoryPage = () => {
 
 			{/* TotalTimes */}
 			<div className="flex flex-wrap gap-10">
-				{category.timeLogs.length === 0 || !category.timeLogs
-					? (
-						<Card className={`p-5 shadow-md ${shadowColor[category.color]} `}>
-							<CardHeader>
-								<CardTitle>
-									<h2>Time Caught </h2>
-								</CardTitle>
-							</CardHeader>
-							<CardContent>
-								<p className="text-xl py-10">No time caught yet</p>
-							</CardContent>
-							<CardFooter>
-								<p>Go catch some time in {category.name}!</p>
-							</CardFooter>
-						</Card>
-					) : (
-						<CategoryTotalTimes timeLogs={category.timeLogs} color={category.color} />
-					)
-				}
+
+				<CategoryTotalTimes timeLogs={category.timeLogs} color={category.color} name={category.name} />
 
 				{/* completed goals */}
-				<CompletedGoals goals={category.goals} categoryId={category.id} timeLogs={category.timeLogs} />
+				<CompletedGoals goals={category.goals} categoryId={category.id} timeLogs={category.timeLogs} color={category.color} />
 
 				{/* active goals */}
 				<Card>

@@ -1,22 +1,24 @@
 import { timeFormatString } from "@/lib/time-format"
 import getTotals from "@/lib/totals-by-timeFrame"
 import { GoalDisplayProps, TimeLog } from "@/lib/types"
+import { backgrounds } from "../providers/ThemeProvider"
+import { Color } from "@prisma/client"
 
-const CompletedGoalsSections = ({ goals, title, showTitle = true, timeLogs }: { goals: GoalDisplayProps[], title: string, showTitle?: boolean, timeLogs: TimeLog[] }) => {
+const CompletedGoalsSections = ({ goals, title, showTitle = true, timeLogs, color }: { goals: GoalDisplayProps[], title: string, showTitle?: boolean, timeLogs: TimeLog[], color: Color }) => {
 
 	return (
-		<div>
+		<ul className="grid gap-3">
 			{showTitle
 				?
-				<h3>{title}</h3>
+				<h3><b>{title}</b></h3>
 				: null
 			}
-			<ul>
+			<ul className="mb-1 ">
 				{goals.map((goal) => (
 					<li
-						className="px-5 grid"
+						className={`px-5 grid`}
 						key={goal.id}>
-						<span>
+						<p className={`${backgrounds[color]} rounded-md px-2 py-1 w-fit`}>
 							{title === "DAY" ?
 								`${goal.startDate?.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: '2-digit' })}`
 								:
@@ -31,13 +33,13 @@ const CompletedGoalsSections = ({ goals, title, showTitle = true, timeLogs }: { 
 											: null
 
 							}
-						</span>
+						</p>
 						<span className="px-5">{timeFormatString(goal.targetTime, ' hr', ' min', false)} goal</span>
 						<span className="px-5">{timeFormatString(getTotals(goal.timeFrame, timeLogs, goal.startDate), ' hr', ' min', false)} total</span>
 					</li>
 				))}
 			</ul>
-		</div>
+		</ul>
 	)
 }
 
