@@ -8,7 +8,7 @@ import { useEffect, useState } from "react"
 
 import AddTimeLogForm from "@/components/categoryPage/timeLogTable/AddTimeLogForm"
 import TimeLogTable from "@/components/categoryPage/timeLogTable/TimeLogTable"
-import { textColor } from "@/components/providers/ThemeProvider"
+import { backgrounds, shadowColor, textColor } from "@/components/providers/ThemeProvider"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 
@@ -18,7 +18,7 @@ import { Category } from "@/lib/types"
 import CompletedGoals from "@/components/categoryPage/CompletedGoals"
 import ActivityChart from "@/components/categoryPage/ActivityChart"
 import GoalDisplay from "@/components/categoryCards/goalCard/GoalDisplay"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
 
 
@@ -32,8 +32,8 @@ const CategoryPage = () => {
 	const detailedCategory = async (categoryId: string) => {
 		const data = await getCategory(categoryId)
 		if (data.error) {
-			toast.error(data.error)
 			router.push('/timers')
+			toast.error(data.error)
 			return
 		}
 
@@ -49,34 +49,41 @@ const CategoryPage = () => {
 		}
 	}, [])
 
-	// * suspense
 	if (!detailedCategory || !category) return <div>Loading...</div>
 
 	const activeGoals = category.goals.filter((goal) => goal.active)
 
 	return (
-		<main >
-			<h1 className={cn('text-7xl text-white font-bold', category?.color ? textColor[category.color] : 'text-primary ')}>{category?.name}</h1>
+		<main className="flex flex-col items-center gap-10" >
+			<h1 className={cn('text-7xl text-white font-bold self-start', category?.color ? textColor[category.color] : 'text-primary ')}>{category?.name}</h1>
 
 			{/* Back Button to timers*/}
-			<Button
-				className="sticky top-0 z-10 opacity-80 backdrop-blur-sm"
-				variant={'outline'}>
+			<Button className={cn("sticky top-2 right-2 self-end z-10 opacity-80 backdrop-blur-sm font-bold", category?.color ? backgrounds[category.color] : ' ', "text-black")}>
 				<Link href="/timers" className="inline-flex gap-1 items-center">
 					<ArrowLeft />
 					<span className="text-sm">Back to timers</span>
 				</Link>
 			</Button>
 
-
 			{/* TotalTimes */}
-			<div className="flex flex-wrap">
+			<div className="flex flex-wrap gap-10">
 				{category.timeLogs.length === 0 || !category.timeLogs
-					? (<div>
-						<p>No time caught yet. Check back for total times.</p>
-					</div>
+					? (
+						<Card className={`p-5 shadow-md ${shadowColor[category.color]} `}>
+							<CardHeader>
+								<CardTitle>
+									<h2>Time Caught </h2>
+								</CardTitle>
+							</CardHeader>
+							<CardContent>
+								<p className="text-xl py-10">No time caught yet</p>
+							</CardContent>
+							<CardFooter>
+								<p>Go catch some time in {category.name}!</p>
+							</CardFooter>
+						</Card>
 					) : (
-						<CategoryTotalTimes timeLogs={category.timeLogs} />
+						<CategoryTotalTimes timeLogs={category.timeLogs} color={category.color} />
 					)
 				}
 

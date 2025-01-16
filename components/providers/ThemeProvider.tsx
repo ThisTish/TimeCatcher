@@ -42,3 +42,17 @@ export const textColor: Record<Color, string> = {
 	GREY: 'text-grey '
 	
 }
+export const shadowColor: Record<Color, string> = {
+	RED: 'shadow-red',
+	BLUE: 'shadow-blue',
+	GREEN: 'shadow-green',
+	YELLOW: 'shadow-yellow',
+	PURPLE: 'shadow-purple',
+	ORANGE: 'shadow-orange',
+	PINK: 'shadow-pink',
+	BLACK: 'shadow-black ',
+	BROWN: 'shadow-brown',
+	WHITE: 'shadow-black ',
+	GREY: 'shadow-grey '
+	
+}

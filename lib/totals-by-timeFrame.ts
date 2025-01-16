@@ -3,7 +3,6 @@ import { TimeLog } from "./types"
 import timeFrameDates from "./timeFrame-dates"
 
 	const getTotals = (timeFrame: TimeFrame | "ALLTIME", timeLogs: TimeLog[], date: Date = new Date()) => {
-	console.log(date, timeFrame)
 
 		const {startDate, endDate } = timeFrameDates(timeFrame,  date)  
 
