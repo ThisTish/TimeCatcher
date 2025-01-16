@@ -110,7 +110,9 @@ const CategoryPage = () => {
 
 
 			<div
-				className="flex flex-wrap">
+				className="flex flex-wrap"
+			>
+				{/* activity Chart */}
 				<ActivityChart timeLogs={category.timeLogs} color={category?.color} />
 
 				{/* timeLogs */}

@@ -1,11 +1,14 @@
+"use client"
+
 import { TimeLog } from "@/lib/types"
 import { Card, CardContent, CardHeader } from "../ui/card"
 import { ActivityCalendar } from 'react-activity-calendar'
 import { Color } from "@prisma/client"
 import { timeFormatString } from "@/lib/time-format"
-import { cloneElement } from "react"
+import { cloneElement, useMemo } from "react"
 import { Tooltip } from 'react-tooltip'
 import getTotals from "@/lib/totals-by-timeFrame"
+import timeFrameDates from "@/lib/timeFrame-dates"
 
 const ActivityChart = ({ timeLogs, color }: { timeLogs: TimeLog[], color: Color }) => {
 
@@ -19,45 +22,69 @@ const ActivityChart = ({ timeLogs, color }: { timeLogs: TimeLog[], color: Color 
 		return Math.min(Math.floor(time / timeSegment), 3)
 	}
 
-	const data = Array.from(
-		new Set(timeLogs.map((log) => log?.startTime?.toISOString().split('T')[0] ?? ''))
-	).map((date) =>{
-		const timeLogsOnDate = timeLogs.filter((log) => log?.startTime?.toISOString().split('T')[0] === date)
-		console.log(timeLogsOnDate.map((log) => log?.timePassed ), date )
-		const totals = getTotals("DAY", timeLogsOnDate, new Date(date))
-		return {
-			date,
-			count: totals,
-			level: level(totals)
-		}
-	})
-	console.dir(data)
+	const getLocalDateString = (date: Date) => {
+		const year = date.getFullYear();
+		const month = String(date.getMonth() + 1).padStart(2, '0');
+		const day = String(date.getDate()).padStart(2, '0');
+		return (`${year}-${month}-${day}`);
+	};
 
-	// let data:{
-	// 	date:string,
-	// 	count:number,
-	// 	level:number
-	// }[] = []
+	// const data = useMemo(() => {
+	// 	const validTimeLogs = Array.isArray(timeLogs) ? timeLogs : []
 
-	// const findingObject = (timelogs: TimeLog[]) =>{
-	// 	const dateArray = new Set(timeLogs.map((log) => log?.startTime?.toISOString().split('T')[0] ?? ''))
-	// 	const objectifying = dateArray.forEach((date)=>{
-	// 		const timeLogsOnDate = timeLogs.filter((log) => log?.startTime?.toISOString().split('T')[0] === date)
-	// 		const totals = getTotals("DAY", timeLogsOnDate)
-	// 		data.push({
-	// 			date: date,
+	// 	const currentYear = new Date().getFullYear()
+	// 	const startDate =  new Date(currentYear, 0, 1)
+	// 	const endDate = new Date(currentYear, 11, 31)
+
+	// 	const getDatesInRange = (start: Date, end: Date) => {
+	// 		const dates = []
+
+	// 		let currentDate = new Date(start)
+	// 		while(currentDate <= end){
+	// 			dates.push(new Date(currentDate))
+	// 			// currentDate =timeFrameDates("DAY", currentDate).startDate
+	// 			currentDate.setUTCDate(currentDate.getDate() + 1)
+	// 		}
+	// 		return dates
+	// 	}
+
+	// 	return getDatesInRange(startDate, endDate).map((date) =>{
+	// 		const localDateString = getLocalDateString(date)
+	// 		const timeLogsOnDate = validTimeLogs.filter((log) => {
+	// 			try {
+	// 				return log && getLocalDateString(log.startTime) === localDateString
+	// 			} catch (error) {
+	// 				return false
+	// 			}
+	// 		})
+			
+	// 		const totals = getTotals("DAY", timeLogsOnDate, date)
+
+	// 		return {
+	// 			date: localDateString,
 	// 			count: totals,
 	// 			level: level(totals)
-	// 		})
+	// 		}
 	// 	})
-	// }
 
-	// const data = timeLogs.map((log) => ({
-	// 	date: log?.startTime?.toISOString().split('T')[0] ?? '',
-	// 	count: getTotals("DAY", log ) ?? 0,
-	// 	level: level(log?.timePassed ?? 0)
-	// }))
+	// }, [timeLogs])
+	
 
+
+
+	const data = useMemo(() => {
+		return Array.from(new Set(timeLogs.map((log) => log?.startTime ?? ''))).map((date) => {
+			const timeLogsOnDate = timeLogs.filter((log) => log?.startTime === date)
+			const totals = getTotals("DAY", timeLogsOnDate, new Date(date))
+			return {
+				date: new Date(date).toISOString().split('T')[0],
+				count: totals,
+				level: level(totals)
+			}
+		})
+	}, [timeLogs])
+	
+	
 	const paddedData = [
 		{
 			date: '2025-01-01',
@@ -96,7 +123,7 @@ const ActivityChart = ({ timeLogs, color }: { timeLogs: TimeLog[], color: Color 
 					renderBlock={(block, activity) =>
 						cloneElement(block, {
 							'data-tooltip-id': 'react-tooltip',
-							'data-tooltip-html': `${timeFormatString(activity.count, 'h', 'm', false)} on ${new Date(activity.date).toLocaleDateString('en-US', {day: 'numeric', month: 'short'})}`,
+							'data-tooltip-html': `${timeFormatString(activity.count, 'h', 'm', false)} on ${new Date(activity.date).toDateString()}`,
 						})
 					}
 

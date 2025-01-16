@@ -35,7 +35,6 @@ const CompletedGoals = ({ goals, categoryId, timeLogs }: { goals: GoalDisplayPro
 	const completedWeekGoals = completedGoals.filter((goal) => goal.timeFrame === "WEEK")
 	const completedMonthGoals = completedGoals.filter((goal) => goal.timeFrame === "MONTH")
 	const completedYearGoals = completedGoals.filter((goal) => goal.timeFrame === "YEAR")
-	console.log(goals)
 
 
 	// if no completed goals
