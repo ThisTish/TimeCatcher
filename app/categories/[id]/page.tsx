@@ -8,7 +8,7 @@ import { useEffect, useState } from "react"
 
 import AddTimeLogForm from "@/components/categoryPage/timeLogTable/AddTimeLogForm"
 import TimeLogTable from "@/components/categoryPage/timeLogTable/TimeLogTable"
-import { backgrounds, shadowColor, textColor } from "@/components/providers/ThemeProvider"
+import { backgrounds, textColor } from "@/components/providers/ThemeProvider"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 
@@ -17,8 +17,6 @@ import CategoryTotalTimes from "@/components/categoryPage/CategoryTotalTimes"
 import { Category } from "@/lib/types"
 import CompletedGoals from "@/components/categoryPage/CompletedGoals"
 import ActivityChart from "@/components/categoryPage/ActivityChart"
-import GoalDisplay from "@/components/categoryCards/goalCard/GoalDisplay"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import ActiveGoals from "@/components/categoryPage/ActiveGoals"
 
 
@@ -81,21 +79,17 @@ const CategoryPage = () => {
 			</div>
 
 
-			<div
-				className=""
-			>
 				{/* activity Chart */}
 				<ActivityChart timeLogs={category.timeLogs} color={category?.color} />
 
 				{/* timeLogs */}
-				{category.timeLogs.length === 0 || !category.timeLogs
+				{/* {category.timeLogs.length === 0 || !category.timeLogs
 					? (
 						<AddTimeLogForm categoryId={category.id} />
 					) : (
 						<TimeLogTable timeLogs={category.timeLogs} />
 					)
-				}
-			</div>
+				} */}
 		</main>
 	)
 }

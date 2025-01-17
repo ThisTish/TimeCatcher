@@ -41,7 +41,7 @@ const CompletedGoals = ({ goals, categoryId, timeLogs, color }: { goals: GoalDis
 
 	// if no completed goals
 	if (!completedGoals || completedGoals.length === 0) return (
-		<Card className={`p-5 h-fit shadow-md ${shadowColor[color]}`} >
+		<Card className={`p-5 h-fit shadow-lg ${shadowColor[color]}`} >
 			<CardHeader>
 				<CardTitle>
 					<h2>Caught Goals</h2>
@@ -58,7 +58,7 @@ const CompletedGoals = ({ goals, categoryId, timeLogs, color }: { goals: GoalDis
 
 	// display completed goals
 	return (
-		<Card className={`p-5 h-fit ${shadowColor[color]}`}>
+		<Card className={`p-5 h-fit shadow-lg ${shadowColor[color]}`}>
 			<CardHeader>
 				<CardTitle>
 					<h2>Caught Goals</h2>

@@ -7,7 +7,8 @@ import { timeFormatString } from "@/lib/time-format"
 import getTotals from "@/lib/totals-by-timeFrame"
 import { Tooltip } from 'react-tooltip'
 import { ActivityCalendar } from 'react-activity-calendar'
-import { Card, CardContent, CardHeader } from "../ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
+import { backgrounds, shadowColor } from "../providers/ThemeProvider"
 
 const ActivityChart = ({ timeLogs, color }: { timeLogs: TimeLog[], color: Color }) => {
 
@@ -50,13 +51,16 @@ const ActivityChart = ({ timeLogs, color }: { timeLogs: TimeLog[], color: Color 
 
 
 	return (
-		<Card className="bg-gray-400 min-w-96 max-w-fit overflow-y-auto" >
+		<Card className={`p-5 w-72 shadow-lg md:w-fit overflow-x-auto mx-10 mb-10 ${shadowColor[color]} `} >
 			<CardHeader>
-				<h3>
-					Daily Activity
-				</h3>
+				<CardTitle>
+				<h3>Daily Activity</h3>
+				</CardTitle>
+				<CardDescription>
+					<p>Your activity for the year</p>
+				</CardDescription>
 			</CardHeader>
-			<CardContent>
+			<CardContent >
 				<ActivityCalendar
 					data={paddedData}
 					maxLevel={3}

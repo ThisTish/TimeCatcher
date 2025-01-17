@@ -1,4 +1,4 @@
-import { TimeLog, TimeLogSchema } from "@/lib/types"
+import { TimeLog } from "@/lib/types"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card"
 import { Color, TimeFrame } from "@prisma/client"
 import { timeFormatString } from "@/lib/time-format"
@@ -23,7 +23,7 @@ const CategoryTotalTimes = ({ timeLogs, color, name }: { timeLogs: TimeLog[], co
 			{/* no timeLogs */}
 			{timeLogs.length === 0 || !timeLogs
 				? (
-					<Card className={`p-5 ${shadowColor[color]} `}>
+					<Card className={`p-5 shadow-lg ${shadowColor[color]} w-fit h-fit`}>
 						<CardHeader>
 							<CardTitle>
 								<h2>Time Caught </h2>
@@ -38,7 +38,7 @@ const CategoryTotalTimes = ({ timeLogs, color, name }: { timeLogs: TimeLog[], co
 					</Card>
 				) : (
 					// totals to display
-					<Card className={`p-5 h-fit shadow-md ${shadowColor[color]}`} >
+					<Card className={`p-5 h-fit  shadow-md ${shadowColor[color]}`} >
 						<CardHeader>
 							<CardTitle>
 								<h2>Time Caught </h2>
