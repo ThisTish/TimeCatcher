@@ -1,7 +1,7 @@
 import { GoalDisplayProps, TimeLog } from "@/lib/types"
 import FormContainer from "../forms/FormContainer"
 import GoalForm from "../forms/goalForm/GoalForm"
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card"
 import CompletedGoalsSections from "./CompletedGoalsSections"
 import CompletedGoalsModal from "./CompletedGoalsModal"
 import { shadowColor } from "../providers/ThemeProvider"
@@ -41,33 +41,39 @@ const CompletedGoals = ({ goals, categoryId, timeLogs, color }: { goals: GoalDis
 
 	// if no completed goals
 	if (!completedGoals || completedGoals.length === 0) return (
-		<div>
-			<p className="text-xl font-bold">You haven't completed any goals yet</p>
-			<p className="grid">
+		<Card className={`p-5 h-fit shadow-md ${shadowColor[color]}`} >
+			<CardHeader>
+				<CardTitle>
+					<h2>Caught Goals</h2>
+				</CardTitle>
+			</CardHeader>
+			<CardContent>
+				<p className="text-xl py-10">You haven't completed any goals yet</p>
+			</CardContent>
+			<CardFooter>
 				<span className="text-sm">Keep working on catching your time.</span>
-			</p>
-		</div>
+			</CardFooter>
+		</Card>
 	)
 
 	// display completed goals
 	return (
-		<Card className={`p-4 ${shadowColor[color]}`}>
+		<Card className={`p-5 h-fit ${shadowColor[color]}`}>
 			<CardHeader>
 				<CardTitle>
-				<h2>Caught Goals</h2>
-
+					<h2>Caught Goals</h2>
 				</CardTitle>
 			</CardHeader>
-			<CardContent className="grid sm:flex">
+			<CardContent className="grid sm:flex sm:items-start">
 				{/* Days */}
 				{completedDayGoals.length > 0 ? (
 					completedDayGoals.length > 5 ? (
 						<div className="grid gap-2">
 							<CompletedGoalsSections goals={completedDayGoals.slice(0, 5)} title="DAY" timeLogs={timeLogs} color={color} />
-							<CompletedGoalsModal goals={completedDayGoals} title="DAY" timeLogs={timeLogs} />
+							<CompletedGoalsModal goals={completedDayGoals} title="DAY" timeLogs={timeLogs} color={color} />
 						</div>
 					) : (
-						<CompletedGoalsSections goals={completedDayGoals} title="DAY" timeLogs={timeLogs} color={color}/>
+						<CompletedGoalsSections goals={completedDayGoals} title="DAY" timeLogs={timeLogs} color={color} />
 					)
 				) : null}
 
@@ -75,11 +81,11 @@ const CompletedGoals = ({ goals, categoryId, timeLogs, color }: { goals: GoalDis
 				{completedWeekGoals.length > 0 ? (
 					completedWeekGoals.length > 5 ? (
 						<div className="grid">
-							<CompletedGoalsSections goals={completedWeekGoals.slice(0, 5)} title="WEEK" timeLogs={timeLogs} color={color}/>
-							<CompletedGoalsModal goals={completedWeekGoals} title="WEEK" timeLogs={timeLogs} />
+							<CompletedGoalsSections goals={completedWeekGoals.slice(0, 5)} title="WEEK" timeLogs={timeLogs} color={color} />
+							<CompletedGoalsModal goals={completedWeekGoals} title="WEEK" timeLogs={timeLogs} color={color} />
 						</div>
 					) : (
-						<CompletedGoalsSections goals={completedWeekGoals} title="WEEK" timeLogs={timeLogs} color={color}/>
+						<CompletedGoalsSections goals={completedWeekGoals} title="WEEK" timeLogs={timeLogs} color={color} />
 					)
 				) : null}
 
@@ -87,18 +93,18 @@ const CompletedGoals = ({ goals, categoryId, timeLogs, color }: { goals: GoalDis
 				{completedMonthGoals.length > 0 ? (
 					completedMonthGoals.length > 5 ? (
 						<div className="grid">
-							<CompletedGoalsSections goals={completedMonthGoals.slice(0, 5)} title="MONTH" timeLogs={timeLogs} color={color}/>
-							<CompletedGoalsModal goals={completedMonthGoals} title="MONTH" timeLogs={timeLogs} />
+							<CompletedGoalsSections goals={completedMonthGoals.slice(0, 5)} title="MONTH" timeLogs={timeLogs} color={color} />
+							<CompletedGoalsModal goals={completedMonthGoals} title="MONTH" timeLogs={timeLogs} color={color} />
 						</div>
 					) : (
-						<CompletedGoalsSections goals={completedMonthGoals} title="MONTH" timeLogs={timeLogs} color={color}/>
+						<CompletedGoalsSections goals={completedMonthGoals} title="MONTH" timeLogs={timeLogs} color={color} />
 					)
 				) : null}
 
 				{/* Years */}
 				{completedYearGoals.length > 0
 					? (
-						<CompletedGoalsSections goals={completedYearGoals} title="YEAR" timeLogs={timeLogs} color={color}/>
+						<CompletedGoalsSections goals={completedYearGoals} title="YEAR" timeLogs={timeLogs} color={color} />
 					) : null}
 
 

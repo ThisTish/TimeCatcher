@@ -10,7 +10,7 @@ const CompletedGoalsSections = ({ goals, title, showTitle = true, timeLogs, colo
 		<ul className="grid gap-3">
 			{showTitle
 				?
-				<h3><b>{title}</b></h3>
+				<h3><b>{title.slice(0,1) + title.slice(1).toLowerCase()}</b></h3>
 				: null
 			}
 			<ul className="mb-1 ">
@@ -34,8 +34,8 @@ const CompletedGoalsSections = ({ goals, title, showTitle = true, timeLogs, colo
 
 							}
 						</p>
-						<span className="px-5">{timeFormatString(goal.targetTime, ' hr', ' min', false)} goal</span>
-						<span className="px-5">{timeFormatString(getTotals(goal.timeFrame, timeLogs, goal.startDate), ' hr', ' min', false)} total</span>
+						<span className="px-5"><i>goal: </i>{timeFormatString(goal.targetTime, ' hr', ' min', false)}</span>
+						<span className="px-5"><i>total: </i>{timeFormatString(getTotals(goal.timeFrame, timeLogs, goal.startDate), ' hr', ' min', false)}</span>
 					</li>
 				))}
 			</ul>

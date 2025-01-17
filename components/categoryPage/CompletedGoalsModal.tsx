@@ -22,10 +22,10 @@ import {
 } from "@/components/ui/drawer"
 import { useState } from "react"
 import { GoalDisplayProps, TimeLog } from "@/lib/types"
-import { TimeFrame } from "@prisma/client"
+import { Color, TimeFrame } from "@prisma/client"
 import CompletedGoalsSections from "./CompletedGoalsSections"
 
-const CompletedGoalsModal = ({ goals, title, timeLogs }: { goals: GoalDisplayProps[], title: TimeFrame, timeLogs: TimeLog[] }) => {
+const CompletedGoalsModal = ({ goals, title, timeLogs, color }: { goals: GoalDisplayProps[], title: TimeFrame, timeLogs: TimeLog[], color: Color }) => {
 	const [open, setOpen] = useState(false)
 	const isDesktop = useMediaQuery("(min-width: 768px)")
 
@@ -33,16 +33,16 @@ const CompletedGoalsModal = ({ goals, title, timeLogs }: { goals: GoalDisplayPro
 		return (
 			<Dialog open={open} onOpenChange={setOpen} >
 				<DialogTrigger asChild>
-					<Button variant="outline">Show More</Button>
+					<Button variant={'secondary'} className="border-2 w-fit ml-5">Show More</Button>
 				</DialogTrigger>
 				<DialogContent className="sm:max-w-[425px]">
 					<DialogHeader>
-						<DialogTitle>CAUGHT {title} GOALS</DialogTitle>
+						<DialogTitle>Caught {title.slice(0, 1) + title.slice(1).toLocaleLowerCase()} Goals</DialogTitle>
 						<DialogDescription>
-							Full list of your completed goals for {title.toLowerCase()}s.
+							Full list of your completed {title.toLowerCase()} goals.
 						</DialogDescription>
 					</DialogHeader>
-					<CompletedGoalsSections goals={goals} title={title} showTitle={false} timeLogs={timeLogs}/>
+					<CompletedGoalsSections goals={goals} title={title} showTitle={false} timeLogs={timeLogs} color={color} />
 				</DialogContent>
 			</Dialog>
 		)
@@ -51,19 +51,19 @@ const CompletedGoalsModal = ({ goals, title, timeLogs }: { goals: GoalDisplayPro
 	return (
 		<Drawer open={open} onOpenChange={setOpen}>
 			<DrawerTrigger asChild>
-				<Button variant="outline">Show More</Button>
+				<Button variant={'secondary'} className="border-2 w-fit ml-5">Show More</Button>
 			</DrawerTrigger>
-			<DrawerContent>
+			<DrawerContent className="overflow-auto">
 				<DrawerHeader className="text-left">
-					<DrawerTitle>CAUGHT {title} GOALS</DrawerTitle>
+					<DrawerTitle>Caught {title.slice(0, 1) + title.slice(1).toLocaleLowerCase()} Goals</DrawerTitle>
 					<DrawerDescription>
-							Full list of your completed goals for {title.toLowerCase()}s.
-						</DrawerDescription>
+						Full list of your completed {title.toLowerCase()} goals.
+					</DrawerDescription>
 				</DrawerHeader>
-				<CompletedGoalsSections goals={goals} title={title} showTitle={false} timeLogs={timeLogs} />
+				<CompletedGoalsSections goals={goals} title={title} showTitle={false} timeLogs={timeLogs} color={color} />
 				<DrawerFooter className="pt-2">
 					<DrawerClose asChild>
-						<Button variant="outline">Close</Button>
+						<Button variant={'secondary'} className="border-2 w-fit ml-5">Close</Button>
 					</DrawerClose>
 				</DrawerFooter>
 			</DrawerContent>

@@ -18,7 +18,7 @@ const GoalDisplay = ({ id, timeFrame, timePassed, targetTime, reoccurring, categ
 	return (
 		<div className="w-full -ml-1 relative">
 			<header className="text-sm -ml-1 items-center font-semibold flex gap-2">
-				<h4>{timeFrame}</h4>
+				<h3>{timeFrame.slice(0, 1) + timeFrame.slice(1).toLowerCase()}</h3>
 				{reoccurring
 					? <TooltipProvider>
 						<Tooltip>

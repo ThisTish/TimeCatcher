@@ -19,6 +19,7 @@ import CompletedGoals from "@/components/categoryPage/CompletedGoals"
 import ActivityChart from "@/components/categoryPage/ActivityChart"
 import GoalDisplay from "@/components/categoryCards/goalCard/GoalDisplay"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import ActiveGoals from "@/components/categoryPage/ActiveGoals"
 
 
 
@@ -51,11 +52,13 @@ const CategoryPage = () => {
 
 	if (!detailedCategory || !category) return <div>Loading...</div>
 
-	const activeGoals = category.goals.filter((goal) => goal.active)
+
+
+
 
 	return (
-		<main className="flex flex-col items-center gap-10" >
-			<h1 className={cn('text-7xl text-white font-bold self-start', category?.color ? textColor[category.color] : 'text-primary ')}>{category?.name}</h1>
+		<main className="flex flex-col items-center gap-5" >
+			<h1 className={cn('text-7xl text-white font-bold self-start mt-10', category?.color ? textColor[category.color] : 'text-primary ')}>{category?.name}</h1>
 
 			{/* Back Button to timers*/}
 			<Button className={cn("sticky top-2 right-2 self-end z-10 opacity-80 backdrop-blur-sm font-bold", category?.color ? backgrounds[category.color] : ' ', "text-black")}>
@@ -66,41 +69,20 @@ const CategoryPage = () => {
 			</Button>
 
 			{/* TotalTimes */}
-			<div className="flex flex-wrap gap-10">
-
+			<div className="flex flex-wrap justify-center gap-10">
+				{/* total times by time frame */}
 				<CategoryTotalTimes timeLogs={category.timeLogs} color={category.color} name={category.name} />
 
 				{/* completed goals */}
 				<CompletedGoals goals={category.goals} categoryId={category.id} timeLogs={category.timeLogs} color={category.color} />
 
 				{/* active goals */}
-				<Card>
-					<CardHeader>
-						<h2>Active Goals</h2>
-					</CardHeader>
-					<CardContent>
-						{activeGoals.length === 0 || !activeGoals
-							? (
-								<p>No active goals</p>
-							) : (
-								activeGoals.map((goal) =>
-									<GoalDisplay
-										key={goal.id}
-										{...goal}
-									/>
-								)
-							)}
-
-
-					</CardContent>
-				</Card>
-
-
+				<ActiveGoals goals={category.goals} color={category.color}/>
 			</div>
 
 
 			<div
-				className="flex flex-wrap"
+				className=""
 			>
 				{/* activity Chart */}
 				<ActivityChart timeLogs={category.timeLogs} color={category?.color} />
