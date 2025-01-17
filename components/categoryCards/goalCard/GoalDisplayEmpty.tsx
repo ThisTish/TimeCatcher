@@ -8,7 +8,7 @@ const GoalDisplayEmpty = ({ timeFrame, categoryId }: { timeFrame: TimeFrame, cat
 	return (
 		<div className="w-full -ml-1 relative">
 			<header>
-				<h4 className="text-sm -ml-1 font-semibold">{timeFrame}</h4>
+				<h4 className="text-sm -ml-1 font-semibold">{timeFrame.slice(0,1) + timeFrame.slice(1).toLowerCase()}</h4>
 			</header>
 				<FormContainer
 					className={'text-xs w-full border-black p-3 h-3'}

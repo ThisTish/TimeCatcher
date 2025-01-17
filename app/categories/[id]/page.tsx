@@ -75,7 +75,7 @@ const CategoryPage = () => {
 				<CompletedGoals goals={category.goals} categoryId={category.id} timeLogs={category.timeLogs} color={category.color} />
 
 				{/* active goals */}
-				<ActiveGoals goals={category.goals} color={category.color}/>
+				<ActiveGoals goals={category.goals} color={category.color} categoryId={categoryId[0]} timeLogs={category.timeLogs} />
 			</div>
 
 

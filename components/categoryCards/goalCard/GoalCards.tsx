@@ -9,6 +9,7 @@ import getTotalTime from "@/server/actions/timer/getTotalTime"
 import { useEffect, useState } from "react"
 import GoalDisplayEmpty from "./GoalDisplayEmpty"
 import getTotals from "@/lib/totals-by-timeFrame"
+import { cn } from "@/lib/utils"
 
 type GoalCardProps = {
 	categoryId: string
@@ -17,14 +18,8 @@ type GoalCardProps = {
 	timeLogs?: TimeLog[]
 }
 
-const GoalCards = ({ goals, color, categoryId, timeLogs }: GoalCardProps) => {
-	// ? do i need this?
-	const [totalTimes, setTotalTimes] = useState<Record<TimeFrame, number>>({
-		[TimeFrame.DAY]: 0,
-		[TimeFrame.WEEK]: 0,
-		[TimeFrame.MONTH]: 0,
-		[TimeFrame.YEAR]: 0,
-	})
+const GoalCards = ({ goals, color, categoryId, timeLogs, showTitle=true, showBackground=true }: GoalCardProps & {showTitle?: boolean, showBackground?: boolean}) => {
+
 
 	const activeGoals = goals.filter((goal) => goal.active)
 
@@ -45,6 +40,7 @@ const GoalCards = ({ goals, color, categoryId, timeLogs }: GoalCardProps) => {
 					active={goal.active}
 					reoccurring={goal.reoccurring}
 					completed={goal.completed}
+					progressColor={!showBackground ? backgrounds[color] : 'bg-black'}
 				/>
 			)
 		}
@@ -55,10 +51,15 @@ const GoalCards = ({ goals, color, categoryId, timeLogs }: GoalCardProps) => {
 	})
 
 	return (
-		<Card className={`${backgrounds[color]} mx-auto rounded-md size-64 flex flex-col border-0 -mt-16 justify-around`}>
-			<CardContent className="w-full px-2 flex flex-col items-center">
-				<h4 className="text-lg font-semibold">Goals</h4>
-				{slots}</CardContent>
+		<Card className={cn(showBackground ? `${backgrounds[color]} -mt-16` : 'bg-card mt-0') + ` mx-auto rounded-md size-64 grid border-0`}>
+			<CardContent className="w-full px-2 grid items-center">
+				{showTitle 
+				? (
+					<h3 className="text-lg font-semibold">Goals</h3>
+				): null}
+				
+				{slots}
+			</CardContent>
 		</Card>
 	)
 }

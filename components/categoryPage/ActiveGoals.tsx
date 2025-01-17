@@ -1,10 +1,13 @@
-import { GoalDisplayProps } from "@/lib/types"
+import { GoalDisplayProps, TimeLog } from "@/lib/types"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card"
 import GoalDisplay from "../categoryCards/goalCard/GoalDisplay"
 import { shadowColor } from "../providers/ThemeProvider"
 import { Color } from "@prisma/client"
+import getTotals from "@/lib/totals-by-timeFrame"
+import GoalCards from "../categoryCards/goalCard/GoalCards"
 
-const ActiveGoals = ({ goals, color }: { goals: GoalDisplayProps[], color: Color }) => {
+const ActiveGoals = ({ goals, color, categoryId, timeLogs }: { goals: GoalDisplayProps[], color: Color, categoryId: string, timeLogs: TimeLog[] }) => {
+
 
 	const activeGoals = goals.filter((goal) => goal.active)
 
@@ -15,28 +18,22 @@ const ActiveGoals = ({ goals, color }: { goals: GoalDisplayProps[], color: Color
 					<h2>Active Goals</h2>
 				</CardTitle>
 			</CardHeader>
-			{activeGoals.length === 0 || !activeGoals
-				? (<>
-						<CardContent>
-						<p className="text-xl py-10">No active goals</p>
-							</CardContent>
-							<CardFooter>
-						<p className="text-sm">Start by adding a goal on the timers page.</p>
-							</CardFooter>
-							</>
-				) : (
-					<ul>
-						{activeGoals.map((goal) => (
-							<li key={goal.id}>
-								<GoalDisplay
-									key={goal.id}
-									{...goal}
-								/>
-							</li>
-						))}
-					</ul>
-				)
-			}
+			
+					<CardContent>
+
+						<GoalCards 
+						goals={activeGoals} 
+						color={color} 
+						categoryId={categoryId} 
+						showBackground={false}
+						showTitle={false}
+						timeLogs={timeLogs}
+						/>
+					</CardContent>
+
+			
+			
+			
 
 
 		</Card>

@@ -5,10 +5,11 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { timeFormatString } from "@/lib/time-format"
 import { GoalDisplayProps } from "@/lib/types"
 import { cn } from "@/lib/utils"
+import { Color } from "@prisma/client"
 import { Edit, RefreshCw } from "lucide-react"
 
 
-const GoalDisplay = ({ id, timeFrame, timePassed, targetTime, reoccurring, categoryId, completed }: GoalDisplayProps) => {
+const GoalDisplay = ({ id, timeFrame, timePassed, targetTime, reoccurring, categoryId, completed, progressColor }: GoalDisplayProps & { progressColor?: string }) => {
 	if (!timePassed) timePassed = 0
 	const timeToGo = targetTime - timePassed
 	let progress = (timePassed / targetTime) * 100
@@ -38,6 +39,7 @@ const GoalDisplay = ({ id, timeFrame, timePassed, targetTime, reoccurring, categ
 				<Progress
 					className="border border-black"
 					value={progress}
+					progressColor={progressColor}
 				/>
 
 				<span className="text-nowrap">{timeFormatString(targetTime, 'h', 'm', false)}</span>

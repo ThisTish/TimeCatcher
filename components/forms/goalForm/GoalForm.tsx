@@ -30,7 +30,7 @@ type GoalFormProps = {
 	id?: string
 	categoryId: string
 	timeFrame: TimeFrame
-	targetTime: number
+	targetTime?: number
 	reoccurring?: boolean
 }
 
