@@ -9,28 +9,6 @@ import { Color } from "@prisma/client"
 
 
 const CompletedGoals = ({ goals, categoryId, timeLogs, color }: { goals: GoalDisplayProps[], categoryId: string, timeLogs: TimeLog[], color: Color }) => {
-	// if no goal created yet
-	// if (!goals || goals.length === 0) return (
-	// 	<Card className={`p-5 h-fit shadow-lg ${shadowColor[color]}`} >
-	// 		<p className="text-xl font-bold">No goals yet</p>
-	// 		<p className="grid">
-	// 			<span>Start by adding a goal for
-	// 				<FormContainer
-	// 					title='Make a goal for DAYS'
-	// 					description='Choose a time frame and target time for a new goal'
-	// 					openButtonLabel='For days here'>
-	// 					<GoalForm
-	// 						categoryId={categoryId}
-	// 						timeFrame={"DAY"}
-	// 						targetTime={0}
-	// 					/>
-	// 				</FormContainer>
-	// 			</span>
-	// 			<span className="text-sm">Return to <a href="/timers">Timers Page to add a goal on the category card</a></span>
-	// 		</p>
-	// 	</Card>
-	// )
-
 
 	const completedGoals = goals.filter((goal) => goal.completed === true)
 	const completedDayGoals = completedGoals.filter((goal) => goal.timeFrame === "DAY")
@@ -41,7 +19,7 @@ const CompletedGoals = ({ goals, categoryId, timeLogs, color }: { goals: GoalDis
 
 	// if no completed goals
 	if (!completedGoals || completedGoals.length === 0 || !goals || goals.length === 0) return (
-		<Card className={`p-5 h-fit shadow-lg ${shadowColor[color]}`} >
+		<Card className={`p-0 sm:p-5 h-fit w-4/5 sm:w-fit shadow-lg ${shadowColor[color]}`} >
 			<CardHeader>
 				<CardTitle>
 					<h2>Caught Goals</h2>
@@ -71,11 +49,11 @@ const CompletedGoals = ({ goals, categoryId, timeLogs, color }: { goals: GoalDis
 					</>
 				):(<>
 					<CardContent>
-						<p className="text-xl py-10">You haven't completed any goals yet</p>
+						<p className="text-xl py-10 text-balance">You haven't completed any goals yet</p>
 
 					</CardContent>
 			<CardFooter>
-				<span className="text-sm">Keep working on catching your time.</span>
+				<span className="text-sm text-balance ">Keep working on catching your time.</span>
 			</CardFooter>
 			</>
 				)}

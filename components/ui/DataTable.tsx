@@ -35,6 +35,8 @@ import {
 } from "@/components/ui/table"
 import { Button } from "./button"
 import { ChevronDownSquare, ChevronLeft, ChevronRight, ChevronUpSquareIcon } from "lucide-react"
+import { shadowColor } from "../providers/ThemeProvider"
+import { Color } from "@prisma/client"
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[]
@@ -43,9 +45,10 @@ interface DataTableProps<TData, TValue> {
 	description: string
 	placeholder: string
 	categoryId?: string
+	color: Color
 }
 
-const DataTable = <TData, TValue>({ columns, data, title, description, categoryId }: DataTableProps<TData, TValue>) => {
+const DataTable = <TData, TValue>({ columns, data, title, description, categoryId, color }: DataTableProps<TData, TValue>) => {
 	const [currentData, setCurrentData] = useState<TData[]>(data)
 	const [sorting, setSorting] = useState<SortingState>([])
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -79,7 +82,7 @@ const DataTable = <TData, TValue>({ columns, data, title, description, categoryI
 			columnFilters
 		},
 		onSortingChange: setSorting,
-		sortingFns: { ...sortingFns }
+		sortingFns
 
 	})
 	// console.log(currentData)
@@ -87,14 +90,15 @@ const DataTable = <TData, TValue>({ columns, data, title, description, categoryI
 	// console.log(table.getState().sorting)
 
 	return (
-		<Card className="w-fit bg-gray-200/55">
+		<Card className={`p-5 w-4/5 shadow-lg overflow-x-auto mb-10 ${shadowColor[color]}  `} >
+
 
 			{/* Table Label & description */}
 			<CardHeader>
 				<CardTitle>
 					{title}
 				</CardTitle>
-				<CardDescription>
+				<CardDescription className="text-balance">
 					{description}
 				</CardDescription>
 			</CardHeader>
@@ -116,31 +120,31 @@ const DataTable = <TData, TValue>({ columns, data, title, description, categoryI
 												? null
 												: (
 													<div
-														className={
-															header.column.getCanSort()
-																? 'cursor-pointer select-none'
-																: ''
-														}
-														onClick={header.column.getToggleSortingHandler()}
-														title={header.column.getCanSort()
-															? header.column.getNextSortingOrder() === 'asc'
-																? 'Sort ascending'
-																: header.column.getNextSortingOrder() === 'desc'
-																	? 'Sort descending'
-																	: 'Clear sort'
-															: undefined
-														}
+														className="flex items-center min-w-32"
+														// 	header.column.getCanSort()
+														// 		? 'cursor-pointer select-none'
+														// 		: ''
+														// }
+														// onClick={header.column.getToggleSortingHandler()}
+														// title={header.column.getCanSort()
+														// 	? header.column.getNextSortingOrder() === 'asc'
+														// 		? 'Sort ascending'
+														// 		: header.column.getNextSortingOrder() === 'desc'
+														// 			? 'Sort descending'
+														// 			: 'Clear sort'
+														// 	: undefined
+														// }
 													>
 														{flexRender(
 															header.column.columnDef.header,
 															header.getContext()
 														)}
-														{{
+														{/* {{
 															asc: <ChevronUpSquareIcon />,
 															desc: <ChevronDownSquare />,
 														}
 														[header.column.getIsSorted() as string] ?? null
-														}
+														} */}
 													</div>
 												)}
 										</TableHead>
@@ -154,7 +158,11 @@ const DataTable = <TData, TValue>({ columns, data, title, description, categoryI
 					<TableBody>
 						{table.getRowModel().rows?.length ? (
 							table.getRowModel().rows.slice(0, 10).map((row) => (
-								<TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+								<TableRow
+								
+									key={row.id}
+									data-state={row.getIsSelected() && 'selected'}
+								>
 									{row.getVisibleCells().map((cell) => (
 										<TableCell key={cell.id}>
 											{flexRender(cell.column.columnDef.cell, cell.getContext())}

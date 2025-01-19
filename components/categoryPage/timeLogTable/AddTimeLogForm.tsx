@@ -24,11 +24,9 @@ import { useAction } from "next-safe-action/hooks"
 import addTimelog from "@/server/actions/timer/add-timeLog"
 import { toast } from "sonner"
 import toLocalIsoString from "@/lib/to-Local-ISO-String"
-import { useRouter } from "next/navigation"
 
 const AddTimeLogForm = ({ categoryId }: { categoryId: string }) => {
 
-	const router = useRouter()
 
 	const timeLogForm = useForm<z.infer<typeof TimeLogSchema>>({
 		resolver: zodResolver(TimeLogSchema),

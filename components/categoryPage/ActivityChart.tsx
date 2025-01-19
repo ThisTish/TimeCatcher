@@ -51,7 +51,7 @@ const ActivityChart = ({ timeLogs, color }: { timeLogs: TimeLog[], color: Color 
 
 
 	return (
-		<Card className={`p-5 w-72 shadow-lg md:w-fit overflow-x-auto mx-10 mb-10 ${shadowColor[color]} `} >
+		<Card className={`p-5 w-4/5 shadow-lg lg:w-fit overflow-x-auto mx-10 mb-10 ${shadowColor[color]} `} >
 			<CardHeader>
 				<CardTitle>
 				<h3>Daily Activity</h3>

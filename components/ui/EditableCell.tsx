@@ -5,6 +5,7 @@ import { Input } from "./input"
 import { Tooltip, TooltipProvider } from "./tooltip"
 import { TooltipContent, TooltipTrigger } from "@radix-ui/react-tooltip"
 
+
 const EditableCell = ({ getValue, row, column, table }: any) => {
 
 	const initialValue = getValue()
@@ -46,6 +47,7 @@ const EditableCell = ({ getValue, row, column, table }: any) => {
 					<TooltipProvider>
 						<Tooltip>
 							<TooltipTrigger>
+
 						<Input
 							type={isEditing ? "datetime-local" : "text"}
 							value={value || ''}

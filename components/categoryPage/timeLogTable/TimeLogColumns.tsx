@@ -1,6 +1,6 @@
 import { ColumnDef, createColumnHelper, FilterFn, Row } from "@tanstack/react-table"
 import { TimeLog } from "@/lib/types"
-import { timeFormat } from "@/lib/time-format"
+import { timeFormat, timeFormatString } from "@/lib/time-format"
 import EditableCell from "@/components/ui/EditableCell"
 import isStartDate from "@/lib/is-start-date"
 
@@ -8,20 +8,15 @@ import DeleteTimeLogButton from "./DeleteTimeLogButton"
 import EditTimeLogButton from "./EditTimeLogButton"
 
 // todo create sorting function to retrieve the date from the date object and sort that way?
-export const TimeLogColumns: ColumnDef<TimeLog>[] = 
+export const TimeLogColumns: ColumnDef<TimeLog>[] =
 	[
-		// {
-		// 	accessorKey: 'id',
-		// 	header: 'ID'
-		// },
 
 		{
 			accessorKey: 'startTime',
 			header: 'Start Time',
 			cell: EditableCell,
 			filterFn: isStartDate,
-			sortingFn: 'datetime',
-
+			sortingFn: 'datetime'
 		},
 		{
 			accessorKey: 'endTime',
@@ -37,9 +32,15 @@ export const TimeLogColumns: ColumnDef<TimeLog>[] =
 				const totalTimePassed = table
 					.getFilteredRowModel()
 					.rows.reduce((sum, row) => sum + row.getValue<number>('timePassed'), 0)
+				const timeString = timeFormatString(totalTimePassed, ' h', ' m', true, ' s')
 				const { hours, minutes, seconds } = timeFormat(totalTimePassed / 1000)
 
-				return `Total Time Caught: ${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`
+				return (
+					<div className="grid">
+						<span>Total:</span>
+						<span>{timeString}</span>
+					</div>
+				)
 			},
 			cell: ({ row }) => {
 				const timePassed = row.getValue('timePassed') as number
@@ -47,7 +48,7 @@ export const TimeLogColumns: ColumnDef<TimeLog>[] =
 				const formattedTimePassed = `${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`
 
 				return (
-					<span>
+					<span className="p-0 w-fit m-0">
 						{formattedTimePassed}
 					</span>
 				)

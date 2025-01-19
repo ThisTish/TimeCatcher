@@ -32,7 +32,7 @@ const CategoryCard = ({ category }: { category: CategoryCardProps }) => {
 	const [isGoalsOpen, setIsGoalsOpen] = useState(false)
 
 	return (
-		<Card className={`${backgrounds[category.color]} rounded-md size-80 flex flex-col justify-around relative`}>
+		<Card className={`${backgrounds[category.color]} rounded-md size-80 flex flex-col justify-around relative px-5`}>
 			{/* category options */}
 			<div className="absolute right-0 top-0">
 				<CategoryTimerCardDropDown id={category.id} name={category.name} color={category.color} />

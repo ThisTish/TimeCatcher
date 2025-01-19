@@ -33,7 +33,7 @@ const CategoryTotalTimes = ({ timeLogs, color, name }: { timeLogs: TimeLog[], co
 							<p className="text-xl py-10">No time caught yet</p>
 						</CardContent>
 						<CardFooter>
-							<p className="text-sm">Go catch some time in {name}!</p>
+							<p className="text-sm text-balance">Go catch some time in {name}!</p>
 						</CardFooter>
 					</Card>
 				) : (
