@@ -1,3 +1,4 @@
+import { transform } from "next/dist/build/swc/generated-native";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -82,11 +83,33 @@ const config: Config = {
     				to: {
     					height: '0'
     				}
-    			}
+    			},
+				"flip-down":{
+					from:{
+						transform: 'rotateX(0deg)',
+						opacity: '0'
+					},
+					to:{
+						transform: 'rotateX(-90deg)',
+						opacity: '.9'
+					}
+				},
+				"flip-up" :{
+					from: {
+						transform: 'rotateX(-90deg)',
+						opacity: '0'
+					},
+					to: {
+						transform: 'rotateX(0deg)',
+						opacity: '.9'
+					}
+				}
     		},
     		animation: {
     			'accordion-down': 'accordion-down 0.2s ease-out',
-    			'accordion-up': 'accordion-up 0.2s ease-out'
+    			'accordion-up': 'accordion-up 0.2s ease-out',
+				"flip-down": 'flip-down 1s ease-out',
+				"flip-up": 'flip-up 1s ease-out'
     		}
     	}
     },
