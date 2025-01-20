@@ -87,7 +87,7 @@ const config: Config = {
 				"flip-down":{
 					from:{
 						transform: 'rotateX(0deg)',
-						opacity: '0'
+						opacity: '1'
 					},
 					to:{
 						transform: 'rotateX(-90deg)',
@@ -97,19 +97,19 @@ const config: Config = {
 				"flip-up" :{
 					from: {
 						transform: 'rotateX(-90deg)',
-						opacity: '0'
+						opacity: '.9'
 					},
 					to: {
 						transform: 'rotateX(0deg)',
-						opacity: '.9'
+						opacity: '1'
 					}
 				}
     		},
     		animation: {
     			'accordion-down': 'accordion-down 0.2s ease-out',
     			'accordion-up': 'accordion-up 0.2s ease-out',
-				"flip-down": 'flip-down 1s ease-out',
-				"flip-up": 'flip-up 1s ease-out'
+				"flip-down": 'flip-down .5s ease-out',
+				"flip-up": 'flip-up .5s ease-in'
     		}
     	}
     },
