@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, CSSProperties, ForwardRefExoticComponent, RefAttributes, ReactNode } from "react"
+import { useState, ReactNode } from "react"
 import { useMediaQuery } from "@/hooks/use-media-query"
 
 import { Button } from "@/components/ui/button"
@@ -24,9 +24,7 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from "@/components/ui/drawer"
-import Link from "next/link"
 import { cn } from "@/lib/utils"
-import { LucideProps } from "lucide-react"
 
 type FormContainerProps = {
 	openButtonLabel: ReactNode | string

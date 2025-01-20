@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z  from "zod"
 import { useAction } from "next-safe-action/hooks"
-import { register } from "@/server/actions/register"
+import { register } from "@/server/actions/auth/register"
 import { cn } from "@/lib/utils"
 
 import { Button } from "@/components/ui/button"
@@ -34,11 +34,16 @@ const RegisterForm = () => {
 		}
 	})
 
-	const { execute, result, isExecuting, hasErrored, hasSucceeded } = useAction(register)
+	const { execute, result, isExecuting, hasErrored, hasSucceeded } = useAction(register,
+		{
+			onSuccess: () => {
+				registerForm.reset()
+		}
+	}
+	)
 
 	const onSubmit = (values: z.infer<typeof registerFormSchema>) => {
 		execute(values)
-		registerForm.reset()
 	}
 
 	return (

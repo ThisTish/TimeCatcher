@@ -36,7 +36,7 @@ export const register = actionClient
 				password: hashedPassword,
 			}
 		})
-
+		return { success: `Welcome, ${newUser.name}. Please check ${newUser.email} for a verification email ` }
 		const newVerificationToken = await generateVerificationToken(email)
 
 		await sendVerificationEmail(newVerificationToken.email, newVerificationToken.token)
