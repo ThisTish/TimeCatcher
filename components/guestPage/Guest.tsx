@@ -3,7 +3,8 @@ import GuestHero from "./GuestHero"
 const Guest = () => {
 	return (
 		<div>
-			<h1>Guest Page</h1>
+
+			{/* <h1 className="text-5xl font-black">Guest page</h1> */}
 			<GuestHero />
 		</div>
 	)

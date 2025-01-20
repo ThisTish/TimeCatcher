@@ -25,8 +25,8 @@ const Clock = () => {
 
 
 	return ( 
-		<div className=" relative m-10 w-fit">
-		<p className="text-xl md:text-2xl">{date}</p>
+		<div className=" relative">
+		<p className="text-2xl md:text-5xl self-start">{date}</p>
 		<p className="font-extrabold tracking-widest md:tracking-wider text-4xl md:text-7xl tabular-nums text-nowrap">{time}</p>
 		<div className="absolute top-6 md:top-8 -left-2 flex">
 			<NumberBorder />
