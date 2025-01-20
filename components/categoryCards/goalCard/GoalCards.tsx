@@ -40,7 +40,6 @@ const GoalCards = ({ goals, color, categoryId, timeLogs, showTitle=true, showBac
 					active={goal.active}
 					reoccurring={goal.reoccurring}
 					completed={goal.completed}
-					progressColor={!showBackground ? backgrounds[color] : 'bg-black'}
 				/>
 			)
 		}

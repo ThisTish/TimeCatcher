@@ -9,7 +9,7 @@ import { Color } from "@prisma/client"
 import { Edit, RefreshCw } from "lucide-react"
 
 
-const GoalDisplay = ({ id, timeFrame, timePassed, targetTime, reoccurring, categoryId, completed, progressColor }: GoalDisplayProps & { progressColor?: string }) => {
+const GoalDisplay = ({ id, timeFrame, timePassed, targetTime, reoccurring, categoryId, completed }: GoalDisplayProps ) => {
 	if (!timePassed) timePassed = 0
 	const timeToGo = targetTime - timePassed
 	let progress = (timePassed / targetTime) * 100
@@ -34,12 +34,11 @@ const GoalDisplay = ({ id, timeFrame, timePassed, targetTime, reoccurring, categ
 					: null}
 			</header>
 
-			<div className={cn("flex items-center justify-center text-xs gap-1", completed ? 'bg-white' : '')}>
+			<div className="flex items-center justify-center text-xs gap-1">
 				<span className="text-nowrap">{timeFormatString(timePassed, 'h', 'm', false)}</span>
 				<Progress
 					className="border border-black"
 					value={progress}
-					progressColor={progressColor}
 				/>
 
 				<span className="text-nowrap">{timeFormatString(targetTime, 'h', 'm', false)}</span>
@@ -66,7 +65,7 @@ const GoalDisplay = ({ id, timeFrame, timePassed, targetTime, reoccurring, categ
 				</TooltipProvider> */}
 			</div>
 			<footer>
-				<p className="text-center text-xs tracking-tighter leading-none">
+				<p className="text-center text-xs tracking-tight leading-none">
 					{progress === 100 ? `Goal completed!` :
 						`${timeFormatString(timeToGo, ` hours`, ` minutes`, false)} to go!`
 					}

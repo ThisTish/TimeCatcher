@@ -44,8 +44,8 @@ const TimersPage = async () => {
 			<h1>Timers</h1>
 			<div className="flex flex-wrap justify-center gap-10 md:m-20">
 				{categories.map((category) =>
-					<div key={category.id}>
 						<CategoryCard
+							key={category.id}
 							category={{
 								id: category.id,
 								name: category.name,
@@ -59,7 +59,6 @@ const TimersPage = async () => {
 								timeLogs: category.timeLogs
 							}}
 						/>
-					</div>
 				)}
 
 			</div>
