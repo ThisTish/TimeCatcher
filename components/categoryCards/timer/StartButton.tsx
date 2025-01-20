@@ -30,7 +30,7 @@ const StartButton = ({ categoryId, disabled }: { categoryId: string, disabled: b
 		<Button
 			type="button"
 			variant={'outline'}
-			className="text-black"
+			className="text-black mt-10"
 			onClick={handleStart}
 			disabled={status === 'executing' || disabled}
 		>

@@ -12,7 +12,7 @@ const ActiveGoals = ({ goals, color, categoryId, timeLogs }: { goals: GoalDispla
 	const activeGoals = goals.filter((goal) => goal.active)
 
 	return (
-		<Card className={`p-0 sm:p-5 h-fit w-4/5 sm:w-fit shadow-lg ${shadowColor[color]}`}>
+		<Card className={`p-5 h-fit w-72 shadow-lg ${shadowColor[color]}`}>
 			<CardHeader>
 				<CardTitle>
 					<h2>Active Goals</h2>

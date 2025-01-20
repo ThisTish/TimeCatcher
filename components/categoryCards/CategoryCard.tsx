@@ -10,9 +10,10 @@ import GoalCards from "./goalCard/GoalCards"
 import CategoryTimerCard from "./CategoryTimerCard"
 
 import { Button } from "@/components/ui/button"
-import { Card, CardHeader } from "../ui/card"
-import { CornerDownLeft, CornerDownRight } from "lucide-react"
+import { Card, CardFooter, CardHeader } from "../ui/card"
+import { ArrowBigLeft, ArrowBigRight, ArrowDownAz, ArrowLeft, ArrowLeftIcon, ArrowRight, CornerDownLeft, CornerDownRight } from "lucide-react"
 import { Color } from "@prisma/client"
+import { cn } from "@/lib/utils"
 
 type CategoryCardProps = {
 	id: string
@@ -32,19 +33,24 @@ const CategoryCard = ({ category }: { category: CategoryCardProps }) => {
 	const [isGoalsOpen, setIsGoalsOpen] = useState(false)
 
 	return (
-		<Card className={`${backgrounds[category.color]} rounded-md size-80 flex flex-col justify-around relative px-5`}>
+		<Card className={cn(`${backgrounds[category.color]} rounded-md flex flex-col size-96 relative px-5`, isGoalsOpen ? 'w-72 sm:size-96' : 'size-64')}>
 			{/* category options */}
 			<div className="absolute right-0 top-0">
 				<CategoryTimerCardDropDown id={category.id} name={category.name} color={category.color} />
 			</div>
 
 			<CardHeader>
-				<h2 className="text-2xl font-bold tracking-wide text-center">{category.name}</h2>
+				<h2 className="text-2xl font-bold tracking-wide text-center ">{category.name}</h2>
 				{/* category TotalTime */}
+				{!category.running
+				?(
 				<div className="text-center text-xs font-light">
 					<p>Total Time</p>
 					<time>{timeFormatString(category.totalTime, 'h', 'm', true, 's')}</time>
 				</div>
+				): null
+
+				}
 			</CardHeader>
 
 			{!isGoalsOpen
@@ -57,13 +63,17 @@ const CategoryCard = ({ category }: { category: CategoryCardProps }) => {
 							disabled={category.disabled}
 							startTime={category.startTime}
 						/>
+						<CardFooter>
 						<Button
-							className="inline-flex absolute bottom-0"
 							onClick={() => setIsGoalsOpen(true)}
-							variant={'link'}
+							variant={'ghost'}
+							className="w-full"
 						>
-							<span className="inline-flex text-sm gap-1 items-center"><CornerDownLeft />Goals</span>
+							<span >
+								Goals
+							</span>
 						</Button>
+						</CardFooter>
 					</>
 				) : (
 					<>
@@ -73,13 +83,17 @@ const CategoryCard = ({ category }: { category: CategoryCardProps }) => {
 							color={category.color as Color}
 							timeLogs={category.timeLogs}
 						/>
+						<CardFooter className="p-0">
 						<Button
-							className="absolute bottom-0 right-0"
 							onClick={() => setIsGoalsOpen(false)}
-							variant={'link'}
+							variant={'ghost'}
+							className="w-full mt-4"
 						>
-							<span className="inline-flex text-sm gap-1 items-center">Timer<CornerDownRight /></span>
+							<p>
+								Timer
+								</p>
 						</Button>
+						</CardFooter>
 					</>
 				)}
 		</Card>

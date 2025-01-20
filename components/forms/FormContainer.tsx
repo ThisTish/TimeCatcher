@@ -67,7 +67,7 @@ const FormContainer = ({openButtonLabel, title, description, children, className
 	return (
 		<Drawer open={open} onOpenChange={setOpen}>
 			<DrawerTrigger asChild>
-				<Button variant="ghost">{openButtonLabel}</Button>
+				<Button type="button" variant='ghost' className={cn("border-white border", className)}>{openButtonLabel}</Button>
 			</DrawerTrigger>
 			<DrawerContent>
 				<DrawerHeader className="text-left">

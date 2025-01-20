@@ -6,7 +6,7 @@ import { TimeFrame } from "@prisma/client"
 const GoalDisplayEmpty = ({ timeFrame, categoryId }: { timeFrame: TimeFrame, categoryId: string }) => {
 
 	return (
-		<div className="w-full -ml-1 relative">
+		<div className="w-full h-10 -ml-1 relative">
 			<header>
 				<h4 className="text-sm -ml-1 font-semibold">{timeFrame.slice(0,1) + timeFrame.slice(1).toLowerCase()}</h4>
 			</header>

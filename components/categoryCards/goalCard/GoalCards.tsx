@@ -51,17 +51,17 @@ const GoalCards = ({ goals, color, categoryId, timeLogs, showTitle=true, showBac
 	})
 
 	return (
-		<Card className={cn("mx-auto rounded-md size-64 grid border-0 bg-transparent w-full", showBackground ? '-mt-16' : 'mt-0')}>
+		<div className={cn("mx-auto rounded-md size-64 grid border-0 bg-transparent w-full", showBackground ? `${backgrounds[color]} -mt-16` : 'mt-0')}>
 		{/* <Card className={cn(showBackground ? `${backgrounds[color]} -mt-16` : 'bg-card mt-0') + ` mx-auto rounded-md size-64 grid border-0`}> */}
-			<CardContent className="w-full px-2 flex flex-col items-center">
+			<div className="w-full px-2 flex flex-col gap-2 items-center">
 				{showTitle 
 				? (
 					<h3 className="text-lg font-semibold">Goals</h3>
 				): null}
 				
 				{slots}
-			</CardContent>
-		</Card>
+			</div>
+		</div>
 	)
 }
 
