@@ -1,13 +1,12 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import NumberBorder from "./NumberBorder"
+import { useEffect, useState, useRef } from "react"
 import FlipCard from "./FlipCard"
 
 const Clock = () => {
-	const [time, setTime] = useState('')
-	const [prevTime, setPrevTime] = useState('')
-	const [date, setDate] = useState('')
+	const [time, setTime] = useState(() => new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' }))
+	const prevTimeRef = useRef('')
+	const [date, setDate] = useState(() => new Date().toLocaleDateString("en-us", { month: "long", day: "2-digit", year: "numeric" }))
 
 	useEffect(() => {
 		const updateClock = () => {
@@ -15,7 +14,7 @@ const Clock = () => {
 			const formattedDate = now.toLocaleDateString("en-us", { month: "long", day: "2-digit", year: "numeric" })
 			setDate(formattedDate)
 			const formattedTime = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
-			setPrevTime(time)
+			prevTimeRef.current = time
 			setTime(formattedTime)
 			
 		}
@@ -24,14 +23,14 @@ const Clock = () => {
 		updateClock()
 
 		return () => clearInterval(intervalId)
-	}, [])
+	}, [time])
 
 	const timeDigits = time.slice(0, 2) + time.slice(3, 5) + time.slice(6, 8)
 	const timeDigitsArray = timeDigits.split('')
-	const prevTimeDigits = prevTime.slice(0, 2) + prevTime.slice(3, 5) + prevTime.slice(6, 8)
+	const prevTimeDigits = prevTimeRef.current.slice(0, 2) + prevTimeRef.current.slice(3, 5) + prevTimeRef.current.slice(6, 8)
 	const prevTimeDigitsArray = prevTimeDigits.split('')
 	const dayPeriod = time.slice(9, 11)
-	const prevDayPeriod = prevTime.slice(9, 11)
+	const prevDayPeriod = prevTimeRef.current.slice(9, 11)
 	const fullTimeArray = [ ...timeDigitsArray, dayPeriod ]
 	const fullPrevTimeArray = [ ...prevTimeDigitsArray, prevDayPeriod]
 
@@ -46,7 +45,7 @@ const Clock = () => {
 						key={index}
 						index={n.length - index}
 						currentDigit={(digit)}
-						prevDigit={(fullPrevTimeArray[index] || digit)}
+						prevDigit={fullPrevTimeArray[index]}
 					/>
 				))
 				}
