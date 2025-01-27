@@ -87,21 +87,17 @@ const config: Config = {
 				"flip-down":{
 					from:{
 						transform: 'rotateX(0deg)',
-						opacity: '1'
 					},
 					to:{
 						transform: 'rotateX(90deg)',
-						opacity: '.9'
 					}
 				},
 				"flip-up" :{
 					from: {
 						transform: 'rotateX(-90deg)',
-						opacity: '.0'
 					},
 					to: {
 						transform: 'rotateX(0deg)',
-						opacity: '1'
 					}
 				}
     		},
