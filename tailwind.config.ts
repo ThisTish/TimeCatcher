@@ -99,13 +99,22 @@ const config: Config = {
 					to: {
 						transform: 'rotateX(0deg)',
 					}
+				},
+				"clock-pulse": {
+					from:{
+						opacity: '0'
+					},
+					to:{
+						opacity: '1'
+					}
 				}
     		},
     		animation: {
     			'accordion-down': 'accordion-down 0.2s ease-out',
     			'accordion-up': 'accordion-up 0.2s ease-out',
 				"flip-down": 'flip-down 600ms ease-in-out',
-				"flip-up": 'flip-up 600ms ease-out'
+				"flip-up": 'flip-up 600ms ease-out',
+				"clock-pulse": 'clock-pulse 1s infinite'
     		}
     	}
     },

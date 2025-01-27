@@ -23,8 +23,8 @@ const FlipCard = ({ currentDigit, prevDigit, index }: { currentDigit: string, pr
 			` relative flex flex-col h-12 sm:h-24  md:h-36 bg-slate-200 rounded-lg shadow-lg text-3xl sm:text-6xl  md:text-8xl  font-semibold`,
 			currentDigit === 'AM' || currentDigit === 'PM'
 				? 'w-16 sm:w-32 md:w-48' : 'w-10 sm:w-16 md:w-24',
-			index == 1 || index == 2 || index == 4 || index == 6
-				? 'ml-0' : 'ml-1 md:ml-2',
+			index == 1 || index == 2 || index == 4 || index == 6 || index == 7
+				? 'ml-0' : 'ml-2 md:ml-4',
 
 		)}>
 			{/* Top Card */}

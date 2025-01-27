@@ -37,8 +37,8 @@ const Clock = () => {
 
 	return (
 
-		<div>
-			<p className="text-2xl md:text-5xl self-start">{date}</p>
+		<div className="relative">
+			<p className="text-2xl md:text-5xl self-start ">{date}</p>
 			<div className="flex">
 				{fullTimeArray.map((digit, index, n) => (
 					<FlipCard
@@ -50,6 +50,15 @@ const Clock = () => {
 				))
 				}
 			</div>
+			<div className="grid gap-3 absolute top-10 left-20 sm:top-14 sm:left-[7.8rem] sm:gap-5 md:top-20 md:left-48 md:gap-10 ">
+				<div className="size-2 sm:size-3 md:size-4 animate-clock-pulse rounded-full bg-black"></div>
+				<div className="size-2 sm:size-3 md:size-4 animate-clock-pulse rounded-full bg-black"></div>
+			</div>
+			<div className="grid gap-3 absolute top-10 left-[10.5rem] sm:top-14 sm:left-[16.4rem] sm:gap-5 md:top-20 md:left-[25rem] md:gap-10 ">
+				<div className="size-2 sm:size-3 md:size-4 animate-clock-pulse rounded-full bg-black"></div>
+				<div className="size-2 sm:size-3 md:size-4 animate-clock-pulse rounded-full bg-black"></div>
+			</div>
+			
 		</div>		
 	)
 }
