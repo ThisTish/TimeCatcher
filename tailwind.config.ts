@@ -107,6 +107,14 @@ const config: Config = {
 					to:{
 						opacity: '1'
 					}
+				},
+				"loader" : {
+					from : {
+						transform: 'rotate(0deg)'
+					},
+					to:{
+						transform: 'rotate(360deg)'
+					}
 				}
     		},
     		animation: {
@@ -114,7 +122,8 @@ const config: Config = {
     			'accordion-up': 'accordion-up 0.2s ease-out',
 				"flip-down": 'flip-down .5s ease-in',
 				"flip-up": 'flip-up 1s ease-out',
-				"clock-pulse": 'clock-pulse 1s infinite'
+				"clock-pulse": 'clock-pulse 1s infinite',
+				"loader" : 'loader infinite'
     		}
     	}
     },

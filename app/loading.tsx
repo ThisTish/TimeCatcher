@@ -1,7 +1,9 @@
+import Loader from "@/components/skeletons/Loader"
+
 const LoadingPage = () => {
-	return ( 
-		<h1 className="text-7xl"> LOADING.... </h1>
-	 );
+	return (
+		<Loader />
+	)
 }
- 
-export default LoadingPage;
+
+export default LoadingPage

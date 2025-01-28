@@ -4,13 +4,11 @@ import { useEffect, useState, useRef } from "react"
 import FlipCard from "./FlipCard"
 
 const Clock = () => {
-	const [mounted, setMounted] = useState(false)
 	const [time, setTime] = useState(() => new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' }))
 	const prevTimeRef = useRef('')
 	const [date, setDate] = useState(() => new Date().toLocaleDateString("en-us", { month: "long", day: "2-digit", year: "numeric" }))
 
 	useEffect(() => {
-		setMounted(true)
 		const updateClock = () => {
 			const now = new Date()
 			const formattedDate = now.toLocaleDateString("en-us", { month: "long", day: "2-digit", year: "numeric" })
@@ -18,8 +16,9 @@ const Clock = () => {
 			const formattedTime = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
 			prevTimeRef.current = time
 			setTime(formattedTime)
-		
+			
 		}
+
 		const intervalId = setInterval(updateClock, 1000)
 		updateClock()
 
@@ -35,12 +34,9 @@ const Clock = () => {
 	const fullTimeArray = [ ...timeDigitsArray, dayPeriod ]
 	const fullPrevTimeArray = [ ...prevTimeDigitsArray, prevDayPeriod]
 
-	// if(!mounted) return (
-
-	// )
-
 
 	return (
+
 		<div className="relative">
 			<p className="text-2xl md:text-5xl self-start ">{date}</p>
 			<div className="flex">
