@@ -112,8 +112,8 @@ const config: Config = {
     		animation: {
     			'accordion-down': 'accordion-down 0.2s ease-out',
     			'accordion-up': 'accordion-up 0.2s ease-out',
-				"flip-down": 'flip-down 600ms ease-in-out',
-				"flip-up": 'flip-up 600ms ease-out',
+				"flip-down": 'flip-down .5s ease-in',
+				"flip-up": 'flip-up 1s ease-out',
 				"clock-pulse": 'clock-pulse 1s infinite'
     		}
     	}

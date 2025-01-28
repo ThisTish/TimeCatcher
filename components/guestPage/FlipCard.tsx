@@ -11,7 +11,7 @@ const FlipCard = ({ currentDigit, prevDigit, index }: { currentDigit: string, pr
 			setIsFlipped(false);
 			const timer = setTimeout(() => {
 				setIsFlipped(true);
-			}, 600);
+			}, 400);
 			return () => clearTimeout(timer);
 		}
 
