@@ -115,6 +115,16 @@ const config: Config = {
 					to:{
 						transform: 'rotate(360deg)'
 					}
+				},
+				"loading": {
+					'0%': {
+						opacity: '0'
+					},
+					'100%': {
+						opacity: '1'
+					}
+
+
 				}
     		},
     		animation: {
@@ -123,8 +133,13 @@ const config: Config = {
 				"flip-down": 'flip-down .5s ease-in',
 				"flip-up": 'flip-up 1s ease-out',
 				"clock-pulse": 'clock-pulse 1s infinite',
-				"loader" : 'loader infinite'
-    		}
+				"loader" : 'loader infinite',
+				"loading": 'loading 1s infinite'
+    		},
+			transitionDelay: {
+				'900' : '900ms',
+				'1100': '1100ms'
+			}
     	}
     },
 	plugins: [require("tailwindcss-animate")],
