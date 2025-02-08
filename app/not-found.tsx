@@ -3,8 +3,8 @@ import Link from "next/link"
 
 const NotFound = () => {
 	return (
-		<main className="bg-neutral-900/55 bg-[url(/bo-play.png)] bg-repeat-round bg-left-top h-dvh flex items-center justify-center">
-			<div className=" text-center m-3 size-fit p-5 space-y-5 md:p-16 bg-neutral-400/70 shadow-2xl rounded-lg ">
+		<main className="bg-neutral-900/55 h-dvh flex items-center justify-center">
+			<div className=" text-center border m-3 size-fit p-5 space-y-5 md:p-16 bg-neutral-400/70 shadow-2xl rounded-lg ">
 			<h1 className="text-3xl font-black md:text-5xl">Lost in time?</h1>
 			<div>
 			<p className="text-pretty text-xl md:text-2xl">Page could not be found. </p>

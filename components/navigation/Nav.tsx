@@ -14,7 +14,7 @@ const Nav = async () => {
 	const session = await auth()
 
 	return (
-		<header className="bg-neutral-400/55 py-4">
+		<header className="bg-neutral-300 py-4">
 			<nav className="flex justify-between">
 				<Link href="/">
 					<h1>TimeCatcher</h1>
